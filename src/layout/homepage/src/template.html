@@ -1,0 +1,59 @@
+<div class="layout-homepage">
+	<ul class="highlight">
+		<li>
+			<div class="highlighted">
+				<a href="https://komunal18.programydovoleb.cz/">
+					<img src="/static/icon/icon-komunal18.png" alt="ikona: komunální volby">
+					<span class="is-link">Komunální volby</span>
+				</a>
+			</div>
+		</li>
+		<li>
+			<div class="highlighted">
+				<a href="https://senat18.programydovoleb.cz/">
+					<img src="/static/icon/icon-senat18.png" alt="ikona: senátní volby">
+					<span class="is-link">Senátní volby</span>
+				</a>
+			</div>
+		</li>
+	</ul>
+	<h1>Komunální volby</h1>
+	<p>Nové zastupitelstvo vybírá přes 6500 měst a obcí.</p>
+	<p>Volby se konají 5. a 6. října 2018</p>
+	<ul class="list">
+		<li v-for="(region, index) in $store.state.komunal18">
+			<div class="item">
+				<h2>
+					<a :href="'https://komunal18.programydovoleb.cz/misto/' + region.HASH" @click="outbound('komunal18', region.HASH)" target="_blank">
+						{{ region.NAZEVZAST }}
+					</a>
+				</h2>
+			</div>
+		</li>
+		<li>
+			<div class="item">
+				<h2>
+					<a href="https://komunal18.programydovoleb.cz" class="red" @click="outbound('komunal18', 'homepage')" target="_blank">
+						Najděte si svoji obec
+					</a>
+				</h2>
+			</div>
+		</li>
+	</ul>
+	<h1>Senátní volby</h1>
+	<p>27 obvodů vybírá nového senátora.</p>
+	<p>První kolo voleb se koná 5. a 6. října 2018</p>
+	<ul class="list">
+		<li v-for="(region, index) in sort($store.state.senat18.filter(item => item.PORADI === 4), 'OBVOD_NAZEV')">
+			<div class="item">
+				<h2>
+					<a :href="'https://senat18.programydovoleb.cz/obvod/' + region.HASH" @click="outbound('senat18', region.HASH)" target="_blank">
+						{{ region.OBVOD_NAZEV }}
+					</a>
+					<span class="dimm"> &middot; {{ region.OBVOD }}</span>
+				</h2>
+			</div>
+		</li>
+	</ul>
+</div>
+
