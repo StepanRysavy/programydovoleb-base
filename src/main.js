@@ -7,10 +7,6 @@ import router from './router';
 import App from './layout/app/app';
 import './assets/my-style.scss';
 
-import 'vue-awesome/icons';
-import Icon from 'vue-awesome/components/Icon';
-
-Vue.component('icon', Icon)
 Vue.config.productionTip = false;
 
 /* eslint-disable no-unused-vars */

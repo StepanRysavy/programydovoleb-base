@@ -17,43 +17,49 @@
 			</div>
 		</li>
 	</ul>
-	<h1>Komunální volby</h1>
-	<p>Nové zastupitelstvo vybírá přes 6500 měst a obcí.</p>
-	<p>Volby se konají 5. a 6. října 2018</p>
-	<ul class="list">
-		<li v-for="(region, index) in $store.state.komunal18">
-			<div class="item">
-				<h2>
-					<a :href="'https://komunal18.programydovoleb.cz/misto/' + region.HASH" @click="outbound('komunal18', region.HASH)" target="_blank">
-						{{ region.NAZEVZAST }}
-					</a>
-				</h2>
-			</div>
-		</li>
-		<li>
-			<div class="item">
-				<h2>
-					<a href="https://komunal18.programydovoleb.cz" class="red" @click="outbound('komunal18', 'homepage')" target="_blank">
-						Najděte si svoji obec
-					</a>
-				</h2>
-			</div>
-		</li>
-	</ul>
-	<h1>Senátní volby</h1>
-	<p>27 obvodů vybírá nového senátora.</p>
-	<p>První kolo voleb se koná 5. a 6. října 2018</p>
-	<ul class="list">
-		<li v-for="(region, index) in sort($store.state.senat18.filter(item => item.PORADI === 4), 'OBVOD_NAZEV')">
-			<div class="item">
-				<h2>
-					<a :href="'https://senat18.programydovoleb.cz/obvod/' + region.HASH" @click="outbound('senat18', region.HASH)" target="_blank">
-						{{ region.OBVOD_NAZEV }}
-					</a>
-					<span class="dimm"> &middot; {{ region.OBVOD }}</span>
-				</h2>
-			</div>
-		</li>
-	</ul>
+	<div class="block list-praha">
+		<h1>Komunální volby</h1>
+		<p>Nové zastupitelstvo vybírá přes 6500 měst a obcí.</p>
+		<p>Volby se konají 5. a 6. října 2018</p>
+		<h2><a href="https://komunal18.programydovoleb.cz/misto/554782-praha-hl-m-" class="red" target="_blank">Hlavní město Praha</a></h2>
+	</div>
+	<div class="block">
+		<h2>Krajská města</h2>
+		<ul class="list">
+			<li v-for="(region, index) in listPriority2">
+				<h4><a :href="'https://komunal18.programydovoleb.cz/misto/' + region.HASH" target="_blank">{{ region.NAZEVZAST }}</a></h4>
+			</li>
+		</ul>
+	</div>
+	<div class="block">
+		<h2>Ostatní města nad 35&nbsp;000 obyvatel</h2>
+		<ul class="list">
+			<li v-for="(region, index) in listPriority3">
+				<h4><a :href="'https://komunal18.programydovoleb.cz/misto/' + region.HASH" target="_blank">{{ region.NAZEVZAST }}</a></h4>
+			</li>
+			<li>
+				<h4>
+					<a href="https://komunal18.programydovoleb.cz/" target="_blank" class="red">Najděte svou obec</a>
+				</h4>
+			</li>
+		</ul>
+	</div>
+	<div class="block">
+		<h1>Senátní volby</h1>
+		<p>27 obvodů vybírá nového senátora.</p>
+		<p>První kolo voleb se koná 5. a 6. října 2018</p>
+		<ul class="list">
+			<li v-for="(region, index) in sort($store.state.senat18.filter(item => item.PORADI === 4), 'OBVOD_NAZEV')">
+				<div class="item">
+					<h3>
+						<a :href="'https://senat18.programydovoleb.cz/obvod/' + region.HASH" @click="outbound('senat18', region.HASH)" target="_blank">
+							{{ region.OBVOD_NAZEV }}
+						</a>
+						<span class="dimm"> &middot; {{ region.OBVOD }}</span>
+					</h3>
+				</div>
+			</li>
+		</ul>
+	</div>
 </div>
 

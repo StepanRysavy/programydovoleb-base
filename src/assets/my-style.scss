@@ -146,3 +146,17 @@ table:hover tr:not(:hover) .icon > a img {
 	padding: 10rem 0;
 	padding: 33vh 0;
 }
+
+.block {
+	
+	padding: 2rem 0;
+	position: relative;
+
+	& + .block {
+		border-top: 1px solid #eee;
+	}
+
+	@media (min-width: 40rem) {
+		padding: 4rem 0;
+	}
+}
