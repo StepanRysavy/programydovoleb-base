@@ -1,3 +1,19 @@
+#app{
+  font-family: SegoeUI, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+blockquote {
+	text-align: center;
+	font-family: serif;
+		font-style: italic;
+		font-size: 1.25rem;
+		padding: 0 3rem 3rem;
+		margin: 0;
+}
+
 a, .is-link {
 	color: #11457e;
 	text-decoration: none;
@@ -41,7 +57,7 @@ hr {
 }
 
 button, .button {
-	
+
 	position: static;
 	display: inline-block;
 	top: 0;
@@ -91,6 +107,13 @@ ul, li {
 	padding: 0;
 }
 
+h1 {
+	padding: 0 0 1em;
+	max-width: 35rem;
+	margin: auto;
+	text-align: center;
+}
+
 h1 a {
 	color: #D7141A;
 	font-size: 1.33rem;
@@ -98,6 +121,11 @@ h1 a {
 	&:hover {
 		border-bottom-color: #D7141A;
 	}
+}
+
+h2 {
+	text-align: center;
+	padding-bottom: 2em;
 }
 
 small {
@@ -148,9 +176,11 @@ table:hover tr:not(:hover) .icon > a img {
 }
 
 .block {
-	
+
 	padding: 2rem 0;
 	position: relative;
+	max-width: 40rem;
+	margin: auto;
 
 	& + .block {
 		border-top: 1px solid #eee;
@@ -158,5 +188,93 @@ table:hover tr:not(:hover) .icon > a img {
 
 	@media (min-width: 40rem) {
 		padding: 4rem 0;
+	}
+}
+
+.block:first-child {
+	padding-top: 0;
+	border-top: none;
+}
+
+.block:last-child {
+	padding-bottom: 0;
+}
+
+.links li {
+	display: block;
+	margin: 1em auto 0;
+	text-align: center;
+	font-weight: bold;
+}
+
+.icon-social {
+	display: inline-block;
+	margin-right: .5em;
+
+	img {
+		display: block;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 50%;
+		overflow: hidden;
+		margin: auto;
+	}
+}
+
+.highlight {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding: 0 0 2rem;
+
+	a {
+		border-bottom: none;
+	}
+
+	img {
+		width: 7rem;
+		height: 7rem;
+		display: block;
+		border-radius: 100%;
+		border: 5px solid #fff;
+		margin: 0 auto 1rem;
+		box-shadow: 0 2px 6px #bbb;
+	}
+
+	> li {
+		width: 8rem;
+		text-align: center;
+		padding-bottom: 2rem;
+	}
+
+	span {
+		display: inline-block;
+		font-weight: bold;
+	}
+
+	@media (min-width: 42rem) {
+
+		padding: 4rem 0;
+
+		img {
+			width: 12rem;
+			height: 12rem;
+			box-shadow: 0 4px 16px #bbb;
+			border: 4px solid #fff;
+
+			transition: box-shadow .5s;
+
+			&:hover {
+				box-shadow: 0 4px 16px rgba(#11457e, .5);
+			}
+		}
+
+		> li {
+			width: 14rem;
+		}
+	}
+
+	+ .block {
+		padding-top: 0;
 	}
 }
