@@ -1,0 +1,53 @@
+<div class="results-people-table">
+	<ul>
+		<li class="headline dimm">
+			<div class="person">
+				<div class="person-about">Kandidát</div>
+				<div class="person-result">
+					<div class="person-result-pct" v-if="data[0].local">procent</div>
+					<div class="person-result-votes" v-if="data[0].local">hlasů</div>
+					<div class="person-result-pct">procent</div>
+					<div class="person-result-votes">hlasů</div>
+				</div>
+			</div>
+		</li>
+		<li class="headline dimm">
+			<div class="person">
+				<div class="person-about"></div>
+				<div class="person-result">
+					<div class="person-result-pct" v-if="data[0].local">obec</div>
+					<div class="person-result-votes" v-if="data[0].local">obec</div>
+					<div class="person-result-pct">celkem</div>
+					<div class="person-result-votes">celkem</div>
+				</div>
+			</div>
+		</li>
+		<li v-for="(result, index) in data" :class="{progress: result.progress}">
+			<div class="person">
+				<div class="person-about">
+					<div class="person-name">
+						<person-name :data="result.name" :short="true" />
+					</div>
+				</div>
+				<div class="person-result">
+					<div class="person-result-pct" v-if="result.local">
+						{{ result.local.pct }} %
+					</div>
+					<div class="person-result-votes" v-if="result.local">
+						{{ beautifyNumber(result.local.votes) }}
+					</div>
+					<div class="person-result-pct">
+						{{ result.pct }} %
+					</div>
+					<div class="person-result-votes">
+						{{ beautifyNumber(result.votes) }}
+					</div>
+				</div>
+				<div class="person-graph" :class="{local: result.local}">
+					<div class="person-graph-global" :style="{width: (result.pct * coef1) + '%' }"></div>
+					<div class="person-graph-local" v-if="result.local" :style="{width: (result.local.pct * coef2) + '%' }"></div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>

@@ -1,3 +1,20 @@
-p {
+.highlight, .links {
+	list-style: none;
+	padding: 0;
+	margin: 2rem 0;
 	text-align: center;
+}
+
+.highlighted {
+
+	a {
+		text-decoration: none;
+
+		img {
+			display: block;
+			width: 12rem;
+			height: 12rem;
+			margin: 0 auto 1em;
+		}
+	}
 }

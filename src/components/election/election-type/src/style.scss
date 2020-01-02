@@ -1,0 +1,46 @@
+.election-type {
+  padding: 1rem 0;
+  border-top: 1px solid #eee;
+}
+
+.election-type-content {
+  padding: 1em 0 3em;
+}
+
+.election-type-header {
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  .icon {
+    position: absolute;
+    right: 1rem;
+    font-size: 2rem;
+    line-height: 1;
+    top: -.2em;
+    font-family: sans-serif;
+    font-weight: 100;
+  }
+}
+
+h4 {
+  margin: 0;
+  padding: 1em 0 .25em;
+}
+
+p {
+  margin: 0;
+}
+
+.elections {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	li {
+		display: inline-block;
+		padding: .5em .5em .5em 0;
+	}
+}

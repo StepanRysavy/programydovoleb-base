@@ -1,0 +1,59 @@
+<div class="layout-overview">
+	<div class="part"></div>
+	<div class="part">
+		<h1>Výsledky voleb</h1>
+		<p>Výsledky voleb vychází z otevřených dat Českého statistického úřadu. Úřad poskytuje výsledky od roku 2006. Pokud by vás zajímali starší výsledky, <outbound-link href="https://volby.cz/" content="najdete je zde" />.</p>
+		<election-type class="part" v-for="(election, index) in $store.state.static.elections.list" :key="'el_' + index" :election="election" />
+	</div>
+	<div class="part">
+		<h1>Výsledky podle obcí</h1>
+		<div class="columns">
+			<div class="item" v-for="(obj, index) in towns.capital">
+				<router-link :to="'/vysledky/obec/' + obj.num + '-' + betterURL(obj.name)">
+					<strong>{{ obj.name }}</strong>
+				</router-link>
+			</div>
+			<h3>Krajská města</h3>
+			<div class="item" v-for="(obj, index) in towns.regional">
+				<router-link :to="'/vysledky/obec/' + obj.num + '-' + betterURL(obj.name)">
+					{{ obj.name }}
+				</router-link>
+			</div>
+			<h3>Ostatní velká města</h3>
+			<div class="item" v-for="(obj, index) in towns.other">
+				<router-link :to="'/vysledky/obec/' + obj.num + '-' + betterURL(obj.name)">
+					{{ obj.name }}
+				</router-link>
+			</div>
+		</div>
+		<h2>Hledat obci:</h2>
+    <div class="form">
+      <div class="form-input center">
+        <input type="search" v-model="query" class="form-input-text" placeholder="Hledat">
+      </div>
+    </div>
+    <div class="results columns">
+      <div class="result" v-for="(result, index) in queryResults">
+				<router-link :to="'/vysledky/obec/' + result.num + '-' + betterURL(result.pName || result.tName)">
+					<strong>{{ result.tName }}</strong><span v-if="result.pName != null">&middot; část {{ result.pName }}</span>
+				</router-link>
+        <br>
+        <span class="small">
+          <span>okr. {{ result.dName }}</span>
+        </span>
+      </div>
+    </div>
+	</div>
+	<div class="part">
+		<h1>Senátní obvody</h1>
+		<div class="columns">
+			<div class="item" v-for="(obj, index) in $store.state.static.senate">
+				<router-link :to="'/vysledky/obvod/' + obj.id + '-' + betterURL(obj.name)">
+					<span class="area-number">{{ obj.id }}</span>
+					&middot;
+					{{ obj.name }}
+				</router-link>
+			</div>
+		</div>
+	</div>
+</div>

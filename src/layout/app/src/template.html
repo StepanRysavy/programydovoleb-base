@@ -1,51 +1,71 @@
 <div id="app">
 	<div class="main">
 		<div class="block">
-		    <router-view></router-view>
-		</div>
-		<div class="block content-static">
-			<div class="block">
-				<h2>Více informací, lepší rozhodování</h2>
-				<blockquote>“A koho tedy budeme volit? Kde má nějaký program? Znám ho? Můžu se ho zeptat? Vždyť já o nich vůbec nic nevím, podle čeho se pak mám rozhodovat?”</blockquote>
-				<p>A tak to je vždy. Buď jsme zahlceni informacemi, nebo nemáme žádné. Project <b>Programy do voleb</b> si klade za cíl vytvořit základní jednoduchý přehled o kandidátech, stranách a jejich programech, abychom se mohli ve volbách lépe rozhodovat.</p>
-			</div>
-			<div class="block">
-				<h2>O projektu</h2>
-				<p><b>Programy do voleb</b> jsou soukromou občanskou iniciativou <a href="https://twitter.com/stepanrysavy">@stepanrysavy</a>, veškeré náklady si hradíme sami. Nepočítáme s žádnou další formou financování, nežádáme o evropské granty, státní podporu, ani nebudeme na stránky umisťovat reklamu. Pokud byste měli neodkladnou touhu nám přispět na provoz a reklamu, <a href="mailto:info@programydovoleb.cz">napište nám</a> a domluvíme se, co a jak. Daleko víc ale oceníme, pokud pomůžete se šířením online, sdílením, komentáři, nebo i jen doporučením na vylepšení.</p>
-				<p>Číselníky a kandidátky jsou z <a href="https://www.czso.cz/csu/czso/podminky_pro_vyuzivani_a_dalsi_zverejnovani_statistickych_udaju_csu" target="_blank">otevřených dat Českého Statistického Úřadu</a>.</p>
-				<p>Mnoho informací ručně dohledáváme, nevyužíváme žádné automatické datové zdroje. Využíváme volně dostupné informace ze stránek politických stran, hnutí, kandidátů, státních a evropských organizací či úřadů.</p>
-				<p>Je možné, že občas uděláme chybu nebo některé údaje nebudou úplné nebo již aktuální. Když na nějakou narazíte, dejte nám prosím vědět na <a href="mailto:info@programydovoleb.cz">info@programydovoleb.cz</a></p>
-				<p>Nejsme členy žádné strany ani hnutí, ani nepracujeme pro žádnou státní ani nestátní organizaci.</p>
-			</div>
-			<div class="block">
-				<h2>Připojte se:</h2>
-				<div class="social-share">
-					<div class="icon-social">
-						<a href="https://www.facebook.com/programydovoleb" target="_blank" @click="outbound('fb')">
-							<img src="/static/icon/fb.svg" alt="sdílet na Facebooku">
-						</a>
-					</div>
-					<div class="icon-social">
-						<a href="https://www.twitter.com/programydovoleb" target="_blank" @click="outbound('tw')">
-							<img src="/static/icon/tw.svg" alt="účet na Twitteru">
-						</a>
+			<div class="header">
+				<div class="header-logo">
+					<router-link to="/">Programy do voleb</router-link>
+
+				</div>
+				<div class="header-menu">
+					<div class="header-menu-icon"></div>
+					<div class="header-menu-holder">
+						<ul>
+							<li>
+								<outbound-link to="https://krajskevolby2020.programydovoleb.cz" content="Krajské volby 2020" />
+							</li>
+							<!--
+							<li>
+								Senátní volby 2020
+							</li>
+							-->
+							<li>
+								<router-link to="/vysledky">Předchozí volby</router-link>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
-			<div class="block">
-				<h2>Již proběhlo:</h2>
-				<ul class="links">
-					<li><a href="https://komunal18.programydovoleb.cz">Komunální volby 2018</a></li>
-					<li><a href="https://senat18.programydovoleb.cz">Senátní volby 2018</a></li>
-				</ul>
-			</div>
 		</div>
 		<div class="block">
-			<h1 class="logo">
-				<router-link to="/">
-					<img src="/static/logo.png" alt="Programy do voleb">
-				</router-link>
-			</h1>
+		    <router-view></router-view>
 		</div>
+		<footer class="block">
+			<ul class="footer">
+				<li>
+					<div class="footer-content">
+						<h4>Programy do voleb</h4>
+						<p class="footer-link"><em>Programy do voleb</em> tvoří <outbound-link href="https://twitter.com/stepanrysavy" content="Štěpán Ryšavý" /></p>
+						<p class="footer-link">Číselníky a kandidátky vycházejí z&nbsp;<outbound-link href="https://www.czso.cz/csu/czso/podminky_pro_vyuzivani_a_dalsi_zverejnovani_statistickych_udaju_csu" content="otevřených dat ČSÚ" />, všechna data jsou také volně dostupná na <outbound-link href="https://github.com/ProgramyDoVoleb/public" content="GitHubu" />.</p>
+						<p class="footer-link">Veškeré náklady na tvorbu webu, grafiky nebo reklamu či sociální sítě si hradím sám.</p>
+					</div>
+				</li>
+				<li>
+					<div class="footer-content">
+						<h4>Více informací</h4>
+						<ul class="footer-menu">
+							<li><outbound-link href="https://krajskevolby2020.programydovoleb.cz" content="Krajské volby 2020" class="footer-link" /></li>
+							<li><outbound-link href="https://eu2019.programydovoleb.cz" content="Evropské volby 2019" class="footer-link" /></li>
+							<li><outbound-link href="https://komunal18.programydovoleb.cz" content="Komunální volby 2018" class="footer-link" /></li>
+							<li><outbound-link href="https://senat18.programydovoleb.cz" content="Senátní volby 2018" class="footer-link" /></li>
+						</ul>
+					</div>
+				</li>
+				<li>
+					<div class="footer-content">
+						<h4>Kontakt:</h4>
+						<p><a mailto="info@programydovoleb.cz" class="footer-link">info@programydovoleb.cz</a></p>
+						<div class="social-share">
+							<outbound-icon href="https://www.facebook.com/programydovoleb" type="fb" />
+							<outbound-icon href="https://www.twitter.com/programydovoleb" type="tw" />
+							<outbound-icon href="https://www.instagram.com/programydovoleb" type="ig" />
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="footer-content">
+					</div>
+				</li>
+			</ul>
+		</footer>
 	</div>
 </div>

@@ -1,0 +1,7 @@
+<div class="election-timeline">
+	<ol>
+		<li v-for="(item, index) in timeline">
+			<election-item :election="item" :prefetch="index === 0" />
+		</li>
+	</ol>
+</div>

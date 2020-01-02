@@ -1,0 +1,46 @@
+h2 {
+	font-size: 1.75rem;
+	margin: 0;
+	padding: 2em 0 1em;
+}
+
+.elections {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	li {
+		display: inline-block;
+		padding: .5em .5em .5em 0;
+	}
+}
+
+.columns {
+	margin-top: 4rem;
+
+	h3 {
+		margin: 2rem 0 1rem;
+		padding: 0;
+	}
+}
+
+.area-number {
+	display: inline-block;
+	width: 1.2rem;
+	text-align: right;
+}
+
+.form-input-text {
+  font-size: 1.5rem;
+  border: 1px solid #eee;
+  padding: .5em 1em;
+  border-radius: 1em;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.small {
+  font-size: 13px;
+}
