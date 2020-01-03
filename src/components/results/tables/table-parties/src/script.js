@@ -1,4 +1,5 @@
 import {beautifyNumber} from "@/store/helpers";
+import PartyNameWithDot from "@/components/party/party-name-with-dot/do";
 
 export default {
 	name: 'results-parties-table',
@@ -7,6 +8,9 @@ export default {
 		return {
 			showAll: false
 		}
+	},
+	components: {
+		PartyNameWithDot
 	},
 	computed: {
 		coef1: function () {

@@ -1,3 +1,11 @@
-<span>
-	<img :src="src">
-</span>
+<div class="list-senate">
+	<div class="results columns">
+		<div class="item" v-for="(obj, index) in sorted">
+			<router-link :to="'/vysledky/obvod/' + obj.id + '-' + betterURL(obj.name)">
+				<span class="area-number">{{ obj.id }}</span>
+				&middot;
+				{{ obj.name }}
+			</router-link>
+		</div>
+	</div>
+</div>

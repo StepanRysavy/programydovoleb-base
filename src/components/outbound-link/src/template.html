@@ -1,4 +1,3 @@
 <span>
-	<a :href="href" :title="title || ''" @click="handle_click" target="_blank">{{ content }}</a>
-	<span class="link-addon-icon" v-if="hasAddon"><img src="/static/icon/link.svg"></span>
+	<a :href="href" :title="title || 'Otevřít stránku ' + href + ' v nové záložce'" @click="handle_click" target="_blank">{{ content }}</a>&nbsp;<span class="link-addon-icon" v-if="hasAddon"><img src="/static/icon/link.svg"></span>
 </span>

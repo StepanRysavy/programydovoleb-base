@@ -59,5 +59,16 @@ export default {
 		if (this.prefetch && this.prefetch === true) {
 			this.toggleVisible();
 		}
+	},
+	watch: {
+		election: function () {
+			if (this.opened === true) {
+				this.loading = true;
+				this.loaded = false;
+				this.opened = false;
+
+				this.load();
+			}
+		}
 	}
 };

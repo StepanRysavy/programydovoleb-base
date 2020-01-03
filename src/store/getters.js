@@ -10,14 +10,14 @@ getters.getRegionByNuts = (state, getters) => (nuts) => {
 }
 
 getters.getHierarchyByNum = (state, getters) => (num) => {
-  if (state.dynamic.towns.length > 0) {
+  if (state.dynamic.hierarchy.length > 0) {
     var obj = {
       num: num,
       nuts: null,
       tree: []
     };
 
-    state.dynamic.towns.forEach(area => {
+    state.dynamic.hierarchy.forEach(area => {
       area.list.forEach((region, index) => {
         region.list.forEach(district => {
           district.list.forEach(town => {
@@ -70,6 +70,7 @@ getters.getElectionDetails = (state, getters) => (type, id) => {
     var election = typeData.list.find(el => el.id === id);
 
     if (election) {
+      election.name = typeData.name;
       return election;
     } else {
       return null;
@@ -81,28 +82,47 @@ getters.getElectionDetails = (state, getters) => (type, id) => {
 }
 
 getters.getElectionGlobal = (state, getters) => (type, id, areaName, areaID) => {
-  var dyn = state.dynamic.elections.find(el => el.id === type + '-' + id);
 
-  if (areaID && dyn && dyn.files && !dyn.files.find(f => f.type === 'results')) {
+  var dyn = state.dynamic.elections.find(el => el.id === type + '-' + id);
+  var res;
+
+  if (areaID && dyn) {
     var all = dyn.files.find(f => f.type === 'all-results');
-    var results;
 
     if (areaName) {
-      results = all.content[areaName].find(a => a.id === areaID);
+      res = all.content[areaName].find(a => a.id === areaID);
     } else {
-      results = all.content.find(a => a.id === areaID);
+      res = all.content.find(a => a.id === areaID);
     }
+  }
+
+  if (areaID && dyn && dyn.files && !dyn.files.find(f => f.type === 'results')) {
 
     var obj = {
       type: 'results',
       reg: areaID,
-      content: results
+      content: res
     }
 
     dyn.files.push(obj);
   }
 
-  return dyn;
+  if (!res && dyn) {
+    res = dyn.files.find(f => f.type === 'results');
+  }
+
+  return dyn ? {
+    global: dyn,
+    results: res
+  } : undefined;
+}
+
+getters.getTownByNum = (state, getters) => (num) => {
+  return state.dynamic.towns.find(town => town.id === num);
+}
+
+getters.getPartyByReg = (state, getters) => (reg) => {
+  return state.dynamic.parties.find(party => party.reg === reg);
 }
 
 export default getters;

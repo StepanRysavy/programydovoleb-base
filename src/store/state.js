@@ -1,16 +1,17 @@
 import elections from './data/obecne/info/seznam-voleb.json';
 import regions from './data/obecne/info/kv.json';
-import senate from './data/obecne/info/senatni-obvody.json';
+import senate from './data/obecne/info/senatni-volby.json';
 
 const state = {
   static: {
     elections: elections,
     regions,
-    senate: senate.list
+    senate: senate
   },
   dynamic: {
-    towns: [],
+    hierarchy: [],
     parties: [],
+    towns: [],
     elections: []
   },
   tick: 0,

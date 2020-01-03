@@ -22,12 +22,21 @@ li:not(.headline) {
 }
 
 .headline {
-  font-size: 10px;
+  font-size: 10px !important;
   text-transform: uppercase;
 }
 
 .headline + .headline {
   margin-top: -.8rem;
+}
+
+.progress + :not(.progress) {
+  border-top: 2px solid #f00;
+}
+
+li:not(.progress) {
+  font-size: .8em;
+  color: #888;
 }
 
 .person {

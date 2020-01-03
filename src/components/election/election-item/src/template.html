@@ -1,6 +1,6 @@
 <div class="election-item">
 	<div class="election-item-header" @click="toggleVisible">
-		<span class="is-link">{{ election.name }}</span>
+		<span class="is-link">{{ election.data.label || election.name }}</span>
 		<span class="icon red" v-if="opened && !loading">&times;</span>
 		<span class="icon blue" v-if="!opened && !loading">&plus;</span>
 		<span class="icon loading" v-if="loading">&#x2237;</span>

@@ -30,24 +30,52 @@ actions.ga = function (context, payload) {
   }
 };
 
-actions.fetchTowns = function (context, payload) {
+actions.fetchHierarchy = function (context, payload) {
 
-  if (context.state.dynamic.towns.length > 0) {
-    console.log('Already loaded');
+  if (context.state.dynamic.hierarchy.length > 0) {
+    // console.log('Hierarchy already loaded');
     if (payload && payload.onComplete) payload.onComplete();
     return;
   }
 
   axios.get(server + 'obecne/obce-struktura.json').then((response) => {
-    context.commit('fetchTowns', response.data);
+    context.commit('fetchHierarchy', response.data);
     if (payload && payload.onComplete) payload.onComplete();
   }).catch(e => {
     console.log('File not loaded', e);
   });
 }
 
+actions.fetchTown = function (context, payload) {
+  var lookup = context.state.dynamic.towns.find(item => item.id === payload.num);
+
+  if (lookup) {
+    // console.log('Town', lookup.name, 'is known');
+    if (payload && payload.onComplete) payload.onComplete();
+  } else {
+    axios.get(server + 'souhrny/obce/' + payload.nuts + '/' + payload.num + '.json').then(response => {
+      context.commit('fetchTown', response.data);
+      if (payload && payload.onComplete) payload.onComplete();
+    });
+  }
+}
+
+actions.fetchParty = function (context, payload) {
+  var lookup = context.state.dynamic.parties.find(item => item.reg === payload.reg);
+
+  if (lookup) {
+    // console.log('Party', lookup.name, 'already loaded');
+    if (payload && payload.onComplete) payload.onComplete();
+  } else {
+    axios.get(server + 'api/getParty?reg=' + payload.reg).then(response => {
+      context.commit('fetchParty', response.data);
+      if (payload && payload.onComplete) payload.onComplete();
+    });
+  }
+}
+
 function getFile (file) {
-  return axios.get(server + file.split('data/')[1]);
+  return axios.get(server + file);
 }
 
 actions.fetchResultFiles = function (context, payload) {
@@ -55,7 +83,7 @@ actions.fetchResultFiles = function (context, payload) {
 
   if (lookup) {
 
-    console.log('Already loaded');
+    // console.log('Result', lookup.id, 'already loaded');
     if (payload && payload.onComplete) payload.onComplete();
 
   } else {

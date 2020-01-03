@@ -1,0 +1,18 @@
+<div class="search-all-towns">
+	<div class="form">
+		<div class="form-input center">
+			<input type="search" v-model="query" class="form-input-text" placeholder="Hledat">
+		</div>
+	</div>
+	<div class="results columns">
+		<div class="result" v-for="(result, index) in queryResults" @click="clear">
+			<router-link :to="'/vysledky/obec/' + result.num + '-' + betterURL(result.pName || result.tName)">
+				<strong>{{ result.tName }}</strong><span v-if="result.pName != null">&middot; část {{ result.pName }}</span>
+			</router-link>
+			<br>
+			<span class="small">
+				<span>okr. {{ result.dName }}</span>
+			</span>
+		</div>
+	</div>
+</div>

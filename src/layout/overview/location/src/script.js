@@ -1,5 +1,6 @@
 import axios from "axios";
 import ElectionTimeline from "@/components/election/election-timeline/do";
+import SearchAllTowns from "@/components/towns/search-all-towns/do";
 import {betterURL} from "@/store/helpers";
 
 export default {
@@ -7,33 +8,36 @@ export default {
 	props: ['location'],
 	data: function () {
 		return {
-			town: null,
+			num: null,
 			hierarchy: null
 		}
 	},
 	components: {
-		ElectionTimeline
+		ElectionTimeline,
+		SearchAllTowns
 	},
 	methods: {
 		betterURL,
 		loadTownComplete: function () {
 	    window.scrollTo(0, 0);
-	    this.$store.dispatch("ga", {title: "Výsledky podle místa: " + this.town.name});
+
 		},
 		loadTown: function () {
-			var num = this.location.split("-")[0];
+			this.num = Number(this.location.split("-")[0]);
 
-			this.hierarchy = this.$store.getters.getHierarchyByNum(num);
+			this.hierarchy = this.$store.getters.getHierarchyByNum(this.num);
 
-			axios.get("https://data.programydovoleb.cz/souhrny/obce/" + this.hierarchy.nuts + "/" + num + ".json").then((response) => {
-				this.town = response.data;
-				this.loadTownComplete();
-			}).catch(e => {
-				console.log("File not loaded", e);
+			this.$store.dispatch("fetchTown", {
+				num: this.num,
+				nuts: this.hierarchy.nuts,
+				onComplete: () => this.loadTownComplete()
 			});
 		}
 	},
 	computed: {
+		town: function () {
+			return this.$store.getters.getTownByNum(this.num)
+		},
 		elections: function () {
 			var list = [];
 
@@ -81,20 +85,27 @@ export default {
 							global: {
 								id: hash + "-" + v[id],
 								data: {
-									files: [
-										{
-											content: {
-												parties: v.parts[0].results
+									global: {
+										files: [
+											{
+												content: {
+													parties: v.parts[0].results
+												},
+												type: "results"
 											},
-											type: "results"
-										},
-										{
-											content: {
-												list: []
-											},
-											type: "parties"
+											{
+												content: {
+													list: []
+												},
+												type: "parties"
+											}
+										],
+									},
+									results: {
+										content: {
+											parties: v.parts[0].results
 										}
-									],
+									},
 									id: v[id]
 								}
 							},
@@ -111,11 +122,16 @@ export default {
 			if (this.town) {
 				try {
 					addToList(this, "prezident", "Prezidentské volby", "prezidentske-volby", "year");
-					addToList(this, "senat", "Senátní volby", "senatni-volby", "date", "areas", this.town.obvod.id);
+
 					addToList(this, "snemovna", "Sněmovní volby", "snemovni-volby", "year");
 					addToListCommunal(this, "obce", "Komunální volby", "komunalni-volby", "year");
 					addToList(this, "eu", "Evropské volby", "evropske-volby", "year");
-					if (this.hierarchy.tree[2].index && this.hierarchy.tree[2].index.id > 0) addToList(this, "kraje", "Krajské volby", "krajske-volby", "year", undefined, this.hierarchy.tree[2].index.id);
+					if (this.hierarchy.tree[2].index && this.hierarchy.tree[2].index.id > 0) {
+						addToList(this, "kraje", "Krajské volby", "krajske-volby", "year", undefined, this.hierarchy.tree[2].index.id);
+					}
+					if (this.town.obvod) {
+						addToList(this, "senat", "Senátní volby", "senatni-volby", "date", "areas", this.town.obvod.id);
+					}
 				} catch (e) {
 					console.log(e);
 				}
@@ -126,11 +142,16 @@ export default {
 	},
   mounted: function () {
     window.scrollTo(0, 0);
-		this.$store.dispatch('fetchTowns', {onComplete: () => this.loadTown()});
+		this.$store.dispatch('fetchHierarchy', {onComplete: () => this.loadTown()});
   },
 	watch: {
 		location: function () {
 			this.loadTown();
+		},
+		town: function () {
+			if (this.town) {
+				this.$store.dispatch("ga", {title: "Výsledky podle místa: " + this.town.name});
+			}
 		}
 	}
 };

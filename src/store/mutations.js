@@ -2,12 +2,32 @@ const mutations = {
   demo (state, payload) {}
 };
 
-mutations.fetchTowns = function (state, payload) {
-  payload.hierarchy.list.forEach(item => state.dynamic.towns.push(item));
+mutations.fetchHierarchy = function (state, payload) {
+  payload.hierarchy.list.forEach(item => state.dynamic.hierarchy.push(item));
 }
 
 mutations.fetchResultFiles = function (state, payload) {
   state.dynamic.elections.push(payload);
+}
+
+mutations.fetchTown = function (state, payload) {
+  var lookup = state.dynamic.towns.find(town => town.num === payload.id);
+
+  if (lookup) {
+    console.log(lookup.name, 'already in store');
+  } else {
+    state.dynamic.towns.push(payload);
+  }
+}
+
+mutations.fetchParty = function (state, payload) {
+  var lookup = state.dynamic.parties.find(party => party.reg === payload.reg);
+
+  if (lookup) {
+    console.log(lookup.name, 'already in store');
+  } else {
+    state.dynamic.parties.push(payload);
+  }
 }
 
 export default mutations;

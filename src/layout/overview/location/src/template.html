@@ -42,13 +42,13 @@
 				</div>
 			</div>
 		</template>
-		<template>
-			<h2>Okolní obce</h2>
-			<div class="columns">
-				<div class="item" v-for="(part, index) in hierarchy.tree[3].list">
-					<router-link :to="'/vysledky/obec/' + part.num + '-' + betterURL(part.name)">{{ part.name }}</router-link>
-				</div>
+		<h2>Okolní obce</h2>
+		<div class="columns">
+			<div class="item" v-for="(part, index) in hierarchy.tree[3].list">
+				<router-link :to="'/vysledky/obec/' + part.num + '-' + betterURL(part.name)">{{ part.name }}</router-link>
 			</div>
-		</template>
+		</div>
+		<h2>Hledat jinou obec</h2>
+		<search-all-towns />
 	</div>
 </div>

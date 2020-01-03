@@ -12,10 +12,10 @@ export default {
 			return !!this.globalResults.round2;
 		},
 		globalResults: function () {
-			return this.global.data.files.find(f => f.type === "results").content;
+			return this.global.data.results.content || this.global.data.results;
 		},
 		globalEnum: function () {
-			return this.global.data.files.find(f => f.type === "candidates").content.list;
+			return this.global.data.global.files.find(f => f.type === "candidates").content.list;
 		},
 		round1: function () {
 			var data = [];

@@ -9,10 +9,10 @@ export default {
 	},
 	computed: {
 		globalResults: function () {
-			return this.global.data.files.find(f => f.type === "results").content;
+			return this.global.data.results.content || this.global.data.results;
 		},
 		globalEnum: function () {
-			return this.global.data.files.find(f => f.type === "parties").content.list;
+			return this.global.data.global.files.find(f => f.type === "parties").content.list;
 		},
 		results: function () {
 			var data = [];

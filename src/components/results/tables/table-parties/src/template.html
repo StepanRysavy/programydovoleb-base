@@ -26,8 +26,7 @@
 			<div class="party">
 				<div class="party-about">
 					<div class="party-name">
-						<div class="show-40rem">{{ result.name }}</div>
-						<div class="hide-40rem">{{ result.short || result.name }}</div>
+						<party-name-with-dot :reg="result.reg" :useName="result.name" :useShort="result.short || result.name" />
 					</div>
 				</div>
 				<div class="party-result">
@@ -54,7 +53,7 @@
 			<div class="party">
 				<div class="party-about">
 					<div class="party-name">
-						Ostatní
+						<i>Ostatní</i>
 					</div>
 				</div>
 				<div class="party-result">

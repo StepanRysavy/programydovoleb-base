@@ -1,11 +1,13 @@
 <div class="election-type">
-	<div class="election-type-header" @click="toggleVisible">
+	<div class="election-type-header" @click="toggleVisible" v-if="!$attrs.open">
 		<span class="is-link">{{ election.name }}</span>
 		<span class="icon red" v-if="opened">&times;</span>
 		<span class="icon blue" v-if="!opened">&plus;</span>
 	</div>
-	<div class="election-type-content" v-if="opened">
-		<h4>O volbách</h4>
+	<div class="election-type-content" v-if="opened || $attrs.open">
+		<template v-if="!$attrs.open">
+			<h4>O volbách</h4>
+		</template>
 		<p v-html="election.desc"></p>
 		<h4>Přehled voleb</h4>
 		<ul class="elections">

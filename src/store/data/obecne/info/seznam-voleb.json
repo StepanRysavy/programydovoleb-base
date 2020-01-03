@@ -364,7 +364,7 @@
       ]
     },
     {
-      "name": "Komunalní volby",
+      "name": "Komunální volby",
       "hash": "komunalni-volby",
       "desc": "Ve více jak 6 000 obcích, městech i městských částech probíhají jednou za 4 roky komunální volby. Ve vybraných městech jsou zároveň i volby magistrátní/primátorské, například v Praze, Brně nebo Ostravě. Počet volených zastupitelů je závislý na počtu obyvatel daného volebního obvodu, může být od jednotek až po 65 zastupitelů. Do zastupitelstva se dostane každá strana, hnutí nebo koalice, která přesáhne hranici 5 %, na rozdíl od sněmovních voleb zde nedochází k penalizaci koalic. Mandát zastupitele získávají jednotliví kandidáti, pokud se ho vzdají, získává ho další v pořadí na kandidátce. Volební průkaz platí pouze na území ČR a odevzdaný hlas pak patří k vybranému městu/obci, nelze volit ze zahraničí.",
       "older": true,
