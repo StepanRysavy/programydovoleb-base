@@ -1,6 +1,6 @@
 <span class="party-name-with-dot">
 	<i :style="{background: color}" />
-	<router-link :to="'/rejstrik/' + link">
+	<router-link :to="'/rejstrik/' + link" :title="party.name">
 		<span class="show-40rem">{{ name }}</span>
 		<span class="hide-40rem">{{ short || name }}</span>
 	</router-link>

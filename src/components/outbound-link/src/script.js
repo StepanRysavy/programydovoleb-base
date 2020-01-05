@@ -1,3 +1,5 @@
+import {stripURLintoDomain} from "@/store/helpers";
+
 export default {
 	name: 'outbound-link',
 	props: ['href', 'title', 'content', 'addon'],
@@ -13,6 +15,7 @@ export default {
 	},
 	components: {},
 	methods: {
+		stripURLintoDomain,
 		handle_click: function () {
 			this.$store.dispatch("ga", {path: "out/link/" + encodeURIComponent(this.href), title: "Odchozí odkaz: " + this.content});
 		}

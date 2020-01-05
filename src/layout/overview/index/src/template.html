@@ -1,0 +1,12 @@
+<div class="layout-index">
+	<div class="part">
+		<h1>Strany, hnutí nebo koalice:</h1>
+		<search-all-parties />
+		<h2>Nejčastěji hledané strany</h2>
+		<div class="searched">
+			<div class="item" v-for="(party, index) in $store.state.static.prominent.parties">
+				<party-name-with-logo :reg="party" :alwaysName="true" />
+			</div>
+		</div>
+	</div>
+</div>

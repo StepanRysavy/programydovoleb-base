@@ -1,0 +1,26 @@
+.form-input-text {
+  font-size: 1.5rem;
+  border: 1px solid #eee;
+  padding: .5em 1em;
+  border-radius: 1em;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.results {
+  margin-top: 2rem;
+}
+
+.result-coalition {
+  padding-bottom: 1em;
+}
+
+.members {
+  padding: .5em 0 0 1em;
+}
+
+.member {
+  font-size: 12px;
+}

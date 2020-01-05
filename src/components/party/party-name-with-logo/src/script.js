@@ -1,22 +1,22 @@
 export default {
-	name: 'party-name-with-dot',
-	props: ['reg', 'useName', 'useShort', 'alwaysName', 'alwaysShort'],
+	name: 'party-name-with-logo',
+	props: ['reg', 'useName', 'useShort'],
 	computed: {
-		color: function () {
-			return this.party && this.party.color && this.party.color != '#aaa' ? this.party.color : '#eee'
+		src: function () {
+			return this.party && this.party.logo ? this.$store.state.server + this.party.logo : '/static/empty.png';
 		},
 		name: function () {
 			if (this.useName) {
 				return this.useName
 			} else {
-				return this.party ? (this.alwaysShort && this.short ? this.short : this.party.name) : ''
+				return this.party ? this.party.name : ''
 			}
 		},
 		short: function () {
 			if (this.useShort) {
 				return this.useShort
 			} else {
-				return this.party ? (this.alwaysName ? this.name : this.party.short) : undefined
+				return this.party ? this.party.short : undefined
 			}
 		},
 		link: function () {

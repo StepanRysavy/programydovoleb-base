@@ -1,0 +1,96 @@
+h2 {
+	font-size: 1.75rem;
+	margin: 0;
+	padding: 2em 0 1em;
+}
+
+article {
+	position: relative;
+}
+
+.logo {
+	img {
+		display: block;
+		width: 6rem;
+		height: 6rem;
+		border-radius: 3rem;
+		border: 1px solid #eee;
+		margin: auto;
+	}
+}
+
+@media (min-width: 40rem) {
+	.logo {
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	h1 {
+		padding: 2rem 7rem;
+	}
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.stats {
+
+	ul > li {
+		padding: .5em 0;
+		display: flex;
+		align-items: baseline;
+	}
+
+	ul > li+li {
+		border-top: 1px solid #f4f4f4;
+	}
+
+	label {
+		width: 6rem;
+		font-size: 10px;
+		font-weight: bold;
+		color: #888;
+		text-transform: uppercase;
+	}
+
+	label + div {
+		flex: 1;
+	}
+}
+
+.dot {
+	display: inline-block;
+	width: .7em;
+	height: .7em;
+	border-radius: 50%;
+	margin-right: .25em;
+}
+
+.coalition-member {
+	padding-left: 1rem;
+}
+
+.link {
+	padding: .1em 0;
+}
+
+.link-icon {
+	display: inline-block;
+	width: 1.2em;
+	height: 1.2em;
+	border-radius: 50%;
+	margin-right: .25em;
+	transform: translateY(.2em);
+}
+
+.members {
+  padding: .5em 0 1em 1em;
+}
+
+.member {
+  font-size: 12px;
+}

@@ -117,12 +117,16 @@ getters.getElectionGlobal = (state, getters) => (type, id, areaName, areaID) => 
   } : undefined;
 }
 
+getters.getPartyList = (state, getters) => () => {
+  return state.dynamic.partyList;
+}
+
 getters.getTownByNum = (state, getters) => (num) => {
   return state.dynamic.towns.find(town => town.id === num);
 }
 
 getters.getPartyByReg = (state, getters) => (reg) => {
-  return state.dynamic.parties.find(party => party.reg === reg);
+  return state.dynamic.parties.find(party => party.reg === reg) || state.dynamic.partyList.find(party => party.reg === reg);
 }
 
 export default getters;

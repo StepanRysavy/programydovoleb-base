@@ -74,6 +74,20 @@ actions.fetchParty = function (context, payload) {
   }
 }
 
+var fetchPartyListLoadInitiated = false;
+
+actions.fetchPartyList = function (context, payload) {
+  if (fetchPartyListLoadInitiated === true) {
+    if (payload && payload.onComplete) payload.onComplete();
+  } else {
+    fetchPartyListLoadInitiated = true;
+    axios.get(server + 'obecne/strany.json').then(response => {
+      context.commit('fetchPartyList', response.data);
+      if (payload && payload.onComplete) payload.onComplete();
+    });
+  }
+}
+
 function getFile (file) {
   return axios.get(server + file);
 }

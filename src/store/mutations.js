@@ -30,4 +30,12 @@ mutations.fetchParty = function (state, payload) {
   }
 }
 
+mutations.fetchPartyList = function (state, payload) {
+  payload.list.forEach(party => {
+    if (!state.dynamic.partyList.find(p => p.reg === party.reg)) {
+      state.dynamic.partyList.push(party);
+    }
+  });
+}
+
 export default mutations;

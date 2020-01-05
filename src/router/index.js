@@ -6,7 +6,8 @@ import LayoutOverview from '@/layout/overview/intro/do';
 import LayoutOverviewElection from '@/layout/overview/election/do';
 import LayoutOverviewLocation from '@/layout/overview/location/do';
 import LayoutOverviewLocationSenate from '@/layout/overview/senate/do';
-import store from '@/store/store';
+import LayoutOverviewIndex from '@/layout/overview/index/do';
+import LayoutOverviewParty from '@/layout/overview/party/do';
 
 Vue.use(Router);
 
@@ -45,25 +46,19 @@ const router = new Router({
       name: 'OverviewLocationSenate',
       props: true,
       component: LayoutOverviewLocationSenate
+    },
+    {
+      path: '/rejstrik',
+      name: 'OverviewIndex',
+      component: LayoutOverviewIndex
+    },
+    {
+      path: '/rejstrik/:id',
+      name: 'OverviewParty',
+      props: true,
+      component: LayoutOverviewParty
     }
   ],
 });
-
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
-    if (store.state.userAuth === -1) {
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath }
-      })
-    } else {
-      next()
-    }
-  } else {
-    next() // make sure to always call next()!
-  }
-})
 
 export default router;
