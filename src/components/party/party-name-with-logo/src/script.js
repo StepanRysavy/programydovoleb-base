@@ -1,15 +1,23 @@
 export default {
 	name: 'party-name-with-logo',
-	props: ['reg', 'useName', 'useShort'],
+	props: ['reg', 'useName', 'useShort', 'item'],
 	computed: {
 		src: function () {
-			return this.party && this.party.logo ? this.$store.state.server + this.party.logo : '/static/empty.png';
+			if (this.item) {
+				return this.$store.state.server + this.item.logo
+			} else {
+				return this.party && this.party.logo ? this.$store.state.server + this.party.logo : '/static/empty.png';
+			}
 		},
 		name: function () {
-			if (this.useName) {
-				return this.useName
+			if (this.item) {
+				return this.item.name
 			} else {
-				return this.party ? this.party.name : ''
+				if (this.useName) {
+					return this.useName
+				} else {
+					return this.party ? this.party.name : ''
+				}
 			}
 		},
 		short: function () {
@@ -20,13 +28,19 @@ export default {
 			}
 		},
 		link: function () {
-			return this.party ? this.party.reg + '-' + this.party.hash : '';
+			if (this.item) {
+				return this.item.link
+			} else {
+				return this.party ? this.party.reg + '-' + this.party.hash : '';
+			}
 		},
 		party: function () {
 			return this.$store.getters.getPartyByReg(Number(this.reg));
 		}
 	},
 	mounted: function () {
-		this.$store.dispatch('fetchPartyList');
+		if (!this.item) {
+			this.$store.dispatch('fetchPartyList');
+		}
 	}
 };

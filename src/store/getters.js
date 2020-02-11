@@ -1,3 +1,6 @@
+import {createColorByName, checkCandidateName} from './helpers';
+import store from '@/store/store';
+
 const getters = {
   vuexState: state => state,
   demo: (state, getters) => (id) => {
@@ -5,128 +8,89 @@ const getters = {
   }
 };
 
-getters.getRegionByNuts = (state, getters) => (nuts) => {
-  return state.static.regions.find(r => r.nuts === nuts);
+getters.getPartyByReg = (state, getters) => (reg) => {
+  return state.dynamic.partyList.find(party => party.reg === reg);
 }
 
-getters.getHierarchyByNum = (state, getters) => (num) => {
-  if (state.dynamic.hierarchy.length > 0) {
-    var obj = {
-      num: num,
-      nuts: null,
-      tree: []
-    };
+getters.getGradientForCoalition = (state, getters) => (party, name) => {
+  var color;
 
-    state.dynamic.hierarchy.forEach(area => {
-      area.list.forEach((region, index) => {
-        region.list.forEach(district => {
-          district.list.forEach(town => {
-            if (town.num === Number(num)) {
-              obj.nuts = district.nuts;
+  if (typeof party === 'object' && party.color === '#aaa' && party.coalition) {
+    var arr = [];
+    var clr = [];
 
-              obj.tree.push({type: 'země', nuts: 'CZ', name: 'Česká republika'});
-              obj.tree.push({type: 'celek', nuts: area.nuts, name: area.name});
-              obj.tree.push({type: 'kraj', nuts: region.nuts, name: region.name, index: getters.getRegionByNuts(region.nuts), list: region.list});
-              obj.tree.push({type: 'okres', nuts: district.nuts, name: district.name, list: district.list});
-              obj.tree.push({type: 'obec', num, name: town.name, list: town.list});
-            }
-
-            if (town.list) {
-              town.list.forEach(part => {
-                if (part.num === Number(num)) {
-                  obj.nuts = district.nuts;
-
-                  obj.tree.push({type: 'země', nuts: 'CZ', name: 'Česká republika'});
-                  obj.tree.push({type: 'celek', nuts: area.nuts, name: area.name});
-                  obj.tree.push({type: 'kraj', nuts: region.nuts, name: region.name, index: getters.getRegionByNuts(region.nuts), list: region.list});
-                  obj.tree.push({type: 'okres', nuts: district.nuts, name: district.name, list: district.list});
-                  obj.tree.push({type: 'město', num: town.num, name: town.name, list: town.list});
-                  obj.tree.push({type: 'část', num, name: part.name});
-                }
-              });
-            }
-          });
-        });
-      });
+    party.coalition.forEach(reg => {
+      arr.push(getters.getPartyByReg(reg).color);
     });
 
-    obj.tree[2].list.sort((a, b) => a.name.localeCompare(b.name, 'cs'));
-    obj.tree[3].list.sort((a, b) => a.name.localeCompare(b.name, 'cs'));
-    if (obj.tree[4].list) {
-      obj.tree[4].list.sort((a, b) => a.name.localeCompare(b.name, 'cs'));
-    }
+    arr.forEach((a, i) => {
+      clr.push(a + ' ' + i / (arr.length - 1) * 100 + '%');
+    });
 
-    return obj;
+    color = 'linear-gradient(20deg, ' + clr.join(', ') + ')';
+  }
+
+  if (typeof party === 'object' && party.color === '#aaa' && !party.coalition) {
+    color = party.color;
+  }
+
+  if (typeof party === 'object' && party.color !== '#aaa') {
+    color = party.color;
+  }
+
+  if (typeof party === 'number' && party === 90) {
+    color = createColorByName(name)
+  }
+
+  if (typeof party === 'number' && party === 80) {
+    color = createColorByName(checkCandidateName(name))
+  }
+
+  return color;
+}
+
+getters.getSource = (state, getters) => (source) => {
+  var lookup = state.dynamic.source.find(s => s.source === source);
+
+  if (lookup) {
+    return lookup.content;
   } else {
-    return undefined;
+    new Promise((resolve, reject) => {
+      store.dispatch('fetchSource', {
+        source: source,
+        onComplete: () => resolve(),
+        onError: () => reject(new Error('load fail'))
+      });
+    }).then((resolver, rejected) => {
+      if (rejected) {
+        return undefined;
+      } else {
+        lookup = state.dynamic.source.find(s => s.source === source);
+        return lookup.content;
+      }
+    });
   }
 }
 
-getters.getElectionDetails = (state, getters) => (type, id) => {
-  var typeData = state.static.elections.list.find(el => el.hash === type);
+getters.getPromise = (state, getters) => (source) => {
+  return new Promise((resolve, reject) => {
+    var lookup = state.dynamic.source.find(s => s.source === source);
 
-  if (typeData) {
-
-    var election = typeData.list.find(el => el.id === id);
-
-    if (election) {
-      election.name = typeData.name;
-      return election;
+    if (lookup) {
+      resolve(lookup.content);
     } else {
-      return null;
+      new Promise((resolve, reject) => {
+        store.dispatch('fetchSource', {
+          source: source,
+          onComplete: () => resolve(),
+          onError: () => reject(new Error('load fail'))
+        });
+      }).then(() => {
+        lookup = state.dynamic.source.find(s => s.source === source);
+        resolve(lookup.content);
+      });
     }
-
-  } else {
-    return null;
-  }
-}
-
-getters.getElectionGlobal = (state, getters) => (type, id, areaName, areaID) => {
-
-  var dyn = state.dynamic.elections.find(el => el.id === type + '-' + id);
-  var res;
-
-  if (areaID && dyn) {
-    var all = dyn.files.find(f => f.type === 'all-results');
-
-    if (areaName) {
-      res = all.content[areaName].find(a => a.id === areaID);
-    } else {
-      res = all.content.find(a => a.id === areaID);
-    }
-  }
-
-  if (areaID && dyn && dyn.files && !dyn.files.find(f => f.type === 'results')) {
-
-    var obj = {
-      type: 'results',
-      reg: areaID,
-      content: res
-    }
-
-    dyn.files.push(obj);
-  }
-
-  if (!res && dyn) {
-    res = dyn.files.find(f => f.type === 'results');
-  }
-
-  return dyn ? {
-    global: dyn,
-    results: res
-  } : undefined;
-}
-
-getters.getPartyList = (state, getters) => () => {
-  return state.dynamic.partyList;
-}
-
-getters.getTownByNum = (state, getters) => (num) => {
-  return state.dynamic.towns.find(town => town.id === num);
-}
-
-getters.getPartyByReg = (state, getters) => (reg) => {
-  return state.dynamic.parties.find(party => party.reg === reg) || state.dynamic.partyList.find(party => party.reg === reg);
+  })
 }
 
 export default getters;

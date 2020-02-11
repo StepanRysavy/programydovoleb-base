@@ -150,7 +150,7 @@ button, .button, .btn {
 
 .block {
 
-	padding: 2rem;
+	padding: 2rem 0;
 	position: relative;
 	max-width: 60rem;
 	margin: auto;
@@ -261,6 +261,58 @@ button, .button, .btn {
 
 .hide-40rem {
 	@media (min-width: 40rem) {
-		display: none;
+		display: none !important;
 	}
+}
+
+.show-60rem {
+	display: none;
+
+	@media (min-width: 60rem) {
+		display: inherit;
+	}
+}
+
+.hide-60rem {
+	@media (min-width: 60rem) {
+		display: none !important;
+	}
+}
+
+.stats {
+
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	ul > li {
+		padding: .5em 0;
+		display: flex;
+		align-items: baseline;
+	}
+
+	ul > li+li {
+		border-top: 1px solid #f4f4f4;
+	}
+
+	label {
+		width: 8em;
+		font-size: 9px;
+		font-weight: bold;
+		color: #888;
+		text-transform: uppercase;
+	}
+
+	label + div {
+		flex: 1;
+		padding-right: 1em;
+	}
+}
+
+.box {
+	margin: 0 -1.5rem;
+	box-shadow: 0 5px 15px #ddd;
+	padding: 1.5rem;
 }

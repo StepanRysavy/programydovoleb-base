@@ -1,28 +1,157 @@
 <div class="layout-homepage">
-	<ul class="highlight">
-		<li>
-			<div class="highlighted">
-				<a href="https://krajskevolby2020.programydovoleb.cz/">
-					<img src="/static/icon/kv2020.jpg" alt="ikona: volby do evropskeho parlamentu">
-					<span class="is-link">Krajské volby</span>
-				</a>
+	<div class="block">
+		<h1>27. března</h1>
+		<ul class="highlight">
+			<li>
+				<div class="highlighted">
+						<img src="/static/icon/senatni-volby.svg" alt="ikona: volby do krajských zastupitelstev">
+				</div>
+			</li>
+		</ul>
+		<div class="part center">
+			<h2>Doplňovací senátní volby<br>Teplice &middot; 32</h2>
+			<p>V obvodu <em>Teplice</em> se konají doplňovací volby do Senátu. 11 kandidátů se střetne ve volbách 27. a 28. března. Druhé kolo je případně hned další týden, tedy 3. a 4. dubna.</p>
+		</div>
+		<div class="part" v-if="senate20_3">
+			<div class="box">
+				<div class="box-content">
+					<table>
+						<thead>
+							<tr>
+								<th>Kandidát</th>
+								<th class="short">Program</th>
+								<th class="long">Odkazy</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(item, index) in senate20_3.list">
+								<td>
+									<person-name :data="item.name" />
+									<div class="small dimm">
+										<span v-if="item.age">{{ item.age }} let &middot;</span>
+										<span v-if="item.work">{{ item.work }} &middot;</span>
+										<div v-if="item.from && item.fromID">bydliště <outbound-link :content="item.from" :href="'https://www.polist.cz/obec/' + item.fromID" /> &middot;</div>
+										<div v-if="item.nominee">
+											nominace&nbsp;
+											<span v-if="typeof item.nominee === 'string'">{{ item.nominee }}</span>
+											<span v-if="typeof item.nominee === 'number'">
+												<party-name-with-dot :reg="item.nominee" :alwaysShort="true" />
+											</span>
+											&middot;
+										</div>
+										<div v-if="item.member">
+											<span v-if="typeof item.member === 'string'">
+												člen {{ item.member }}</span>
+											<span v-if="typeof item.member === 'number' && item.member != 99">
+													člen&nbsp;
+													<party-name-with-dot :reg="item.member" :alwaysShort="true" />
+											</span>
+										</div>
+									</div>
+								</td>
+								<td style="white-space: nowrap">
+									<div v-if="item.program">
+										<div class="icon hide-40rem">
+											<outbound-icon :href="item.program" :type="'link'" />
+										</div>
+										<outbound-link :href="item.program" class="show-40rem">Program</outbound-link>
+									</div>
+								</td>
+								<td>
+									<ul class="icons" v-if="item.links">
+										<li v-for="(link, i2) in item.links">
+											<div class="icon">
+												<outbound-icon :href="link.url" :type="link.icon || 'link'" />
+											</div>
+										</li>
+									</ul>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
-		</li>
-	</ul>
-	<div class="part center">
-		<h1>Krajské volby</h1>
-		<p>Nové krajské zastupitele vybírá všech 13 krajů kromě Prahy.</p>
-		<p>Volby běžně probíhají v říjnu, zřejmě tak bude i v roce 2020.</p>
-		<ul class="links">
-			<li><a href="https://krajskevolby2020.programydovoleb.cz" target="_blank">Jak jsme volili v roce 2016</a></li>
+		</div>
+	</div>
+	<div class="block">
+		<h1>Letos nás také čekají:</h1>
+		<ul class="highlight">
+			<li>
+				<div class="highlighted">
+					<outbound-link href="https://krajskevolby2020.programydovoleb.cz/">
+						<img src="/static/icon/krajske-volby.svg" alt="ikona: volby do krajských zastupitelstev">
+						<span class="is-link">Krajské volby</span>
+					</outbound-link>
+				</div>
+			</li>
+		</ul>
+		<div class="part center">
+			<h2>Krajské volby</h2>
+			<p>Nové krajské zastupitele vybírá všech 13 krajů kromě Prahy.</p>
+			<p>Volby běžně probíhají v říjnu, zřejmě tak bude i v roce 2020.</p>
+			<ul class="links">
+				<li><outbound-link href="https://krajskevolby2020.programydovoleb.cz/2016" target="_blank">Jak jsme volili v roce 2016</outbound-link></li>
+			</ul>
+		</div>
+	</div>
+	<div class="block">
+		<ul class="highlight">
+			<li>
+				<div class="highlighted">
+
+						<img src="/static/icon/senatni-volby.svg" alt="ikona: volby do Senátu">
+						<span class="is-link">Senátní volby</span>
+
+				</div>
+			</li>
+		</ul>
+		<div class="part center">
+			<h2>Senátní volby</h2>
+			<p>Řádné senátní volby, ve kterých vybereme nových 27 senátorů a senátorek.</p>
+			<p>Volby zřejmě proběhnou souběžně s krajskými volbami.</p>
+		</div>
+	</div>
+	<div class="block">
+		<h2>Co jsme již pokrývali</h2>
+		<ul class="flex-icons">
+			<li>
+				<outbound-link href="https://eu2019.programydovoleb.cz/" :addon="false"><img src="/static/icon/evropske-volby.svg" alt=""><br>Evropské volby<br>2019</outbound-link>
+				<br>&middot;<br>
+				<outbound-link href="https://www.polist.cz/vysledky/evropske-volby/2019" :addon="false">Výsledky</outbound-link>
+			</li>
+			<li>
+				<outbound-link href="https://senat19.programydovoleb.cz/"  :addon="false"><img src="/static/icon/senatni-volby.svg" alt=""><br>Doplňovací senátní volby<br>Duben 2019</outbound-link>
+				<br>&middot;<br>
+				<outbound-link href="https://www.polist.cz/vysledky/senatni-volby/20190405" :addon="false">Výsledky</outbound-link>
+			</li>
+			<li>
+				<outbound-link href="https://komunal18.programydovoleb.cz/"  :addon="false"><img src="/static/icon/komunalni-volby.svg" alt=""><br>Komunální volby<br>2018</outbound-link>
+				<br>&middot;<br>
+				<outbound-link href="https://www.polist.cz/vysledky/komunalni-volby/2018" :addon="false">Výsledky</outbound-link>
+			</li>
+			<li>
+				<outbound-link href="https://senat18.programydovoleb.cz/"  :addon="false"><img src="/static/icon/senatni-volby.svg" alt=""><br>Senátní volby<br>2018</outbound-link>
+				<br>&middot;<br>
+				<outbound-link href="https://www.polist.cz/vysledky/senatni-volby/20181005" :addon="false">Výsledky</outbound-link>
+			</li>
 		</ul>
 	</div>
-	<div class="part">
-		<h2>O projektu</h2>
-		<p><b>Programy do voleb</b> jsou soukromou občanskou iniciativou Štěpána Ryšavého - <a href="https://twitter.com/stepanrysavy">@stepanrysavy</a>, veškeré náklady si hradím sám, stejně tak připravuji grafiku nebo web. Nepočítám s žádnou další formou financování, nežádám o evropské granty, státní podporu, ani nebudu na stránky umisťovat reklamu. Velmi ocením, pokud pomůžete se šířením online, sdílením, komentáři, nebo i jen doporučením na vylepšení.</p>
-		<p>Číselníky a kandidátky pochází z <a href="https://www.czso.cz/csu/czso/podminky_pro_vyuzivani_a_dalsi_zverejnovani_statistickych_udaju_csu">otevřených dat Českého Statistického Úřadu</a>.</p>
-		<p>Mnoho informací ručně dohledávám. Využívám pouze volně dostupné informace ze stránek politických stran, hnutí, kandidátů, státních a evropských organizací či úřadů.</p>
-		<p>Je možné, že občas udělám chybu nebo některé údaje nebudou úplné nebo již aktuální. Když na nějakou narazíte, dejte mi prosím vědět na <a href="mailto:info@programydovoleb.cz">info@programydovoleb.cz</a></p>
-		<p>Nejsem člen žádné strany ani hnutí, ani nepracuji pro žádnou státní ani nestátní organizaci.</p>
+	<div class="block">
+		<ul class="highlight">
+			<li>
+				<div class="highlighted">
+					<a href="https://www.polist.cz">
+						<img src="/static/icon/logo-polist.svg" alt="ikona: Polist">
+					</a>
+				</div>
+			</li>
+		</ul>
+		<div class="part center">
+			<h1>Politika &middot; statistika</h1>
+			<p>Chcete se podívat volbám víc pod kůži? Zjistit, jak jsme volili před 4 roky nebo před 20? Podívejte se na projekt Polist, který mapuje a analyzuje volby od roku 1993.</p>
+			<ul class="links">
+				<li><a href="https://www.polist.cz" target="_blank">Přejít na stránky Polist.cz</a></li>
+			</ul>
+		</div>
 	</div>
 </div>

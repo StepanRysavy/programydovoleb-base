@@ -1,8 +1,6 @@
-import {PDV} from "@/store/helpers";
-
 export default {
 	name: 'logo-item',
-	props: ['reg', 'size'],
+	props: ['party', 'size', 'reg', 'color'],
 	computed: {
 		sizeValue: function () {
 			if (this.size < 10) {
@@ -11,24 +9,27 @@ export default {
 				return this.size + 'px';
 			}
 		},
-		party: function () {
-			return this.$store.state.static.previous2016.parties.list.find(p => p.reg === this.reg);
-		},
 		coalition: function () {
-			if (!this.party.coalition) return null;
+			if (!this.partyData.coalition) return null;
 
 			var list = [];
 
-			this.party.coalition.forEach(reg => {
-				var party = this.$store.state.static.previous2016.parties.list.find(p => p.reg === reg);
+			this.partyData.coalition.forEach(reg => {
+				var party = this.$store.state.dynamic.partyList.find(p => p.reg === reg);
 
 				if (party) list.push(party);
 			});
 
 			return list;
+		},
+		partyData: function () {
+			if (this.reg) {
+				return this.$store.state.dynamic.partyList.find(p => p.reg === this.reg) || this.$store.state.dynamic.partyList.find(p => p.reg === 9999);
+			} else {
+				return this.party;
+			}
 		}
 	},
 	methods: {
-		PDV
 	}
 };

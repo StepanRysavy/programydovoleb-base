@@ -1,25 +1,10 @@
-import elections from './data/obecne/info/seznam-voleb.json';
-import regions from './data/obecne/info/kv.json';
-import senate from './data/obecne/info/senatni-volby.json';
-
 const state = {
-  static: {
-    elections: elections,
-    regions,
-    senate: senate,
-    prominent: {
-      towns: [],
-      parties: [768, 53, 720, 1114, 47, 7, 1, 721, 166, 714, 5, 724]
-    }
-  },
+  static: {},
   dynamic: {
-    hierarchy: [],
-    parties: [],
     partyList: [],
-    towns: [],
-    elections: []
+    source: []
   },
-  server: 'https://data.programydovoleb.cz/',
+  server: 'https://data.polist.cz/',
   tick: 0,
   start: new Date().getTime()
 };

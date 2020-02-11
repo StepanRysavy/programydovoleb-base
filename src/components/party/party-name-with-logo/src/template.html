@@ -1,5 +1,5 @@
 <div class="party-name-with-logo">
-	<router-link :to="'/rejstrik/' + link">
+	<router-link :to="'/rejstrik/' + link" :title="name">
 		<img :src="src" :alt="name">
 		<span>
 			{{ short || name }}

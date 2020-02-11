@@ -1,0 +1,10 @@
+<div class="coalition-item">
+	<div class="coalition-item-loaded" v-if="party">
+		<party-name-with-dot :reg="party.reg" :alwaysName="true" />
+		<div class="members" v-if="party.coalition && !nameOnly">
+			<div class="member" v-for="(member, index2) in party.coalition">
+				<party-name-with-dot :reg="member" :alwaysShort="true" />
+			</div>
+		</div>
+	</div>
+</div>

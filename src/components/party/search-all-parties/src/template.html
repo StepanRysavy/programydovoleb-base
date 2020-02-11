@@ -6,28 +6,17 @@
 	</div>
 	<div class="results columns">
 		<div class="result" v-for="(result, index) in prominent" @click="clear">
-			<router-link :to="'/rejstrik/' + result.reg + '-' + result.hash">
-				<party-name-with-dot :reg="result.reg" :alwaysName="true" />
-			</router-link>
+			<party-name-with-dot :reg="result.reg" :alwaysName="true" />
 		</div>
 		<div class="result" v-for="(result, index) in others" @click="clear">
-			<router-link :to="'/rejstrik/' + result.reg + '-' + result.hash">
-				<party-name-with-dot :reg="result.reg" :alwaysName="true" />
-			</router-link>
+			<party-name-with-dot :reg="result.reg" :alwaysName="true" />
 		</div>
 	</div>
 	<template v-if="coalitionResult.length > 0">
 		<h3>Nalezeno také ve stranách koalic</h3>
 		<div class="results columns">
 			<div class="result result-coalition" v-for="(result, index) in coalitionResult">
-				<router-link :to="'/rejstrik/' + result.reg + '-' + result.hash">
-					<party-name-with-dot :reg="result.reg" :alwaysName="true" />
-				</router-link>
-				<div class="members">
-					<div class="member" v-for="(member, index2) in result.coalition">
-						<party-name-with-dot :reg="member" :alwaysShort="true" />
-					</div>
-				</div>
+				<coalition-item :reg="result.reg" />
 			</div>
 		</div>
 	</template>
