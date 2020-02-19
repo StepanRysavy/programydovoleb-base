@@ -3,6 +3,10 @@ p {
 	margin: auto;
 }
 
+h3 {
+	margin: .1em 0 .25em;
+}
+
 .highlight, .links {
 	list-style: none;
 	padding: 0;
@@ -148,6 +152,29 @@ td, th {
 	}
 }
 
+@media (max-width: 40rem) {
+	thead {
+		display: none;
+	}
+
+	table, tbody, tr, td {
+		display: block;
+	}
+
+	td {
+		border-top: none;
+		text-align: left !important;
+	}
+
+	tr + tr {
+		border-top: 1px solid #eee;
+	}
+
+	h3 {
+		margin-top: .25em;
+	}
+}
+
 .icons {
 	list-style: none;
 	margin: 0;
@@ -160,15 +187,13 @@ td, th {
 
 .icon {
 	display: inline-block;
-	margin-left: .5em;
+	margin-right: .5em;
 	position: relative;
 	top: .4em;
 }
 
-.small.dimm div {
-	@media (min-width: 40rem) {
-		display: inline;
-	}
+.info div {
+	display: inline;
 }
 
 .box-content {
