@@ -1,0 +1,173 @@
+h3 {
+  margin: 0;
+}
+
+p {
+  margin: 1em 0;
+}
+
+.link-icon {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  transform: translateY(.4em);
+  margin-right: .5em;
+}
+
+.candidate-detail {
+  position: relative;
+}
+
+.candidate-data {
+  padding-left: 3rem;
+  padding-bottom: 3rem;
+
+  .candidate-detail:not(.compact) & {
+    @media (min-width: 40rem) {
+      padding-left: 6rem;
+    }
+
+    @media (min-width: 60rem) {
+      padding-left: 10rem;
+    }
+  }
+}
+
+.candidate-image {
+  position: absolute;
+  top: 0;
+  left: -1rem;
+
+  img {
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 4px;
+
+    .candidate-detail:not(.compact) & {
+      @media (min-width: 40rem) {
+        width: 5rem;
+        height: 5rem;
+        border-radius: .5rem;
+      }
+
+      @media (min-width: 60rem) {
+        width: 8rem;
+        height: 8rem;
+        border-radius: 1rem;
+      }
+    }
+  }
+}
+
+.candidate-initials {
+  position: absolute;
+  top: 0;
+  left: -1rem;
+
+  .initials {
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 1px solid #aaa;
+    position: relative;
+
+    .candidate-detail:not(.compact) & {
+      @media (min-width: 40rem) {
+        width: 5rem;
+        height: 5rem;
+      }
+
+      @media (min-width: 60rem) {
+        width: 8rem;
+        height: 8rem;
+      }
+    }
+  }
+
+  .initials-content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1rem;
+
+    .candidate-detail:not(.compact) & {
+
+      @media (min-width: 40rem) {
+        font-size: 1.4rem;
+      }
+
+      @media (min-width: 60rem) {
+        font-size: 2rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 39.9rem) {
+  .box {
+    margin: 0;
+  }
+}
+
+.stats {
+  padding-bottom: 0;
+}
+
+.compact {
+  margin: 0 -1rem;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 1rem;
+
+  .candidate-data {
+    padding-bottom: 1rem;
+    padding-left: 4rem;
+  }
+  .box {
+    margin-left: 0;
+    padding: 0 3rem 0 0;
+    box-shadow: none;
+    border-width: 0 !important;
+  }
+  .compact-member > div {
+    @media (min-width: 40rem) {
+      display: inline-block;
+    }
+  }
+  .candidate-image,
+  .candidate-initials {
+    left: 0;
+  }
+}
+
+.compact-actions {
+  position: absolute;
+  right: -1.5rem;
+  top: 1.5rem;
+  width: 3rem;
+  text-align: right;
+
+  a, img {
+    border: none;
+    display: inline-block;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .compact & {
+    width: 6rem;
+    top: .5rem;
+    right: 0;
+  }
+
+  @media (min-width: 40rem) {
+    right: -3rem;
+  }
+}
+
+.rnd {
+  border-radius: 50%;
+}

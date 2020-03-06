@@ -1,0 +1,42 @@
+<div class="candidate-answer compact">
+	<div class="candidate-icon">
+		<div class="candidate-image" v-if="data.photo">
+			<img :src="$store.state.server + '/' + data.photo">
+		</div>
+		<div class="candidate-initials" v-if="!data.photo">
+			<div class="initials" :style="{'border-color': color, color: color}">
+				<div class="initials-content">
+					<span>{{ data.name[1].charAt(0) }}</span><span>{{ data.name[2].charAt(0) }}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="candidate-data">
+		<div class="box" :style="{'border-left': '3px solid ' + color}">
+			<div class="box-content">
+				<h3>
+					<person-name :data="data.name" />
+					<span class="compact-member dimm">
+						<span v-if="data.nominee && data.member === 99">
+							&middot; nominace&nbsp;
+							<span v-if="typeof data.nominee === 'string'">{{ data.nominee }}</span>
+							<span v-if="typeof data.nominee === 'number'">
+								<party-name-with-dot :reg="data.nominee" :alwaysShort="true" />
+							</span>
+						</span>
+						<span v-if="data.member">
+							<span v-if="typeof data.member === 'string'">
+								&middot; člen {{ data.member }}</span>
+							<span v-if="typeof data.member === 'number' && data.member != 99">
+									&middot; člen&nbsp;
+									<party-name-with-dot :reg="data.member" :alwaysShort="true" />
+							</span>
+						</span>
+					</span>
+				</h3>
+				<div class="answer" v-html="data.answers[answer]" v-if="data.answers && data.answers[answer]"></div>
+				<div class="answer dimm"v-if="!data.answers || !data.answers[answer]"><em>zatím bez odpovědi</em></div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -203,7 +203,12 @@ button, .button, .btn {
 }
 
 .columns-2 {
-	@media (min-width: 40rem) {
+
+	& > * + * {
+		border-top: 1px solid #eee;
+	}
+
+	@media (min-width: 50rem) {
 		columns: 2;
 		column-gap: 4rem;
 
@@ -211,6 +216,10 @@ button, .button, .btn {
 	    break-inside: avoid-column;
 			page-break-inside: avoid;
 	    padding-bottom: 2em;
+		}
+
+		& > * + * {
+			border-top: none;
 		}
 	}
 }
@@ -261,6 +270,20 @@ button, .button, .btn {
 
 .hide-40rem {
 	@media (min-width: 40rem) {
+		display: none !important;
+	}
+}
+
+.show-50rem {
+	display: none;
+
+	@media (min-width: 50rem) {
+		display: inherit;
+	}
+}
+
+.hide-50rem {
+	@media (min-width: 50rem) {
 		display: none !important;
 	}
 }
@@ -322,4 +345,14 @@ button, .button, .btn {
 	background: #fafafa;
 	padding: 1rem;
 	margin: 6rem 0;
+}
+
+.answer {
+	p {
+	  margin: 0;
+	}
+
+	p + p {
+	  margin-top: 1em;
+	}
 }

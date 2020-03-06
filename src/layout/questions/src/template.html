@@ -1,0 +1,35 @@
+<div class="layout-homepage">
+	<div class="block">
+		<ul class="highlight">
+			<li>
+				<div class="highlighted">
+						<img src="/static/icon/answers.svg" alt="ikona: otázky">
+				</div>
+			</li>
+		</ul>
+		<div class="part center">
+			<h1 v-if="!id">4 otázky pro kandidáty</h1>
+			<h1 v-if="id">
+				4 otázky
+			</h1>
+			<p>Doplňovací senátní volby<br>Teplice &middot; 32</p>
+		</div>
+		<div class="part" v-if="senate20_3" v-for="(q, questionIndex) in questions">
+			<h2 v-if="!id">{{ q }}</h2>
+			<candidate-fake :question="q" v-if="id" />
+			<template v-for="(data, index) in senate20_3.list" v-if="(!id || id === (betterURL(data.name[1]) + '-' + betterURL(data.name[2])))">
+				<candidate-answer :key="'cand_' + index" :data="data" :answer="questionIndex" v-if="id || (data.answers && data.answers[questionIndex])" />
+			</template>
+		</div>
+		<div class="part" v-if="id">
+			<h2>Profil kandidáta</h2>
+			<candidate-detail v-for="(data, index) in senate20_3.list" v-if="id === (betterURL(data.name[1]) + '-' + betterURL(data.name[2]))" :data="data" :key="'cand1_' + index" />
+		</div>
+	</div>
+	<div class="goto" v-if="id">
+		<router-link to="/otazky-pro-kandidaty">&larr; Porovnat odpovědi</router-link>
+	</div>
+	<div class="goto">
+		<router-link to="/">&larr; Na úvodní stránku</router-link>
+	</div>
+</div>

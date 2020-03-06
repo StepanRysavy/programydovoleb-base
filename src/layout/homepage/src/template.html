@@ -1,6 +1,6 @@
 <div class="layout-homepage">
 	<div class="block">
-		<h1>27. března</h1>
+		<h1>27. a 28. března</h1>
 		<ul class="highlight">
 			<li>
 				<div class="highlighted">
@@ -12,83 +12,19 @@
 			<h2>Doplňovací senátní volby<br>Teplice &middot; 32</h2>
 			<p>V obvodu <em>Teplice</em> se konají doplňovací volby do Senátu. 11 kandidátů se střetne ve volbách 27. a 28. března. Druhé kolo je případně hned další týden, tedy 3. a 4. dubna.</p>
 		</div>
-		<div class="part" v-if="senate20_3">
-			<div class="box">
-				<div class="box-content">
-					<table>
-						<thead>
-							<tr>
-								<th>Kandidát</th>
-								<th class="short">Program</th>
-								<th class="long">Odkazy</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-for="(item, index) in senate20_3.list">
-								<td>
-									<h3><person-name :data="item.name" /></h3>
-									<div class="info">
-										<span v-if="item.age">{{ item.age }} let</span>
-										<span v-if="item.work">&middot; {{ item.work }}</span>
-										<div v-if="item.from && item.fromID">bydliště <outbound-link :content="item.from" :href="'https://www.polist.cz/obec/' + item.fromID" /></div>
-										<div v-if="item.nominee">
-											<br>&middot; nominace&nbsp;
-											<span v-if="typeof item.nominee === 'string'">{{ item.nominee }}</span>
-											<span v-if="typeof item.nominee === 'number'">
-												<party-name-with-dot :reg="item.nominee" :alwaysShort="true" />
-											</span>
-										</div>
-										<div v-if="item.member">
-											<span v-if="typeof item.member === 'string'">
-												&middot; člen {{ item.member }}</span>
-											<span v-if="typeof item.member === 'number' && item.member != 99">
-													&middot; člen&nbsp;
-													<party-name-with-dot :reg="item.member" :alwaysShort="true" />
-											</span>
-										</div>
-										<div v-if="item.support">
-											<br>&middot;
-											<span class="hide-40rem">podpora</span>
-											<span class="show-40rem">kandidát získal podporu od</span>
-											<span v-for="(support, ix) in item.support">
-												<span v-if="typeof support === 'string'">
-													{{ support }}</span>
-												<span v-if="typeof support === 'number' && support != 99">
-														&nbsp;
-														<party-name-with-dot :reg="support" :alwaysShort="true" />
-												</span>
-											</span>
-										</div>
-									</div>
-								</td>
-								<td style="white-space: nowrap">
-									<div v-if="item.program">
-										<div class="icon">
-											<outbound-icon :href="item.program" :type="'link'" />
-										</div>
-										<outbound-link :href="item.program" :addon="false">Program</outbound-link>
-									</div>
-									<div v-if="!item.program" class="small dimm">
-										<em>program chybí</em>
-									</div>
-								</td>
-								<td>
-									<ul class="icons" v-if="item.links">
-										<li v-for="(link, i2) in item.links">
-											<div class="icon">
-												<outbound-icon :href="link.url" :type="link.icon || 'link'" />
-											</div>
-										</li>
-									</ul>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+		<div class="part">
+			<div class="btns btns-switch">
+				<button :class="{active: !compact}" @click="compact = false">Podrobně</button>
+				<button :class="{active: compact}" @click="compact = true">Kompaktně</button>
 			</div>
 		</div>
-		<br>
-		<p class="center dimm small">Kandidáti ještě musí být úředně potvrzeni. Jistotu budeme mít až na konci měsíce.</p>
+		<div class="part" v-if="senate20_3">
+			<candidate-detail v-for="(data, index) in senate20_3.list" :key="'cand_' + index" :data="data" :compact="compact" />
+
+			<div class="btns center" v-if="anyAnswers">
+				<router-link tag="button" class="button-primary" to="otazky-pro-kandidaty">Porovnat odpovědi</router-link>
+			</div>
+		</div>
 	  <div class="info-box center">
 	    <h3>Chybí něco, nebo jste našli chybu?</h3>
 	    <p>Prosím, napište na <b>info@programydovoleb.cz</b> nebo přes některou ze sociálních sítí. Co nejdříve opravíme.</p>
@@ -121,7 +57,6 @@
 				<div class="highlighted">
 
 						<img src="/static/icon/senatni-volby.svg" alt="ikona: volby do Senátu">
-						<span class="is-link">Senátní volby</span>
 
 				</div>
 			</li>
@@ -130,6 +65,87 @@
 			<h2>Senátní volby</h2>
 			<p>Řádné senátní volby, ve kterých vybereme nových 27 senátorů a senátorek.</p>
 			<p>Volby zřejmě proběhnou souběžně s krajskými volbami.</p>
+			<p>O kterých kandidátech už víme?</p>
+		</div>
+		<div class="part" v-if="senate20 && regions">
+			<collapsible-element label="Ohlášení kandidáti">
+				<div class="box">
+					<div class="box-content">
+						<table>
+							<thead>
+								<tr>
+									<th>Kandidát</th>
+									<th class="short">Obvod</th>
+									<th class="long">Odkazy</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(item, index) in senate20.list">
+									<td>
+										<h3><person-name :data="item.name" /></h3>
+										<div class="info">
+											<span v-if="item.age">{{ item.age }} let</span>
+											<span v-if="item.work">&middot; {{ item.work }}</span>
+											<div v-if="item.from && item.fromID">bydliště <outbound-link :content="item.from" :href="'https://www.polist.cz/obec/' + item.fromID" /></div>
+											<div v-if="item.nominee">
+												<br>&middot; nominace&nbsp;
+												<span v-if="typeof item.nominee === 'string'">{{ item.nominee }}</span>
+												<span v-if="typeof item.nominee === 'number'">
+													<party-name-with-dot :reg="item.nominee" :alwaysShort="true" />
+												</span>
+											</div>
+											<div v-if="item.member">
+												<span v-if="typeof item.member === 'string'">
+													&middot; člen {{ item.member }}</span>
+												<span v-if="typeof item.member === 'number' && item.member != 99">
+														&middot; člen&nbsp;
+														<party-name-with-dot :reg="item.member" :alwaysShort="true" />
+												</span>
+											</div>
+											<div v-if="item.support">
+												<br>&middot;
+												<span class="hide-40rem">podpora</span>
+												<span class="show-40rem">kandidát získal podporu od</span>
+												<span v-for="(support, ix) in item.support">
+													<span v-if="typeof support === 'string'">
+														{{ support }}</span>
+													<span v-if="typeof support === 'number' && support != 99">
+															&nbsp;
+															<party-name-with-dot :reg="support" :alwaysShort="true" />
+													</span>
+												</span>
+											</div>
+										</div>
+									</td>
+									<td style="white-space: nowrap">
+										<div v-if="item.reg">
+											<outbound-link :href="getObvod(item.reg).link" :addon="false">{{ getObvod(item.reg).name }}</outbound-link>
+										</div>
+										<div v-if="item.status" class="small dimm">
+											<em>{{ item.status }}</em>
+										</div>
+									</td>
+									<td>
+										<ul class="icons" v-if="item.links">
+											<li v-for="(link, i2) in item.links">
+												<div class="icon">
+													<outbound-icon :href="link.url" :type="link.icon || 'link'" />
+												</div>
+											</li>
+										</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<br>
+				<p class="center dimm small">Tento seznam se do léta ještě hodně rozšíří.</p>
+			  <div class="info-box center">
+			    <h3>Znáte nějakého dalšího kandidáta?</h3>
+			    <p>Prosím, napište na <b>info@programydovoleb.cz</b> nebo přes některou ze sociálních sítí. Doplníme.</p>
+			  </div>
+			</collapsible-element>
 		</div>
 	</div>
 	<div class="block">

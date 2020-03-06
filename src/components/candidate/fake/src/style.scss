@@ -1,0 +1,105 @@
+h3 {
+  margin: 0;
+
+  .compact-member {
+    font-weight: 400;
+    font-size: 12px;
+  }
+}
+
+.candidate-answer {
+  position: relative;
+  padding-top: 1rem;
+}
+
+.candidate-data {
+  padding-left: 3rem;
+}
+
+.candidate-image {
+  position: absolute;
+  top: 1rem;
+  left: -1rem;
+
+  img {
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 4px;
+  }
+}
+
+.candidate-initials {
+  position: absolute;
+  top: 1rem;
+  left: -1rem;
+
+  .initials {
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 1px solid #aaa;
+    position: relative;
+  }
+
+  .initials-content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1rem;
+  }
+}
+
+.compact {
+  margin: 0 -1rem;
+
+  .candidate-data {
+    padding-left: 4rem;
+  }
+  .candidate-data > .box {
+    margin-left: 0;
+    padding: 0 3rem 0 0;
+    box-shadow: none;
+    border-width: 0 !important;
+  }
+  .compact-member > div {
+    @media (min-width: 40rem) {
+      display: inline-block;
+    }
+  }
+  .candidate-image,
+  .candidate-initials {
+    left: 0;
+  }
+}
+
+.compact-actions {
+  position: absolute;
+  right: -1.5rem;
+  top: 1.5rem;
+  width: 3rem;
+  text-align: right;
+
+  a, img {
+    border: none;
+    display: inline-block;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .compact & {
+    width: 6rem;
+    top: .5rem;
+    right: 0;
+  }
+
+  @media (min-width: 40rem) {
+    right: -3rem;
+  }
+}
+
+.rnd {
+  border-radius: 50%;
+}

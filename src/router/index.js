@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import LayoutHomepage from '@/layout/homepage/do';
+import LayoutQuestions from '@/layout/questions/do';
 import LayoutStaticImpressum from '@/layout/static/impressum/do';
 
 Vue.use(Router);
@@ -12,6 +13,17 @@ const router = new Router({
       path: '/',
       name: 'Homepage',
       component: LayoutHomepage
+    },
+    {
+      path: '/otazky-pro-kandidaty',
+      name: 'Questions',
+      component: LayoutQuestions
+    },
+    {
+      path: '/otazky-pro-kandidaty/:id',
+      name: 'Questions',
+      component: LayoutQuestions,
+      props: true
     },
     {
       path: '/impressum',

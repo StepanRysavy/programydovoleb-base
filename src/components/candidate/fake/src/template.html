@@ -1,0 +1,17 @@
+<div class="candidate-answer compact">
+	<div class="candidate-icon">
+		<div class="candidate-image">
+			<img src="/static/icon/senatni-volby.svg">
+		</div>
+	</div>
+	<div class="candidate-data">
+		<div class="box" :style="{'border-left': '3px solid ' + color}">
+			<div class="box-content">
+				<h3>
+					Programy do voleb
+				</h3>
+				<div class="answer" v-html="question"></div>
+			</div>
+		</div>
+	</div>
+</div>

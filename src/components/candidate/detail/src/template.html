@@ -1,0 +1,129 @@
+<div class="candidate-detail" :class="{compact: compact}">
+	<div class="candidate-icon">
+		<div class="candidate-image" v-if="data.photo">
+			<img :src="$store.state.server + '/' + data.photo">
+		</div>
+		<div class="candidate-initials" v-if="!data.photo">
+			<div class="initials" :style="{'border-color': color, color: color}">
+				<div class="initials-content">
+					<span>{{ data.name[1].charAt(0) }}</span><span>{{ data.name[2].charAt(0) }}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="candidate-data">
+		<div class="box" :style="{'border-left': '3px solid ' + color}">
+			<div class="box-content">
+				<h3><person-name :data="data.name" /></h3>
+				<p v-if="!compact">
+					<span v-if="data.program">
+						<b>
+							<outbound-link :href="data.program" content="Program" :addon="false" :look="'border: none; background: ' + color + '; color: #fff; padding: .8em 1em; font-size: .9rem; border-radius: 4px'" />
+						</b>
+					</span>
+					<span v-if="!data.program">
+						<em class="dimm">program nenalezen</em>
+					</span>
+					<span v-if="data.answers">
+						<b>
+							<router-link :to="'/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" content="Program" :addon="false" :style="'border: none; background: #fc0; color: #444; padding: .8em 1em; font-size: .9rem; border-radius: 4px'">Odpovědi</router-link>
+						</b>
+					</span>
+					<span v-if="!data.answers">
+						<em class="dimm">&middot; bez odpovědí</em>
+					</span>
+				</p>
+				<div class="compact-member dimm" v-if="compact">
+					<div v-if="data.nominee">
+						&middot; nominace&nbsp;
+						<span v-if="typeof data.nominee === 'string'">{{ data.nominee }}</span>
+						<span v-if="typeof data.nominee === 'number'">
+							<party-name-with-dot :reg="data.nominee" :alwaysShort="true" />
+						</span>
+					</div>
+					<div v-if="data.member">
+						<span v-if="typeof data.member === 'string'">
+							&middot; člen {{ data.member }}</span>
+						<span v-if="typeof data.member === 'number' && data.member != 99">
+								&middot; člen&nbsp;
+								<party-name-with-dot :reg="data.member" :alwaysShort="true" />
+						</span>
+					</div>
+				</div>
+				<div class="compact-actions">
+					<outbound-link :href="data.program" :addon="false" :look="'border: none'" v-if="data.program">
+						<img src="/static/icon/www.svg" class="rnd" :style="{background: color}">
+					</outbound-link>
+					<router-link :to="'/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" v-if="data.answers">
+						<img src="/static/icon/answers.svg">
+					</router-link>
+				</div>
+				<div class="columns-2" v-if="!compact">
+					<div class="stats">
+						<ul>
+							<li v-if="data.member">
+								<label>Členství</label>
+								<div>
+									<party-name-with-dot :reg="data.member" v-if="typeof data.member === 'number'" :alwaysShort="true" />
+									<span v-if="typeof data.member === 'string'">{{ data.member }}</span>
+								</div>
+							</li>
+							<li v-if="data.nominee">
+								<label>Nominovace</label>
+								<div>
+									<party-name-with-dot :reg="data.nominee" v-if="typeof data.nominee === 'number'" :alwaysShort="true" />
+									<span v-if="typeof data.nominee === 'string'">{{ data.nominee }}</span>
+								</div>
+							</li>
+							<li v-if="data.support">
+								<label>Podpora</label>
+								<div>
+									<div v-for="(support, ix) in data.support">
+										<span v-if="typeof support === 'string'">
+											{{ support }}</span>
+										<span v-if="typeof support === 'number' && support != 99">
+											<party-name-with-dot :reg="support" :alwaysShort="true" />
+										</span>
+									</div>
+								</div>
+							</li>
+							<li v-if="data.age">
+								<label>Věk</label>
+								<div>
+									{{ data.age }} let
+								</div>
+							</li>
+							<li v-if="data.work">
+								<label>Zaměstnání</label>
+								<div>
+									{{ data.work }}
+								</div>
+							</li>
+							<li v-if="data.from && data.fromID">
+								<label>Bydliště</label>
+								<div>
+									<outbound-link :content="data.from" :href="'https://www.polist.cz/obec/' + data.fromID" />
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="stats">
+						<ul>
+							<li v-if="links.length > 0">
+								<label class="show-60rem">Odkazy</label>
+								<div>
+									<div class="col">
+										<div v-for="(link, index) in links" class="link">
+											<img :src="link.icon" alt="" class="link-icon">
+											<outbound-link :href="link.url" :content="link.name" :addon="false" />
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

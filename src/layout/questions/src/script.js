@@ -1,15 +1,26 @@
 import {betterURL} from '@/store/helpers';
+import CandidateAnswer from '@/components/candidate/answer/do';
+import CandidateFake from '@/components/candidate/fake/do';
 import CandidateDetail from '@/components/candidate/detail/do';
 
 export default {
-	name: 'layout-homepage',
+	name: 'layout-questions',
+	props: ['id'],
 	data: function () {
 		return {
 			loaded: false,
-			compact: false
+			compact: false,
+			questions: [
+				"Co se Vám podařilo za poslední dobu, na co jste hrdí?",
+				"Čeho byste chtěli dosáhnout v Senátu a na jaké téma byste se chtěli zaměřit?",
+				"Jak chcete zastavit \"odliv mozků\" z Teplicka?",
+				"Podporujete výstavbu sociálního bydlení jako jednoho z nástrojů řešení sociálního vyloučení?"
+			]
 		}
 	},
   components: {
+		CandidateAnswer,
+		CandidateFake,
 		CandidateDetail
   },
 	computed: {
@@ -27,20 +38,10 @@ export default {
 			if (this.loaded === false && !this.regions) return;
 
 			return this.$store.getters.getSource('volby/senat/20201000/kandidati')
-		},
-		anyAnswers: function () {
-			if (this.loaded === false) return false;
-
-			var res = false;
-
-			this.senate20_3.list.forEach(item => {
-				if (item.answers) res = true;
-			});
-
-			return res;
 		}
 	},
   methods: {
+		betterURL,
 		getObvod: function (reg) {
 			var obv = this.regions.list.find(o => o.id === reg);
 
@@ -56,9 +57,11 @@ export default {
   },
   mounted: function () {
     window.scrollTo(0, 0);
-    this.$store.dispatch("ga", {path: "", title: "Programy do voleb"});
+    this.$store.dispatch("ga", {title: "Odpovědi kandidátů"});
 		this.$store.dispatch('fetchPartyList', {
-			onComplete: () => this.loaded = true
-		})
+			onComplete: () => {
+				this.loaded = true;
+			}
+		});
   }
 };

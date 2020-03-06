@@ -1,3 +1,3 @@
 <span>
-	<a :href="href" :title="title || 'Otevřít stránku ' + stripURLintoDomain(href) + ' v nové záložce'" @click="handle_click" target="_blank"><slot />{{ content }}</a>&nbsp;<span class="link-addon-icon" v-if="hasAddon"><img src="/static/icon/link.svg" class="addon-icon"></span>
+	<a :href="href" :title="title || 'Otevřít stránku ' + stripURLintoDomain(href) + ' v nové záložce'" @click="handle_click" target="_blank" :style="look"><slot />{{ content }}</a>&nbsp;<span class="link-addon-icon" v-if="hasAddon"><img src="/static/icon/link.svg" class="addon-icon"></span>
 </span>

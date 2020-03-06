@@ -2,7 +2,7 @@ import {stripURLintoDomain} from "@/store/helpers";
 
 export default {
 	name: 'outbound-link',
-	props: ['href', 'title', 'content', 'addon'],
+	props: ['href', 'title', 'content', 'addon', 'look'],
 	data: function () {
 		return {}
 	},
