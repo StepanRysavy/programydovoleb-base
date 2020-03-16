@@ -3,26 +3,28 @@
 		<ul class="highlight">
 			<li>
 				<div class="highlighted">
-						<img src="/static/icon/answers.svg" alt="ikona: otázky">
+					<img src="/static/icon/senatni-volby.svg" alt="ikona: volby do krajských zastupitelstev">
+					<img src="/static/icon/answers.svg" alt="ikona: otázky" class="answer-icon">
 				</div>
 			</li>
 		</ul>
 		<div class="part center">
-			<h1 v-if="!id">4 otázky pro kandidáty</h1>
-			<h1 v-if="id">
-				4 otázky
+			<h1>
+				4 otázky<span v-if="id"> pro:<br><person-name :data="getCandidate().name" /></span>
 			</h1>
-			<p>Doplňovací senátní volby<br>Teplice &middot; 32</p>
+			<p v-if="!id">Kandidátů do Senátu jsme se zeptali na 4 otázky:</p>
+			<p v-if="id && getCandidate().answers"><a href="#profil">Přeskočit na krátký profil</a>.</p>
+			<p v-if="id && !getCandidate().answers"><person-name :data="getCandidate().name" /> zatím neodpověděl{{ getCandidate().sex === 'f' ? 'a' : '' }}.</p>
 		</div>
-		<div class="part" v-if="senate20_3" v-for="(q, questionIndex) in questions">
+		<div class="part" v-if="senate20_3 && (!id || getCandidate().answers)" v-for="(q, questionIndex) in questions">
 			<h2 v-if="!id">{{ q }}</h2>
-			<candidate-fake :question="q" v-if="id" />
+			<candidate-fake :question="getQuestion(questionIndex)" v-if="id" />
 			<template v-for="(data, index) in senate20_3.list" v-if="(!id || id === (betterURL(data.name[1]) + '-' + betterURL(data.name[2])))">
 				<candidate-answer :key="'cand_' + index" :data="data" :answer="questionIndex" v-if="id || (data.answers && data.answers[questionIndex])" />
 			</template>
 		</div>
-		<div class="part" v-if="id">
-			<h2>Profil kandidáta</h2>
+		<div class="part" v-if="id && senate20_3">
+			<h2><a name="profil"></a><person-name :data="getCandidate().name" /></h2>
 			<candidate-detail v-for="(data, index) in senate20_3.list" v-if="id === (betterURL(data.name[1]) + '-' + betterURL(data.name[2]))" :data="data" :key="'cand1_' + index" />
 		</div>
 	</div>

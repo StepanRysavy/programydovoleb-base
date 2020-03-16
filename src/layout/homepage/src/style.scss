@@ -1,6 +1,17 @@
+h1 big {
+	font-weight: bold;
+	color: #bc290e;
+	margin: 2rem 0 1rem;
+	display: block;
+}
+
 p {
 	max-width: 35rem;
 	margin: auto;
+}
+
+p + p {
+	margin-top: 1em;
 }
 
 h3 {
@@ -203,4 +214,14 @@ td, th {
 .btns-switch {
 	margin: 0;
 	padding: 0;
+}
+
+.flex {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+
+	> * {
+		width: 10rem;
+	}
 }

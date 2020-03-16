@@ -1,6 +1,5 @@
 <div class="layout-homepage">
 	<div class="block">
-		<h1>27. a 28. března</h1>
 		<ul class="highlight">
 			<li>
 				<div class="highlighted">
@@ -9,20 +8,29 @@
 			</li>
 		</ul>
 		<div class="part center">
-			<h2>Doplňovací senátní volby<br>Teplice &middot; 32</h2>
-			<p>V obvodu <em>Teplice</em> se konají doplňovací volby do Senátu. 11 kandidátů se střetne ve volbách 27. a 28. března. Druhé kolo je případně hned další týden, tedy 3. a 4. dubna.</p>
-		</div>
-		<div class="part">
-			<div class="btns btns-switch">
-				<button :class="{active: !compact}" @click="compact = false">Podrobně</button>
-				<button :class="{active: compact}" @click="compact = true">Kompaktně</button>
-			</div>
+			<h1>Doplňovací senátní volby<br>Teplice &middot; 32<br><big>&mdash; Odloženo &mdash;</big></h1>
+			<p>Z důvodu celorepublikové karantény se odkládají senátní volby. Nejsou zrušeny, pouze se mění termín. Jakmile bude možné, tak se volby uskuteční.</p>
+			<p>Níže jsou uvedeni kandidáti, odkazy na jejich programy a odpovědi na pár otázek, které jsme jim položili.</p>
 		</div>
 		<div class="part" v-if="senate20_3">
-			<candidate-detail v-for="(data, index) in senate20_3.list" :key="'cand_' + index" :data="data" :compact="compact" />
+			<div class="flex">
+				<candidate-intro v-for="(data, index) in senate20_3.list" :key="'cand_' + index" :data="data" :compact="compact" />
+			</div>
 
 			<div class="btns center" v-if="anyAnswers">
 				<router-link tag="button" class="button-primary" to="otazky-pro-kandidaty">Porovnat odpovědi</router-link>
+			</div>
+		</div>
+		<div class="part">
+			<h2>Koho se volby týkají</h2>
+			<p class="center">Volby se týkají všech obcí okresu Teplice, přesněji všech občanů, kteří v nich mají trvalý pobyt. Kompletní seznam obcí najdete níže a také na <outbound-link href="https://www.senat.cz/senat/volby/hledani/o_obvodu.php?kod=32">webu Senátu Parlamentu České republiky</outbound-link>. </p>
+			<h2>Volební průkazy</h2>
+			<p class="center">Ve volbách smíte také hlasovat pomocí volebních průkazů, ty platí ale pouze na území senátního obvodu. Můžete si o ně požádat, podobně jako u ostatních typů voleb. Kompletní informace o voličských průkazech najdete v tomto <outbound-link href="https://www.mvcr.cz/soubor/dopln-volby-do-senatu-pcr-volebni-obvod-c-32-hlasovani-na-volicsky-prukaz-pdf.aspx">dokumentu Ministerstva vnitra</outbound-link>.</p>
+			<h2>Seznam obcí</h2>
+			<div class="columns-2-3">
+				<div class="item" v-for="(item, index) in towns_sorted">
+					<outbound-link :href="'https://www.polist.cz/obec/' + item.num + '-' + betterURL(item.name)">{{ item.name }}</outbound-link>
+				</div>
 			</div>
 		</div>
 	  <div class="info-box center">

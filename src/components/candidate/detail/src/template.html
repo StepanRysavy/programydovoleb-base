@@ -1,7 +1,9 @@
 <div class="candidate-detail" :class="{compact: compact}">
 	<div class="candidate-icon">
 		<div class="candidate-image" v-if="data.photo">
-			<img :src="$store.state.server + '/' + data.photo">
+			<router-link :to="'/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" class="is-span">
+				<img :src="$store.state.server + '/' + data.photo">
+			</router-link>
 		</div>
 		<div class="candidate-initials" v-if="!data.photo">
 			<div class="initials" :style="{'border-color': color, color: color}">
@@ -14,7 +16,6 @@
 	<div class="candidate-data">
 		<div class="box" :style="{'border-left': '3px solid ' + color}">
 			<div class="box-content">
-				<h3><person-name :data="data.name" /></h3>
 				<p v-if="!compact">
 					<span v-if="data.program">
 						<b>
@@ -24,39 +25,11 @@
 					<span v-if="!data.program">
 						<em class="dimm">program nenalezen</em>
 					</span>
-					<span v-if="data.answers">
-						<b>
-							<router-link :to="'/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" content="Program" :addon="false" :style="'border: none; background: #fc0; color: #444; padding: .8em 1em; font-size: .9rem; border-radius: 4px'">Odpovědi</router-link>
-						</b>
-					</span>
-					<span v-if="!data.answers">
-						<em class="dimm">&middot; bez odpovědí</em>
-					</span>
 				</p>
-				<div class="compact-member dimm" v-if="compact">
-					<div v-if="data.nominee">
-						&middot; nominace&nbsp;
-						<span v-if="typeof data.nominee === 'string'">{{ data.nominee }}</span>
-						<span v-if="typeof data.nominee === 'number'">
-							<party-name-with-dot :reg="data.nominee" :alwaysShort="true" />
-						</span>
-					</div>
-					<div v-if="data.member">
-						<span v-if="typeof data.member === 'string'">
-							&middot; člen {{ data.member }}</span>
-						<span v-if="typeof data.member === 'number' && data.member != 99">
-								&middot; člen&nbsp;
-								<party-name-with-dot :reg="data.member" :alwaysShort="true" />
-						</span>
-					</div>
-				</div>
 				<div class="compact-actions">
 					<outbound-link :href="data.program" :addon="false" :look="'border: none'" v-if="data.program">
 						<img src="/static/icon/www.svg" class="rnd" :style="{background: color}">
 					</outbound-link>
-					<router-link :to="'/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" v-if="data.answers">
-						<img src="/static/icon/answers.svg">
-					</router-link>
 				</div>
 				<div class="columns-2" v-if="!compact">
 					<div class="stats">
@@ -119,6 +92,10 @@
 										</div>
 									</div>
 								</div>
+							</li>
+							<li>
+								<label>Číslo</label>
+								<div>{{ data.id }}</div>
 							</li>
 						</ul>
 					</div>

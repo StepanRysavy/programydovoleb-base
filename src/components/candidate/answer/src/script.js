@@ -1,4 +1,4 @@
-import {stripURLintoDomain} from '@/store/helpers';
+import {stripURLintoDomain, betterURL} from '@/store/helpers';
 
 export default {
 	name: 'candidate-answer',
@@ -27,5 +27,8 @@ export default {
 				return '#aaa';
 			}
 		}
+	},
+	methods: {
+		betterURL
 	}
 };

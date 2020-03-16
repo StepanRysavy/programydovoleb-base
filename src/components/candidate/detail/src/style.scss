@@ -44,6 +44,7 @@ p {
     width: 3rem;
     height: 3rem;
     border-radius: 4px;
+    border: 1px solid rgba(#000, .1);
 
     .candidate-detail:not(.compact) & {
       @media (min-width: 40rem) {

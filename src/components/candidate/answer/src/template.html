@@ -15,7 +15,9 @@
 		<div class="box" :style="{'border-left': '3px solid ' + color}">
 			<div class="box-content">
 				<h3>
-					<person-name :data="data.name" />
+					<router-link :to="'/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" class="is-span">
+						<person-name :data="data.name" />
+					</router-link>
 					<span class="compact-member dimm">
 						<span v-if="data.nominee && data.member === 99">
 							&middot; nominace&nbsp;
