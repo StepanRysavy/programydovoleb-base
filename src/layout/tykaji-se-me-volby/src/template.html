@@ -1,0 +1,135 @@
+<div class="layout-tykajisemevolby">
+	<div class="part" v-if="!selected">
+		<h1 class="mw20">Týkají se mě letos nějaké volby?</h1>
+		<p class="center">Prosím zadejte jméno nebo PSČ obce, kde máte trvalé bydliště podle vašeho občanského průkazu.</p>
+	</div>
+	<div class="part" v-if="!json">
+		<p class="center">Vteřinku...</p>
+	</div>
+	<div class="part" v-if="json && !selected">
+		<search-all-towns :data="json" @select="result" />
+	</div>
+	<div class="part" v-if="json && selected">
+		<h1>{{ selected[4] }}</h1>
+		<p class="center dimm">okres {{ this.json.districts.find(x => x.nuts ===  selected[2]).name }}</p>
+		<div class="election-results">
+			<img src="/static/icon/icon-against.svg" v-if="!any">
+			<img src="/static/icon/icon-check.svg" v-if="any">
+		</div>
+		<table cellpadding="0" cellspading="0" border="0">
+			<thead>
+				<tr v-if="any">
+					<th style="width: 3rem"></th>
+					<th>Volby</th>
+					<th>Datum</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-if="!any && selected[1] > -1">
+					<td colspan="4" class="center">Letos u vás žádné volby zřejmě nejsou</td>
+				</tr>
+				<tr v-if="json.elections[0].sen6.indexOf(selected[1]) > -1">
+					<td>
+						<img src="/static/icon/senatni-volby.svg" alt="">
+					</td>
+					<td>
+						Doplňovací senátní volby
+						<small class="dimm">obvod {{ this.json.senate.find(x => x.id ===  selected[1]).name }}</small>
+					</td>
+					<td>19. a 20. června</td>
+					<td class="right">
+						<div class="btns">
+							<router-link to="/" class="btn">Kdo kandiduje</router-link>
+							<outbound-link href="https://polist.cz/obvod/32-teplice" class="button button-secondary" :title="'Polist: Obvod 32'" :addon="false">Výsledky 2018</outbound-link>
+						</div>
+					</td>
+				</tr>
+				<tr v-if="json.elections[0].kom6.indexOf(selected[0]) > -1">
+					<td>
+						<img src="/static/icon/komunalni-volby.svg" alt="">
+					</td>
+					<td>
+						Komunální volby
+						<small class="dimm">nové volby</small>
+					</td>
+					<td>20. června</td>
+					<td class="right">
+						<div class="btns">
+							<outbound-link :href="'https://polist.cz/obec/' + selected[0] + '-' + betterURL(selected[4])" class="button button-secondary" :title="'Polist: ' + selected[4]" :addon="false">Výsledky 2018</outbound-link>
+						</div>
+					</td>
+				</tr>
+				<tr v-if="json.elections[0].sen10.indexOf(selected[1]) > -1">
+					<td>
+						<img src="/static/icon/senatni-volby.svg" alt="">
+					</td>
+					<td>
+						Senátní volby
+						<small class="dimm">obvod {{ this.json.senate.find(x => x.id ===  selected[1]).name }}</small>
+					</td>
+					<td>2. a 3. října</td>
+					<td class="right">
+						<div class="btns">
+							<outbound-link :href="'https://senat.cz/senat/volby/hledani/o_obvodu.php?kod=' + selected[1]" class="button" :title="'Senát, ' + 'obvod ' + selected[1]" :addon="false">Obvod {{ selected[1] }}</outbound-link>
+							<outbound-link :href="'https://polist.cz/obvod/' + selected[1]" class="button button-secondary" :title="'Polist: ' + 'Obvod ' + selected[1]" :addon="false">Výsledky 2014</outbound-link>
+						</div>
+					</td>
+				</tr>
+				<tr v-if="json.elections[0].kr10.indexOf(selected[2].substring(0, 5)) > -1">
+					<td>
+						<img src="/static/icon/krajske-volby.svg" alt="">
+					</td>
+					<td>
+						Krajské volby
+						<small class="dimm">{{ this.json.regions.find(x => x.nuts ===  selected[2].substring(0, 5)).name }}</small>
+					</td>
+					<td>2. a 3. října</td>
+					<td class="right">
+						<div class="btns">
+							<outbound-link :href="'https://krajskevolby2020.programydovoleb.cz/' + betterURL(region.name)" class="button" :title="'Krajské volby: ' + region.name" :addon="false">Kdo kandiduje</outbound-link>
+							<outbound-link :href="'https://polist.cz/vysledky/krajske-volby/2016/' + json.regions.indexOf(region) + '-' + betterURL(region.name)" class="button button-secondary" :title="'Polist: ' + region.name" :addon="false">Výsledky 2016</outbound-link>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="part part-border" v-if="selected">
+		<div v-if="selected[2] === 'CZ0100'">
+			<h3>Senátní obvody v Praze</h3>
+			<p>Senátní obvody v Praze jsou poměrně neintuitivně členěné. </p>
+			<h4>Obvod 21 &middot; Praha 5</h4>
+			<p>Obvod zahrnuje území městské části Praha 5, s výjimkou části k. ú. Malá Strana, ležící na území městské části Praha 5. Dále zahrnuje území městských částí Praha 13, Praha-Řeporyje.</p>
+			<div class="btns">
+				<outbound-link :href="'https://senat.cz/senat/volby/hledani/o_obvodu.php?kod=' + 21" :title="'Senát, obvod 21'" class="button">Více o senátním obvodu</outbound-link>
+			</div>
+			<h4>Obvod 24 &middot; Praha 9</h4>
+			<p>Obvod zahrnuje území městské části Praha 9, s výjimkou k. ú. Hrdlořezy, k. ú. Hloubětín, části k. ú. Malešice ležícími na území městské části Praha 9. Dále zahrnuje území městských částí Praha 14, Praha 19, Praha 20, Praha 21, Praha-Běchovice, Praha-Dolní Počernice, Praha-Klánovice, Praha-Koloděje, Praha-Satalice, Praha-Vinoř.</p>
+			<div class="btns">
+				<outbound-link :href="'https://senat.cz/senat/volby/hledani/o_obvodu.php?kod=' + 24" :title="'Senát, obvod 24'" class="button">Více o senátním obvodu</outbound-link>
+			</div>
+			<h4>Obvod 27 &middot; Praha 1</h4>
+			<p>Obvod zahrnuje území městských částí Praha 1, Praha 7, Praha-Suchdol a Praha-Troja. Dále zahrnuje část území městské části Praha 2, tvořenou k. ú. Nové Město a k. ú. Vyšehrad, část území městské části Praha 5, tvořenou částí k. ú. Malá Strana ležící na území městské části Praha 5, a část území městské části Praha 6, tvořenou k. ú. Střešovice, částí k. ú. Hradčany, částí k. ú. Bubeneč a částí k. ú. Sedlec, ležícími na území městské části Praha 6.</p>
+			<div class="btns">
+				<outbound-link :href="'https://senat.cz/senat/volby/hledani/o_obvodu.php?kod=' + 27" :title="'Senát, obvod 27'" class="button">Více o senátním obvodu</outbound-link>
+			</div>
+		</div>
+		<div v-if="selected[1] === -1">
+			<h3>Senátní volby</h3>
+			<p>Na území města {{ selected[4] }} je více senátních obvodů a pouze v některých se volby konají. Je proto lepší vybrat městskou čtvť.</p>
+			<div class="btns">
+				<button @click="reset">Nové hledání</button>
+			</div>
+		</div>
+	</div>
+	<div class="part part-border" v-if="selected">
+		<div class="btns center">
+			<outbound-link href="https://www.facebook.com/pg/ProgramyDoVoleb/events/" :title="'Facebook, události'" class="button button-plain" v-if="any">FB událost</outbound-link>
+			<outbound-link :href="'https://polist.cz/obec/' + selected[0] + '-' + betterURL(selected[4])" class="button button-plain" :title="'Polist, obec ' + selected[4]">Historie voleb v obci {{ selected[4] }}</outbound-link>
+		</div>
+		<div class="btns center">
+			<span class="button button-secondary red" @click="reset"><span class="red">Vybrat jinou obec &times;</span></span>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,16 @@
+<div class="search-all-towns">
+	<div class="form">
+		<div class="form-input center">
+			<input type="search" v-model="query" class="form-input-text" placeholder="Obec nebo PSČ">
+		</div>
+	</div>
+	<div class="results columns">
+		<div class="result" v-for="(result, index) in queryResults" @click="select(result)">
+			<strong class="is-link">{{ result.name }}</strong><span v-if="result.town">&middot; část {{ result.town }}</span>
+			<br>
+			<span class="small">
+				<span>okr. {{ result.district }}</span>
+			</span>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,82 @@
+<div class="results-people">
+	<div class="loaded box" v-if="global.data && hasSecondRound">
+		<div class="box-content box-content-large">
+			<h4>Druhé kolo</h4>
+			<br>
+			<graph-duel :data="round2" :local="!!stats.local" v-if="hasSecondRound && globalResults.round2.attended > 0" />
+			<span v-if="hasSecondRound && globalResults.round2.attended ===  0">čekáme na první výsledky</span>
+		</div>
+		<div class="box-content" v-if="hasSecondRound">
+			<h4>Výsledky a statistiky</h4>
+			<div class="stats">
+				<ul>
+					<li>
+						<label>Účast</label>
+						<div>
+							{{ stats.local ? stats.local.round2.pct : stats.global.round2.pct || 0 }} %
+							<span v-if="stats.local" class="dimm">
+								&middot;
+								{{ stats.global.round2.pct }} % celkem
+							</span>
+						</div>
+					</li>
+					<li>
+						<label>Voličů</label>
+						<div>
+							{{ beautifyNumber(stats.local ? stats.local.round2.attended : stats.global.round2.attended) }}
+							<span v-if="stats.local" class="dimm">
+								&middot;
+								{{ beautifyNumber(stats.global.round2.attended) }} celkem
+							</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="box-content" v-if="hasSecondRound">
+			<collapsible-element label="Kompletní výsledky">
+				<table-people :data="round2" />
+			</collapsible-element>
+		</div>
+	</div>
+	<div class="loaded box" v-if="global.data">
+		<div class="box-content box-content-large">
+			<h4>První kolo</h4>
+			<graph-people :data="round1" :local="!!stats.local" />
+		</div>
+		<div class="box-content">
+			<div class="round round-1">
+				<h4>Výsledky a statistiky</h4>
+				<div class="stats">
+					<ul>
+						<li>
+							<label>Účast</label>
+							<div>
+								{{ stats.local ? stats.local.round1.pct : stats.global.round1.pct }} %
+								<span v-if="stats.local" class="dimm">
+									&middot;
+									{{ stats.global.round1.pct }} % celkem
+								</span>
+							</div>
+						</li>
+						<li>
+							<label>Voličů</label>
+							<div>
+								{{ beautifyNumber(stats.local ? stats.local.round1.attended : stats.global.round1.attended) }}
+								<span v-if="stats.local" class="dimm">
+									&middot;
+									{{ beautifyNumber(stats.global.round1.attended) }} celkem
+								</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="box-content">
+			<collapsible-element label="Kompletní výsledky">
+				<table-people :data="round1" />
+			</collapsible-element>
+		</div>
+	</div>
+</div>

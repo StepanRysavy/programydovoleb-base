@@ -1,24 +1,102 @@
 <div class="layout-homepage">
 	<div class="block">
-		<ul class="highlight">
+		<!-- <ul class="highlight">
 			<li>
 				<div class="highlighted">
 						<img src="/static/icon/senatni-volby.svg" alt="ikona: volby do krajských zastupitelstev">
 				</div>
 			</li>
-		</ul>
+		</ul> -->
 		<div class="part center">
-			<h1>Doplňovací senátní volby<br>Teplice &middot; 32<br><big>&mdash; Odloženo &mdash;</big></h1>
-			<p>Z důvodu celorepublikové karantény se odkládají senátní volby. Nejsou zrušeny, pouze se mění termín. Jakmile bude možné, tak se volby uskuteční.</p>
-			<p>Níže jsou uvedeni kandidáti, odkazy na jejich programy a odpovědi na pár otázek, které jsme jim položili.</p>
+			<h1>Doplňovací senátní volby<br>Teplice &middot; 32<!--<br><big>5. a 6. června</big>--></h1>
 		</div>
-		<div class="part" v-if="senate20_3">
-			<div class="flex">
-				<candidate-intro v-for="(data, index) in senate20_3.list" :key="'cand_' + index" :data="data" :compact="compact" />
-			</div>
+		<div class="part results" v-if="results && senate20_3 && resultsByTown">
+			<h2>Výsledky</h2>
+			<results-people :global="results" :reg="32" :table="true" />
+		</div>
+		<div class="part" v-if="senate20_3 && senate20_3.list">
+			<h2>Druhé kolo</h2>
+			<list-of-candidates :candidates="senate20_3.list.filter(x => x.id === 5 || x.id === 9)" />
+		</div>
+		<div class="part show-60rem" v-if="resultsByTown && senate20_3">
+			<h2>Výsledky podle obcí</h2>
+			<collapsible-element label="Druhé kolo" :open="true">
+				<p class="center">Druhý údaj je zisk v prvním kole. <br><br></p>
+				<table class="table-second">
+					<thead>
+						<tr>
+							<th>Obec</th>
+							<th v-for="(cand, ic) in senate20_3.list.filter(x => x.id === 5 || x.id === 9)">
+								<person-icon :data="cand" :size="3" :color="color(cand)"></person-icon>
+								<div class="dimm small center limit">{{ cand.name[1].charAt(0) }}. {{ cand.name[2] }}</div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(town, it) in resultsByTown">
+							<td>
+								<outbound-link :href="'https://www.polist.cz/obec/' + town.num + '-' + betterURL(town.name)" :title="town.name">
+									{{ town.name }}
+								</outbound-link>
+							</td>
+							<td v-for="(cand, ic) in town.round2">
+								<div class="value">
+									<div class="value-graph" :style="{background: color(senate20_3.list.find(x => x.id === cand.id)), width: cand.pct + '%'}" :class="{first: ic === 0}"></div>
+									<div class="value-number">
+										{{ cand.pct }} % &middot; <span class="dimm small">{{ cand.votes }} hlasů</span>
+									</div>
+									<div class="value-number small">
+										{{ town.round1.find(x => x.id === cand.id).pct }} % &middot; <span class="dimm">{{town.round1.find(x => x.id === cand.id).votes }} hlasů</span>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</collapsible-element>
+			<collapsible-element label="První kolo">
+				<table class="table-first">
+					<thead>
+						<tr>
+							<th>Obec</th>
+							<th v-for="(cand, ic) in senate20_3.list">
+								<person-icon :data="cand" :size="3" :color="color(cand)"></person-icon>
+								<div class="dimm small center limit">{{ cand.name[1].charAt(0) }}. {{ cand.name[2] }}</div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(town, it) in resultsByTown">
+							<td>
+								<outbound-link :href="'https://www.polist.cz/obec/' + town.num + '-' + betterURL(town.name)" :title="town.name">
+									{{ town.name }}
+								</outbound-link>
 
+							</td>
+							<td v-for="(cand, ic) in town.round1">
+								<div class="value">
+									<div class="value-graph" :style="{background: color(senate20_3.list[ic]), width: cand.pct + '%'}"></div>
+									<div class="value-number small">
+										{{ cand.pct }} %
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</collapsible-element>
+		</div>
+		<div class="part">
+			<h2>Kandidáti</h2>
+		</div>
+	  <div class="part" v-if="senate20_3 && senate20_3.list">
+	    <list-of-candidates :candidates="senate20_3.list" />
+	  </div>
+		<div class="part" v-if="senate20_3">
 			<div class="btns center" v-if="anyAnswers">
-				<router-link tag="button" class="button-primary" to="otazky-pro-kandidaty">Porovnat odpovědi</router-link>
+				<router-link class="button" to="otazky-pro-kandidaty">Porovnat odpovědi</router-link>
+				<br><br>
+				<outbound-link class="button button-primary" href="https://volebnikalkulacka.cz/" :addon="false">Volební kalkulačka</outbound-link>
 			</div>
 		</div>
 		<div class="part">
@@ -38,6 +116,27 @@
 	    <p>Prosím, napište na <b>info@programydovoleb.cz</b> nebo přes některou ze sociálních sítí. Co nejdříve opravíme.</p>
 	  </div>
 	</div>
+	<share-block />
+	<div class="goto">
+		<router-link to="/tykaji-se-me-volby">Týkají se mě volby?</router-link>
+	</div>
+	<div class="goto">
+		<outbound-link href="https://krajskevolby2020.programydovoleb.cz/">
+			Kdo kandiduje v krajských volbách?
+		</outbound-link>
+	</div>
+	<div class="goto">
+		<outbound-link href="https://senatnivolby2020.programydovoleb.cz/">
+			Kdo kandiduje v podzimních senátních volbách?
+		</outbound-link>
+	</div>
+	<!--
+	<div class="block block-promo">
+		<h1>Půjdu letos k volbám?</h1>
+		<div class="btns center">
+			<router-link to="tykaji-se-me-volby" class="button button-primary">Zjistit</router-link>
+		</div>
+	</div>
 	<div class="block">
 		<h1>Letos nás také čekají:</h1>
 		<ul class="highlight">
@@ -55,105 +154,35 @@
 			<p>Nové krajské zastupitele vybírá všech 13 krajů kromě Prahy.</p>
 			<p>Volby běžně probíhají v říjnu, zřejmě tak bude i v roce 2020.</p>
 			<ul class="links">
-				<li><outbound-link href="https://krajskevolby2020.programydovoleb.cz/2016" target="_blank">Jak jsme volili v roce 2016</outbound-link></li>
+				<li><outbound-link href="https://krajskevolby2020.programydovoleb.cz" class="button">Kdo bude kandidovat?</outbound-link></li>
+				<li><outbound-link href="https://krajskevolby2020.programydovoleb.cz/2016" class="button button-plain">Jak jsme volili v roce 2016</outbound-link></li>
 			</ul>
 		</div>
+	  <div class="part">
+	    <outbound-link href="https://forms.gle/g2mZFH7UFK343Uev5" :addon="false" title="Dotazník ke krajským volbám">
+	      <img src="/static/banner.png" alt="Dotazník" width="100%">
+	    </outbound-link>
+	  </div>
 	</div>
 	<div class="block">
 		<ul class="highlight">
 			<li>
 				<div class="highlighted">
-
+					<outbound-link href="https://senatnivolby2020.programydovoleb.cz/" :title="'Senátní volby'">
 						<img src="/static/icon/senatni-volby.svg" alt="ikona: volby do Senátu">
-
+						<span class="is-link">Senátní volby</span>
+					</outbound-link>
 				</div>
 			</li>
 		</ul>
 		<div class="part center">
 			<h2>Senátní volby</h2>
 			<p>Řádné senátní volby, ve kterých vybereme nových 27 senátorů a senátorek.</p>
-			<p>Volby zřejmě proběhnou souběžně s krajskými volbami.</p>
+			<p>Volby proběhnou souběžně s krajskými volbami.</p>
 			<p>O kterých kandidátech už víme?</p>
-		</div>
-		<div class="part" v-if="senate20 && regions">
-			<collapsible-element label="Ohlášení kandidáti">
-				<div class="box">
-					<div class="box-content">
-						<table>
-							<thead>
-								<tr>
-									<th>Kandidát</th>
-									<th class="short">Obvod</th>
-									<th class="long">Odkazy</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="(item, index) in senate20.list">
-									<td>
-										<h3><person-name :data="item.name" /></h3>
-										<div class="info">
-											<span v-if="item.age">{{ item.age }} let</span>
-											<span v-if="item.work">&middot; {{ item.work }}</span>
-											<div v-if="item.from && item.fromID">bydliště <outbound-link :content="item.from" :href="'https://www.polist.cz/obec/' + item.fromID" /></div>
-											<div v-if="item.nominee">
-												<br>&middot; nominace&nbsp;
-												<span v-if="typeof item.nominee === 'string'">{{ item.nominee }}</span>
-												<span v-if="typeof item.nominee === 'number'">
-													<party-name-with-dot :reg="item.nominee" :alwaysShort="true" />
-												</span>
-											</div>
-											<div v-if="item.member">
-												<span v-if="typeof item.member === 'string'">
-													&middot; člen {{ item.member }}</span>
-												<span v-if="typeof item.member === 'number' && item.member != 99">
-														&middot; člen&nbsp;
-														<party-name-with-dot :reg="item.member" :alwaysShort="true" />
-												</span>
-											</div>
-											<div v-if="item.support">
-												<br>&middot;
-												<span class="hide-40rem">podpora</span>
-												<span class="show-40rem">kandidát získal podporu od</span>
-												<span v-for="(support, ix) in item.support">
-													<span v-if="typeof support === 'string'">
-														{{ support }}</span>
-													<span v-if="typeof support === 'number' && support != 99">
-															&nbsp;
-															<party-name-with-dot :reg="support" :alwaysShort="true" />
-													</span>
-												</span>
-											</div>
-										</div>
-									</td>
-									<td style="white-space: nowrap">
-										<div v-if="item.reg">
-											<outbound-link :href="getObvod(item.reg).link" :addon="false">{{ getObvod(item.reg).name }}</outbound-link>
-										</div>
-										<div v-if="item.status" class="small dimm">
-											<em>{{ item.status }}</em>
-										</div>
-									</td>
-									<td>
-										<ul class="icons" v-if="item.links">
-											<li v-for="(link, i2) in item.links">
-												<div class="icon">
-													<outbound-icon :href="link.url" :type="link.icon || 'link'" />
-												</div>
-											</li>
-										</ul>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<br>
-				<p class="center dimm small">Tento seznam se do léta ještě hodně rozšíří.</p>
-			  <div class="info-box center">
-			    <h3>Znáte nějakého dalšího kandidáta?</h3>
-			    <p>Prosím, napište na <b>info@programydovoleb.cz</b> nebo přes některou ze sociálních sítí. Doplníme.</p>
-			  </div>
-			</collapsible-element>
+			<ul class="links">
+				<li><outbound-link href="https://senatnivolby2020.programydovoleb.cz" class="button" :title="'Senátní volby'">Kdo bude kandidovat?</outbound-link></li>
+			</ul>
 		</div>
 	</div>
 	<div class="block">
@@ -198,5 +227,5 @@
 				<li><a href="https://www.polist.cz" target="_blank">Přejít na stránky Polist.cz</a></li>
 			</ul>
 		</div>
-	</div>
+	</div> -->
 </div>

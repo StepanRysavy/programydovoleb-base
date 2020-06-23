@@ -1,0 +1,89 @@
+img {
+  display: block;
+  width: 3rem;
+  height: 3rem;
+}
+
+.mw20, p.center {
+  max-width: 20rem;
+  margin: auto;
+}
+
+h1 + p {
+  margin: 0rem 0 3rem;
+}
+
+td {
+  vertical-align: middle;
+
+  h4 {
+    margin: 0;
+  }
+}
+
+small {
+  display: block;
+}
+
+.btns {
+  margin: 0;
+}
+
+.layout-tykajisemevolby {
+  min-height: 60vh;
+}
+
+@media (max-width: 50rem) {
+  table, tr, td, tbody {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  td:first-child:not([colspan]) {
+    float: left;
+    width: 6rem;
+
+    img {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 2rem;
+      border: 1px solid #eee;
+    }
+  }
+
+  tr {
+    padding: 1rem 0;
+    border-top: 1px solid #eee;
+  }
+
+  td {
+    border: none;
+  }
+
+  table .btns {
+    // display: block;
+    text-align: center;
+    margin-top: 2px;
+  }
+}
+
+.part-border {
+  border-top: 1px solid #eee;
+}
+
+.part-border + .part-border {
+  border-top: none;
+}
+
+.election-results {
+  text-align: center;
+
+  img {
+    display: inline-block;
+    width: 4rem;
+    height: 4rem;
+  }
+}

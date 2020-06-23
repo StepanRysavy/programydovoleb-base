@@ -1,4 +1,4 @@
-import {stripURLintoDomain} from '@/store/helpers';
+import {stripURLintoDomain} from '@/common/helpers';
 
 export default {
 	name: 'candidate-fake',

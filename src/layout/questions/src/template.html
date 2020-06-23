@@ -1,35 +1,81 @@
 <div class="layout-homepage">
 	<div class="block">
 		<ul class="highlight">
-			<li>
+			<li v-if="!id">
 				<div class="highlighted">
 					<img src="/static/icon/senatni-volby.svg" alt="ikona: volby do krajských zastupitelstev">
+					<img src="/static/icon/answers.svg" alt="ikona: otázky" class="answer-icon">
+				</div>
+			</li>
+			<li v-if="id && getCandidate">
+				<div class="highlighted">
+					<person-icon :data="getCandidate" :color="color(getCandidate)" />
 					<img src="/static/icon/answers.svg" alt="ikona: otázky" class="answer-icon">
 				</div>
 			</li>
 		</ul>
 		<div class="part center">
 			<h1>
-				4 otázky<span v-if="id"> pro:<br><person-name :data="getCandidate().name" /></span>
+				<person-name :data="getCandidate.name" v-if="getCandidate" />
 			</h1>
+			<p v-if="id && getCandidate" class="intro">
+				<person-name :data="getCandidate.name" /> je kandidát{{ getCandidate.sex === 'f' ? 'a' : ''}} do Senátu v obvodě Teplice s volebním číslem {{ getCandidate.id }}.
+				<span v-if="getCandidate.member != 99">
+					Je {{ getCandidate.sex === 'f' ? 'členkou' : 'členem'}} <party-polist :reg="getCandidate.member" :breakpoint="1000" />.
+				</span>
+				<span v-if="getCandidate.member === 99 && getCandidate.nominee">
+					Kandiduje jako nestraník s nominací od <party-polist :reg="getCandidate.nominee" :breakpoint="1000" />.
+				</span>
+				<span v-if="getCandidate.support">
+					Podporu {{ getCandidate.sex === 'f' ? 'získala' : 'získal'}} od <party-polist :reg="member" :breakpoint="1000" :key="'c' + index" v-for="(member, index) in getCandidate.support" />.
+				</span>
+				Je {{ getCandidate.sex === 'f' ? 'jí' : 'mu'}} {{ getCandidate.age }} let a jako své bydliště {{ getCandidate.sex === 'f' ? 'uvedla' : 'uvedl' }} obec {{ getCandidate.from }}. Pracuje jako {{ getCandidate.work }}. {{ getCandidate.sex === 'f' ? 'Její' : 'Jeho' }} <a href="#profil">profil</a> <span v-if="getCandidate.audio">a <a href="#audio">audio medailonek</a></span> najdete na stránce níže. <person-name :data="getCandidate.name" /> na zaslané otázky {{ !getCandidate.answers ? 'ne' : '' }}odpověděl{{ getCandidate.sex === 'f' ? 'a' : '' }}.
+			</p>
+			<p v-if="id && getCandidate">
+				<br><outbound-link :href="getCandidate.program" content="Volební program" :addon="false" :look="'border: none; background: ' + color(getCandidate) + '; color: #fff; border-radius: 4px'" class="button button-primary" />
+			</p>
+
 			<p v-if="!id">Kandidátů do Senátu jsme se zeptali na 4 otázky:</p>
-			<p v-if="id && getCandidate().answers"><a href="#profil">Přeskočit na krátký profil</a>.</p>
-			<p v-if="id && !getCandidate().answers"><person-name :data="getCandidate().name" /> zatím neodpověděl{{ getCandidate().sex === 'f' ? 'a' : '' }}.</p>
 		</div>
-		<div class="part" v-if="senate20_3 && (!id || getCandidate().answers)" v-for="(q, questionIndex) in questions">
-			<h2 v-if="!id">{{ q }}</h2>
-			<candidate-fake :question="getQuestion(questionIndex)" v-if="id" />
+		<div class="part" v-if="id && getCandidate && getCandidate.answers">
+			<h2 v-if="id" :style="{'margin-bottom': 0}">4 otázky pro kandidáta do Senátu</h2>
+		</div>
+		<div class="part" v-for="(q, qIndex) in [2, 3, 1, 0]" v-if="senate20_3 && (!id || getCandidate && getCandidate.answers)">
+			<h2 v-if="!id">{{ questions[q] }}</h2>
+			<candidate-fake :question="getQuestion(q)" v-if="id" />
 			<template v-for="(data, index) in senate20_3.list" v-if="(!id || id === (betterURL(data.name[1]) + '-' + betterURL(data.name[2])))">
-				<candidate-answer :key="'cand_' + index" :data="data" :answer="questionIndex" v-if="id || (data.answers && data.answers[questionIndex])" />
+				<candidate-answer :key="'cand_' + index" :data="data" :answer="q" v-if="id || (data.answers && data.answers[q])" />
 			</template>
 		</div>
 		<div class="part" v-if="id && senate20_3">
-			<h2><a name="profil"></a><person-name :data="getCandidate().name" /></h2>
+			<h2><a name="profil"></a>Profil</h2>
 			<candidate-detail v-for="(data, index) in senate20_3.list" v-if="id === (betterURL(data.name[1]) + '-' + betterURL(data.name[2]))" :data="data" :key="'cand1_' + index" />
+		</div>
+		<div class="part" v-if="id && senate20_3">
+			<h2><a name="audio"></a>Audio medailonek</h2>
+			<div id="script" v-html="audio"></div>
+		</div>
+	</div>
+	<share-block />
+	<div class="block" v-if="id && senate20_3 && senate20_3.list">
+		<div class="list">
+			<ul class="columns">
+				<li v-for="(cand, index) in senate20_3.list">
+					<router-link :to="'/otazky-pro-kandidaty/' + betterURL(cand.name[1] + ' ' + cand.name[2])" class="no-border">
+						<person-name :data="cand.name" />
+					</router-link>
+					<div class="small">
+						<party-polist :reg="cand.member" :breakpoint="1000" />
+					</div>
+				</li>
+			</ul>
 		</div>
 	</div>
 	<div class="goto" v-if="id">
-		<router-link to="/otazky-pro-kandidaty">&larr; Porovnat odpovědi</router-link>
+		<router-link to="/otazky-pro-kandidaty">Porovnat odpovědi &rarr;</router-link>
+	</div>
+	<div class="goto" v-if="id">
+		<outbound-link href="https://volebnikalkulacka.cz/" :addon="false">Volební kalkulačka &rarr;</outbound-link>
 	</div>
 	<div class="goto">
 		<router-link to="/">&larr; Na úvodní stránku</router-link>

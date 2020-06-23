@@ -1,50 +1,21 @@
 <div class="candidate-detail" :class="{compact: compact}">
-	<div class="candidate-icon">
-		<div class="candidate-image" v-if="data.photo">
-			<router-link :to="'/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" class="is-span">
-				<img :src="$store.state.server + '/' + data.photo">
-			</router-link>
-		</div>
-		<div class="candidate-initials" v-if="!data.photo">
-			<div class="initials" :style="{'border-color': color, color: color}">
-				<div class="initials-content">
-					<span>{{ data.name[1].charAt(0) }}</span><span>{{ data.name[2].charAt(0) }}</span>
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="candidate-data">
 		<div class="box" :style="{'border-left': '3px solid ' + color}">
 			<div class="box-content">
-				<p v-if="!compact">
-					<span v-if="data.program">
-						<b>
-							<outbound-link :href="data.program" content="Program" :addon="false" :look="'border: none; background: ' + color + '; color: #fff; padding: .8em 1em; font-size: .9rem; border-radius: 4px'" />
-						</b>
-					</span>
-					<span v-if="!data.program">
-						<em class="dimm">program nenalezen</em>
-					</span>
-				</p>
-				<div class="compact-actions">
-					<outbound-link :href="data.program" :addon="false" :look="'border: none'" v-if="data.program">
-						<img src="/static/icon/www.svg" class="rnd" :style="{background: color}">
-					</outbound-link>
-				</div>
-				<div class="columns-2" v-if="!compact">
+				<div class="columns-2" v-if="!compact && !hp">
 					<div class="stats">
 						<ul>
 							<li v-if="data.member">
 								<label>Členství</label>
 								<div>
-									<party-name-with-dot :reg="data.member" v-if="typeof data.member === 'number'" :alwaysShort="true" />
+									<party-polist :reg="data.member" v-if="typeof data.member === 'number'" :breakpoint="1000" />
 									<span v-if="typeof data.member === 'string'">{{ data.member }}</span>
 								</div>
 							</li>
 							<li v-if="data.nominee">
 								<label>Nominovace</label>
 								<div>
-									<party-name-with-dot :reg="data.nominee" v-if="typeof data.nominee === 'number'" :alwaysShort="true" />
+									<party-polist :reg="data.nominee" v-if="typeof data.nominee === 'number'" :breakpoint="1000" />
 									<span v-if="typeof data.nominee === 'string'">{{ data.nominee }}</span>
 								</div>
 							</li>
@@ -55,7 +26,7 @@
 										<span v-if="typeof support === 'string'">
 											{{ support }}</span>
 										<span v-if="typeof support === 'number' && support != 99">
-											<party-name-with-dot :reg="support" :alwaysShort="true" />
+											<party-polist :reg="support" :breakpoint="1000" />
 										</span>
 									</div>
 								</div>
@@ -88,7 +59,7 @@
 									<div class="col">
 										<div v-for="(link, index) in links" class="link">
 											<img :src="link.icon" alt="" class="link-icon">
-											<outbound-link :href="link.url" :content="link.name" :addon="false" />
+											<outbound-link :href="link.url" :title="link.type + ' ' + data.name[2]" :addon="false">{{ link.name }}</outbound-link>
 										</div>
 									</div>
 								</div>
@@ -102,5 +73,9 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="part">
+		<p v-if="data.wiki" v-html="data.wiki.content"></p>
+		<p v-if="data.wiki" class="small">Zdroj: <outbound-link :href="data.wiki.link">Wikipedia</outbound-link></p>
 	</div>
 </div>

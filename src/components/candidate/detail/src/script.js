@@ -1,18 +1,26 @@
-import {stripURLintoDomain, betterURL} from '@/store/helpers';
+import {stripURLintoDomain, betterURL} from '@/common/helpers';
 
 export default {
 	name: 'candidate-detail',
-	props: ['data', 'compact'],
+	props: ['data', 'compact', 'hp'],
 	computed: {
 		links: function () {
 			var list = [];
+
+			list.push({
+				icon: '/static/icon/link.svg',
+				url: this.data.program,
+				name: 'Volební program',
+				type: 'program'
+			});
 
 			if (this.data.links) {
 				this.data.links.forEach(link => {
 					var obj = {
 						icon: '/static/icon/' + (link.icon || 'link') + '.svg',
 						url: link.url,
-						name: link.label
+						name: link.label,
+						type: (link.icon || '').toUpperCase()
 					};
 
 					if (!link.icon && !link.label) {

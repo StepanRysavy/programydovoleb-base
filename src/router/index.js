@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import LayoutHomepage from '@/layout/homepage/do';
+import LayoutTykaji from '@/layout/tykaji-se-me-volby/do';
 import LayoutQuestions from '@/layout/questions/do';
 import LayoutStaticImpressum from '@/layout/static/impressum/do';
 
@@ -13,6 +14,11 @@ const router = new Router({
       path: '/',
       name: 'Homepage',
       component: LayoutHomepage
+    },
+    {
+      path: '/tykaji-se-me-volby',
+      name: 'Tykaji',
+      component: LayoutTykaji
     },
     {
       path: '/otazky-pro-kandidaty',

@@ -225,3 +225,49 @@ td, th {
 		width: 10rem;
 	}
 }
+
+.block-promo {
+	background: #f7f7f7;
+	border-top: 3px solid #003399;
+	border-bottom: 3px solid #003399;
+}
+
+.value {
+	position: relative;
+}
+
+.value-graph {
+	position: absolute;
+	left: 0;
+	top: -.5em;
+	bottom: -.5em;
+	opacity: .5;
+
+	&.first {
+		right: 0;
+		left: auto;
+	}
+}
+
+.value-number {
+	position: relative;
+	z-index: 2;
+}
+
+.limit {
+	width: 3rem;
+	white-space: normal;
+	margin: 1em 0;
+}
+
+.table-second {
+	td:nth-child(2) {
+		padding-right: 0;
+	}
+	td:nth-child(3) {
+		padding-left: 0;
+	}
+	.value-graph {
+		opacity: .2;
+	}
+}

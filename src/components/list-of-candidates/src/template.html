@@ -1,0 +1,43 @@
+<div class="list-of-candidates">
+	<div class="list">
+		<ul>
+			<li v-for="(cand, index) in candidates">
+				<div class="item">
+					<div class="photo">
+						<person-icon :data="cand" :size="5" class="show-40rem" :color="color(cand)" />
+						<person-icon :data="cand" :size="3" class="hide-40rem" :color="color(cand)" />
+						<div class="tiny-icon" v-if="cand.answers">
+							<img src="/static/icon/answers.svg" alt="ikona: otázky" class="answer-icon">
+						</div>
+					</div>
+					<div class="candidate fm">
+						<h3>
+							<router-link :to="'/otazky-pro-kandidaty/' + betterURL(cand.name[1] + ' ' + cand.name[2])">
+								{{ cand.name[1] }} {{ cand.name[2] }}
+							</router-link>
+						</h3>
+						<div>
+							{{ cand.age }} let,
+							{{ cand.work }},
+							<span v-if="cand.member != 99">
+								<span>člen&nbsp;</span>
+								<party-polist :reg="cand.member" :breakpoint="1000" />
+							</span>
+							<span v-if="cand.member === 99">
+								nestraník
+							</span>
+						</div>
+						<div class="actions">
+							<outbound-link :addon="false" class="button button-plain" :href="cand.program">Program</outbound-link>
+							<router-link :to="'/otazky-pro-kandidaty/' + betterURL(cand.name[1] + ' ' + cand.name[2])" class="button button-plain">Profil</router-link>
+						</div>
+					</div>
+					<div class="logo">
+						<logo-item :data="$store.getters.getPartyByReg(cand.member)" v-if="cand.member != 99" :size="{small: 3, large: 4, breakpoint: 40}" />
+						<logo-item :data="$store.getters.getPartyByReg(member)" v-for="(member, i3) in cand.support" :key="'i32_' + i3" :size="{small: 3, large: 4, breakpoint: 40}" />
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>

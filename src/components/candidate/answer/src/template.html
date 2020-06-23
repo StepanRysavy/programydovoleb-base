@@ -1,15 +1,6 @@
 <div class="candidate-answer compact">
 	<div class="candidate-icon">
-		<div class="candidate-image" v-if="data.photo">
-			<img :src="$store.state.server + '/' + data.photo">
-		</div>
-		<div class="candidate-initials" v-if="!data.photo">
-			<div class="initials" :style="{'border-color': color, color: color}">
-				<div class="initials-content">
-					<span>{{ data.name[1].charAt(0) }}</span><span>{{ data.name[2].charAt(0) }}</span>
-				</div>
-			</div>
-		</div>
+		<person-icon :data="data" :size="3" />
 	</div>
 	<div class="candidate-data">
 		<div class="box" :style="{'border-left': '3px solid ' + color}">
@@ -23,7 +14,7 @@
 							&middot; nominace&nbsp;
 							<span v-if="typeof data.nominee === 'string'">{{ data.nominee }}</span>
 							<span v-if="typeof data.nominee === 'number'">
-								<party-name-with-dot :reg="data.nominee" :alwaysShort="true" />
+								<party-polist :reg="data.nominee" :breakpoint="1000" />
 							</span>
 						</span>
 						<span v-if="data.member">
@@ -31,7 +22,7 @@
 								&middot; člen {{ data.member }}</span>
 							<span v-if="typeof data.member === 'number' && data.member != 99">
 									&middot; člen&nbsp;
-									<party-name-with-dot :reg="data.member" :alwaysShort="true" />
+									<party-polist :reg="data.member" :breakpoint="1000" />
 							</span>
 						</span>
 					</span>

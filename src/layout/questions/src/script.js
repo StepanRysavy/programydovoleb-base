@@ -1,4 +1,4 @@
-import {betterURL} from '@/store/helpers';
+import {betterURL, color} from '@/common/helpers';
 import CandidateAnswer from '@/components/candidate/answer/do';
 import CandidateFake from '@/components/candidate/fake/do';
 import CandidateDetail from '@/components/candidate/detail/do';
@@ -46,10 +46,21 @@ export default {
 			if (this.loaded === false && !this.regions) return;
 
 			return this.$store.getters.getSource('volby/senat/20201000/kandidati')
+		},
+		getCandidate: function () {
+			if (!this.senate20_3) return undefined;
+
+			return this.senate20_3.list.find(data => this.id === (betterURL(data.name[1]) + '-' + betterURL(data.name[2])))
+		},
+		audio: function () {
+			if (!this.getCandidate.audio) return '';
+
+			return '<script>if(typeof(window.jsScriptOutputted)=="undefined"){var jsScriptOutputted=true;var jsScript=document.createElement("script");jsScript.type="text/javascript";jsScript.src="https://sever.rozhlas.cz/sites/all/libraries/responsive-external-embeds/cro_responsiveexternalembeds.min.js";jsScript.onload=function(){};document.head.appendChild(jsScript);}</script><iframe name="embed-8162935" class="cro-embed__parent" frameBorder="0" scrolling="no" allowfullscreen src="https://sever.rozhlas.cz/cro_soundmanager/files/' + this.getCandidate.audio + '/field_main_audio"></iframe>'
 		}
 	},
   methods: {
 		betterURL,
+		color,
 		getObvod: function (reg) {
 			var obv = this.regions.list.find(o => o.id === reg);
 
@@ -62,11 +73,8 @@ export default {
 
 			return;
 		},
-		getCandidate: function () {
-			return this.senate20_3.list.find(data => this.id === (betterURL(data.name[1]) + '-' + betterURL(data.name[2])))
-		},
 		getQuestion: function (index) {
-			var cand = this.getCandidate();
+			var cand = this.getCandidate;
 
 			if (cand.sex === "f" && index < 2) {
 				return this.questionsF[index];
@@ -78,7 +86,9 @@ export default {
 		},
 		ga: function () {
 	    window.scrollTo(0, 0);
-	    this.$store.dispatch("ga", {title: "Odpovědi kandidátů"});
+			setTimeout(() => {
+	    	this.$store.dispatch("ga", {title: this.id && this.getCandidate ? (this.getCandidate.name[1] + ' ' + this.getCandidate.name[2] + ', profil kandidáta do Senátu') : "Odpovědi kandidátů"});
+			}, 100);
 		}
   },
   mounted: function () {

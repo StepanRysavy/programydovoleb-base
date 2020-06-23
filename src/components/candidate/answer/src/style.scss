@@ -16,17 +16,10 @@ h3 {
   padding-left: 3rem;
 }
 
-.candidate-image {
+.candidate-icon {
   position: absolute;
   top: 1rem;
-  left: -1rem;
-
-  img {
-    display: block;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 4px;
-  }
+  left: 0;
 }
 
 .candidate-initials {

@@ -1,4 +1,4 @@
-import {stripURLintoDomain, betterURL} from '@/store/helpers';
+import {stripURLintoDomain, betterURL} from '@/common/helpers';
 
 export default {
 	name: 'candidate-answer',

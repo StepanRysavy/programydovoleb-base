@@ -1,4 +1,4 @@
-import {createColorByName, checkCandidateName} from './helpers';
+import {createColorByName} from '@/common/helpers';
 import store from '@/store/store';
 
 const getters = {
@@ -43,7 +43,7 @@ getters.getGradientForCoalition = (state, getters) => (party, name) => {
   }
 
   if (typeof party === 'number' && party === 80) {
-    color = createColorByName(checkCandidateName(name))
+    color = createColorByName(name)
   }
 
   return color;

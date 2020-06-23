@@ -1,45 +1,15 @@
 <div id="app">
-	<div class="main">
-		<div class="block">
-		    <router-view></router-view>
-		</div>
-		<footer class="block">
-			<ul class="footer">
-				<li>
-					<div class="footer-content">
-						<h4>Programy do voleb</h4>
-						<p class="footer-link"><em>Programy do voleb</em> tvoří <outbound-link href="https://twitter.com/stepanrysavy" content="Štěpán Ryšavý" /></p>
-						<p class="footer-link">Číselníky a kandidátky vycházejí z&nbsp;<outbound-link href="https://www.czso.cz/csu/czso/podminky_pro_vyuzivani_a_dalsi_zverejnovani_statistickych_udaju_csu" content="otevřených dat ČSÚ" />, všechna data jsou také volně dostupná na <outbound-link href="https://github.com/ProgramyDoVoleb/public" content="GitHubu" />.</p>
-						<p class="footer-link">Veškeré náklady na tvorbu webu, grafiky nebo reklamu či sociální sítě si hradím sám.</p>
-					</div>
-				</li>
-				<li>
-					<div class="footer-content">
-						<h4>Více informací</h4>
-						<ul class="footer-menu">
-							<li><outbound-link href="https://krajskevolby2020.programydovoleb.cz" content="Krajské volby 2020" class="footer-link" /></li>
-							<li><outbound-link href="https://eu2019.programydovoleb.cz" content="Evropské volby 2019" class="footer-link" /></li>
-							<li><outbound-link href="https://komunal18.programydovoleb.cz" content="Komunální volby 2018" class="footer-link" /></li>
-							<li><outbound-link href="https://senat18.programydovoleb.cz" content="Senátní volby 2018" class="footer-link" /></li>
-						</ul>
-					</div>
-				</li>
-				<li>
-					<div class="footer-content">
-						<h4>Kontakt:</h4>
-						<p><a mailto="info@programydovoleb.cz" class="footer-link">info@programydovoleb.cz</a></p>
-						<div class="social-share">
-							<outbound-icon href="https://www.facebook.com/programydovoleb" type="fb" />
-							<outbound-icon href="https://www.twitter.com/programydovoleb" type="tw" />
-							<outbound-icon href="https://www.instagram.com/programydovoleb" type="ig" />
-						</div>
-					</div>
-				</li>
-				<li>
-					<div class="footer-content">
-					</div>
-				</li>
-			</ul>
-		</footer>
-	</div>
+	<main-header name="Doplňovací volby do Senátu" />
+	<main class="block">
+		<router-view></router-view>
+	</main>
+	<main-footer>
+		<h4><router-link to="/">Programy do voleb</router-link></h4>
+		<ul class="footer-menu dark-links">
+			<li><router-link to="/tykaji-se-me-volby">Týkají se mě volby?</router-link></li>
+			<li><outbound-link href="https://krajskevolby2020.programydovoleb.cz" :addon="false" title="Krajské volby">Krajské volby</outbound-link></li>
+			<li><outbound-link href="https://senatnivolby2020.programydovoleb.cz" :addon="false" title="Senátní volby">Senátní volby</outbound-link></li>
+			<li><outbound-link href="https://polist.cz" :addon="false" title="Politika, Statistika">Polist</outbound-link></li>
+		</ul>
+	</main-footer>
 </div>

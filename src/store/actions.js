@@ -3,6 +3,8 @@ import state from './state';
 
 const server = state.server;
 
+const antiCache = 'c=' + Math.round(new Date().getTime() / 1000000);
+
 const actions = {};
 
 actions.ga = function (context, payload) {
@@ -16,6 +18,18 @@ actions.ga = function (context, payload) {
     window.gtag('config', 'UA-4347750-19', {'page_path': payload.path, 'page_title': payload.title});
   } else {
     console.log('GA:', '/' + payload.path, ' : ', payload.title);
+  }
+};
+
+actions.ge = function (context, payload) {
+  if (window.gtag) {
+    window.gtag('event', payload.action, {
+      'event_category': payload.category || 'general',
+      'event_label': payload.label || '(not set)',
+      'value': payload.value || 1
+    });
+  } else {
+    console.log('GA Event:', payload);
   }
 };
 
@@ -41,7 +55,7 @@ actions.fetchSource = function (context, payload) {
     if (payload && payload.onComplete) payload.onComplete();
   } else {
     try {
-      axios.get(server + payload.source + '.json').then(response => {
+      axios.get(server + payload.source + '.json?' + antiCache).then(response => {
         context.commit('fetchSource', {
           source: payload.source,
           content: response.data

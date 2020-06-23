@@ -1,5 +1,6 @@
 @import "./reset.css";
 @import "./type.scss";
+@import "./table.scss";
 
 * {
 	box-sizing: border-box;
@@ -30,6 +31,10 @@ a, .is-link {
 	}
 }
 
+.dark-links a {
+	color: #000;
+}
+
 .btns {
 	margin: 1rem 0 0;
 }
@@ -55,12 +60,12 @@ button, .button, .btn {
 	}
 
 	&.button-secondary {
-		border-color: #ffcc00;
+		border-color: #eee;
 		color: #003399;
 
 		&:hover {
-			background: rgba(#ffcc00, .1);
-			border-color: darken(#ffcc00, 5%);
+			background: #f7f7f7;
+			border-color: #ddd;
 		}
 	}
 
@@ -150,10 +155,10 @@ button, .button, .btn {
 
 .block {
 
-	padding: 2rem 0;
-	position: relative;
-	max-width: 60rem;
-	margin: auto;
+	padding: 2rem;
+  position: relative;
+  max-width: 60rem;
+  margin: auto;
 
 	& + .block {
 		border-top: 1px solid #eee;
@@ -373,5 +378,92 @@ button, .button, .btn {
 
 	p + p {
 	  margin-top: 1em;
+	}
+}
+
+.split-1-1 {
+	display: flex;
+	flex-wrap: wrap;
+
+	& > * {
+		width: 100%;
+	}
+
+	@media (min-width: 40rem) {
+		& > :first-child {
+			width: 50%;
+		}
+
+		& > :last-child {
+			width: 50%;
+		}
+	}
+}
+
+.split-2-3 {
+	display: flex;
+	flex-wrap: wrap;
+
+	& > * {
+		width: 100%;
+	}
+
+	@media (min-width: 40rem) {
+		& > :first-child {
+			width: 40%;
+		}
+
+		& > :last-child {
+			width: 60%;
+		}
+	}
+}
+
+.split-2-1 {
+	display: flex;
+	flex-wrap: wrap;
+
+	& > * {
+		width: 100%;
+	}
+
+	@media (min-width: 40rem) {
+		& > :first-child {
+			width: 67%;
+		}
+
+		& > :last-child {
+			width: 33%;
+		}
+	}
+}
+
+.split-1-2 {
+	display: flex;
+	flex-wrap: wrap;
+
+	& > * {
+		width: 100%;
+	}
+
+	@media (min-width: 40rem) {
+		& > :first-child {
+			width: 33%;
+		}
+
+		& > :last-child {
+			width: 67%;
+		}
+	}
+}
+
+
+
+iframe {
+	width: 100%;
+	height: 20rem;
+
+	@media (min-width: 40rem) {
+		height: 35rem;
 	}
 }
