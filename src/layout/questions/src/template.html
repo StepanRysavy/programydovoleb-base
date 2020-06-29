@@ -61,7 +61,7 @@
 		<div class="list">
 			<ul class="columns">
 				<li v-for="(cand, index) in senate20_3.list">
-					<router-link :to="'/otazky-pro-kandidaty/' + betterURL(cand.name[1] + ' ' + cand.name[2])" class="no-border">
+					<router-link :to="'/senatni-volby-2020-cerven/otazky-pro-kandidaty/' + betterURL(cand.name[1] + ' ' + cand.name[2])" class="no-border">
 						<person-name :data="cand.name" />
 					</router-link>
 					<div class="small">
@@ -72,12 +72,9 @@
 		</div>
 	</div>
 	<div class="goto" v-if="id">
-		<router-link to="/otazky-pro-kandidaty">Porovnat odpovědi &rarr;</router-link>
-	</div>
-	<div class="goto" v-if="id">
-		<outbound-link href="https://volebnikalkulacka.cz/" :addon="false">Volební kalkulačka &rarr;</outbound-link>
+		<router-link to="/senatni-volby-2020-cerven/otazky-pro-kandidaty">Porovnat odpovědi &rarr;</router-link>
 	</div>
 	<div class="goto">
-		<router-link to="/">&larr; Na úvodní stránku</router-link>
+		<router-link to="/senatni-volby-2020-cerven">&larr; Na úvodní stránku</router-link>
 	</div>
 </div>

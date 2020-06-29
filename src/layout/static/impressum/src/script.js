@@ -7,8 +7,7 @@ export default {
 	components: {},
 	methods: {},
 	mounted: function () {
-    	this.$store.dispatch("ga", {path: "impressum", title: "Impressum"});
+    	this.$store.dispatch("ga", {title: "O projektu Programy do voleb"});
 		window.scrollTo(0, 0);
 	}
 };
-

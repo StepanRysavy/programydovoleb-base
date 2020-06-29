@@ -1,0 +1,105 @@
+<div class="layout-homepage">
+	<div class="block">
+		<!-- <ul class="highlight">
+			<li>
+				<div class="highlighted">
+						<img src="/static/icon/senatni-volby.svg" alt="ikona: volby do krajských zastupitelstev">
+				</div>
+			</li>
+		</ul> -->
+		<div class="part center">
+			<h1>Doplňovací senátní volby<br>Teplice &middot; 32<!--<br><big>5. a 6. června</big>--></h1>
+		</div>
+		<div class="part results" v-if="results && senate20_3 && resultsByTown">
+			<h2>Výsledky</h2>
+			<results-people :global="results" :reg="32" :table="true" />
+		</div>
+		<div class="part" v-if="senate20_3 && senate20_3.list">
+			<h2>Druhé kolo</h2>
+			<list-of-candidates :candidates="senate20_3.list.filter(x => x.id === 5 || x.id === 9)" />
+		</div>
+		<div class="part show-60rem" v-if="resultsByTown && senate20_3">
+			<h2>Výsledky podle obcí</h2>
+			<collapsible-element label="Druhé kolo" :open="true">
+				<p class="center">Druhý údaj je zisk v prvním kole. <br><br></p>
+				<table class="table-second">
+					<thead>
+						<tr>
+							<th>Obec</th>
+							<th v-for="(cand, ic) in senate20_3.list.filter(x => x.id === 5 || x.id === 9)">
+								<person-icon :data="cand" :size="3" :color="color(cand)"></person-icon>
+								<div class="dimm small center limit">{{ cand.name[1].charAt(0) }}. {{ cand.name[2] }}</div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(town, it) in resultsByTown">
+							<td>
+								<outbound-link :href="'https://www.polist.cz/obec/' + town.num + '-' + betterURL(town.name)" :title="town.name">
+									{{ town.name }}
+								</outbound-link>
+							</td>
+							<td v-for="(cand, ic) in town.round2">
+								<div class="value">
+									<div class="value-graph" :style="{background: color(senate20_3.list.find(x => x.id === cand.id)), width: cand.pct + '%'}" :class="{first: ic === 0}"></div>
+									<div class="value-number">
+										{{ cand.pct }} % &middot; <span class="dimm small">{{ cand.votes }} hlasů</span>
+									</div>
+									<div class="value-number small">
+										{{ town.round1.find(x => x.id === cand.id).pct }} % &middot; <span class="dimm">{{town.round1.find(x => x.id === cand.id).votes }} hlasů</span>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</collapsible-element>
+			<collapsible-element label="První kolo">
+				<table class="table-first">
+					<thead>
+						<tr>
+							<th>Obec</th>
+							<th v-for="(cand, ic) in senate20_3.list">
+								<person-icon :data="cand" :size="3" :color="color(cand)"></person-icon>
+								<div class="dimm small center limit">{{ cand.name[1].charAt(0) }}. {{ cand.name[2] }}</div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(town, it) in resultsByTown">
+							<td>
+								<outbound-link :href="'https://www.polist.cz/obec/' + town.num + '-' + betterURL(town.name)" :title="town.name">
+									{{ town.name }}
+								</outbound-link>
+
+							</td>
+							<td v-for="(cand, ic) in town.round1">
+								<div class="value">
+									<div class="value-graph" :style="{background: color(senate20_3.list[ic]), width: cand.pct + '%'}"></div>
+									<div class="value-number small">
+										{{ cand.pct }} %
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</collapsible-element>
+		</div>
+		<div class="part">
+			<h2>Kandidáti</h2>
+		</div>
+	  <div class="part" v-if="senate20_3 && senate20_3.list">
+	    <list-of-candidates :candidates="senate20_3.list" />
+	  </div>
+		<div class="part" v-if="senate20_3">
+			<div class="btns center" v-if="anyAnswers">
+				<router-link class="button" to="/senatni-volby-2020-cervenotazky-pro-kandidaty">Porovnat odpovědi</router-link>
+			</div>
+		</div>
+	</div>
+	<share-block />
+	<div class="goto">
+		&larr; <router-link to="/">Zpět na úvodní stránku</router-link>
+	</div>
+</div>

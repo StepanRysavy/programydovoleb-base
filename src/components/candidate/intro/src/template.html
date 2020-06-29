@@ -1,12 +1,12 @@
 <div class="candidate-detail center" :class="{'has-photo': data.photo}">
 	<div class="candidate-icon">
 		<div class="candidate-image" v-if="data.photo">
-			<router-link :to="'/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" class="is-span">
+			<router-link :to="'/senatni-volby-2020-cerven/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" class="is-span">
 				<img :src="$store.state.server + '/' + data.photo">
 			</router-link>
 		</div>
 		<div class="candidate-initials" v-if="!data.photo">
-			<router-link :to="'/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" class="is-span" tag="div" style="border: none">
+			<router-link :to="'/senatni-volby-2020-cerven/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" class="is-span" tag="div" style="border: none">
 				<div class="initials" :style="{'border-color': color, color: color}">
 					<div class="initials-content">
 						<span>{{ data.name[1].charAt(0) }}</span><span>{{ data.name[2].charAt(0) }}</span>
@@ -19,7 +19,7 @@
 		<div class="box" :style="{'border-left': '3px solid ' + color}">
 			<div class="box-content">
 				<h3>
-					<router-link :to="'/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" class="is-span">
+					<router-link :to="'/senatni-volby-2020-cerven/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" class="is-span">
 						<person-name :data="data.name" />
 					</router-link>
 				</h3>
@@ -34,7 +34,7 @@
 					</span>
 					<span v-if="data.answers">
 						<b>
-							<router-link :to="'/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" content="Program" :addon="false" :style="'border: none; background: #fc0; color: #444; padding: .8em 1em; font-size: .9rem; border-radius: 4px'">Odpovědi</router-link>
+							<router-link :to="'/senatni-volby-2020-cerven/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" content="Program" :addon="false" :style="'border: none; background: #fc0; color: #444; padding: .8em 1em; font-size: .9rem; border-radius: 4px'">Odpovědi</router-link>
 						</b>
 					</span>
 					<span v-if="!data.answers">
@@ -50,7 +50,7 @@
 					</div>
 				</div>
 				<div class="compact-actions">
-					<router-link :to="'/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" v-if="data.answers">
+					<router-link :to="'/senatni-volby-2020-cerven/otazky-pro-kandidaty/' + betterURL(data.name[1]) + '-' + betterURL(data.name[2])" v-if="data.answers">
 						<img src="/static/icon/answers.svg">
 					</router-link>
 				</div>

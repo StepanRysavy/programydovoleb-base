@@ -12,7 +12,7 @@
 					</div>
 					<div class="candidate fm">
 						<h3>
-							<router-link :to="'/otazky-pro-kandidaty/' + betterURL(cand.name[1] + ' ' + cand.name[2])">
+							<router-link :to="'/senatni-volby-2020-cerven/otazky-pro-kandidaty/' + betterURL(cand.name[1] + ' ' + cand.name[2])">
 								{{ cand.name[1] }} {{ cand.name[2] }}
 							</router-link>
 						</h3>
@@ -29,7 +29,7 @@
 						</div>
 						<div class="actions">
 							<outbound-link :addon="false" class="button button-plain" :href="cand.program">Program</outbound-link>
-							<router-link :to="'/otazky-pro-kandidaty/' + betterURL(cand.name[1] + ' ' + cand.name[2])" class="button button-plain">Profil</router-link>
+							<router-link :to="'/senatni-volby-2020-cerven/otazky-pro-kandidaty/' + betterURL(cand.name[1] + ' ' + cand.name[2])" class="button button-plain">Profil</router-link>
 						</div>
 					</div>
 					<div class="logo">

@@ -248,6 +248,27 @@ button, .button, .btn {
 	}
 }
 
+.columns-3 {
+	@media (min-width: 40rem) {
+		columns: 2;
+		column-gap: 2rem;
+
+		& > * {
+	    break-inside: avoid-column;
+			page-break-inside: avoid;
+	    padding-bottom: .2em;
+		}
+	}
+
+	@media (min-width: 50rem) {
+		columns: 3;
+
+		.stats & li:first-child {
+			border-top: 1px solid #f4f4f4;
+		}
+	}
+}
+
 .links-icons {
 	padding: .5rem 0;
 
@@ -340,21 +361,34 @@ button, .button, .btn {
 		align-items: baseline;
 	}
 
-	ul > li+li {
+	&.heavy ul > li {
+		padding: 1em 0;
+	}
+
+	ul > li {
 		border-top: 1px solid #f4f4f4;
 	}
 
 	label {
-		width: 8em;
-		font-size: 9px;
+		width: 3.5rem;
+		font-size: 10px;
 		font-weight: bold;
 		color: #888;
 		text-transform: uppercase;
+
+		@media (min-width: 40rem) {
+			width: 6rem;
+		}
 	}
 
 	label + div {
 		flex: 1;
 		padding-right: 1em;
+	}
+
+	div + label {
+		text-align: right;
+		flex: 1;
 	}
 }
 

@@ -1,231 +1,156 @@
 <div class="layout-homepage">
-	<div class="block">
-		<!-- <ul class="highlight">
-			<li>
-				<div class="highlighted">
-						<img src="/static/icon/senatni-volby.svg" alt="ikona: volby do krajských zastupitelstev">
-				</div>
-			</li>
-		</ul> -->
-		<div class="part center">
-			<h1>Doplňovací senátní volby<br>Teplice &middot; 32<!--<br><big>5. a 6. června</big>--></h1>
-		</div>
-		<div class="part results" v-if="results && senate20_3 && resultsByTown">
-			<h2>Výsledky</h2>
-			<results-people :global="results" :reg="32" :table="true" />
-		</div>
-		<div class="part" v-if="senate20_3 && senate20_3.list">
-			<h2>Druhé kolo</h2>
-			<list-of-candidates :candidates="senate20_3.list.filter(x => x.id === 5 || x.id === 9)" />
-		</div>
-		<div class="part show-60rem" v-if="resultsByTown && senate20_3">
-			<h2>Výsledky podle obcí</h2>
-			<collapsible-element label="Druhé kolo" :open="true">
-				<p class="center">Druhý údaj je zisk v prvním kole. <br><br></p>
-				<table class="table-second">
-					<thead>
-						<tr>
-							<th>Obec</th>
-							<th v-for="(cand, ic) in senate20_3.list.filter(x => x.id === 5 || x.id === 9)">
-								<person-icon :data="cand" :size="3" :color="color(cand)"></person-icon>
-								<div class="dimm small center limit">{{ cand.name[1].charAt(0) }}. {{ cand.name[2] }}</div>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="(town, it) in resultsByTown">
-							<td>
-								<outbound-link :href="'https://www.polist.cz/obec/' + town.num + '-' + betterURL(town.name)" :title="town.name">
-									{{ town.name }}
-								</outbound-link>
-							</td>
-							<td v-for="(cand, ic) in town.round2">
-								<div class="value">
-									<div class="value-graph" :style="{background: color(senate20_3.list.find(x => x.id === cand.id)), width: cand.pct + '%'}" :class="{first: ic === 0}"></div>
-									<div class="value-number">
-										{{ cand.pct }} % &middot; <span class="dimm small">{{ cand.votes }} hlasů</span>
-									</div>
-									<div class="value-number small">
-										{{ town.round1.find(x => x.id === cand.id).pct }} % &middot; <span class="dimm">{{town.round1.find(x => x.id === cand.id).votes }} hlasů</span>
-									</div>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</collapsible-element>
-			<collapsible-element label="První kolo">
-				<table class="table-first">
-					<thead>
-						<tr>
-							<th>Obec</th>
-							<th v-for="(cand, ic) in senate20_3.list">
-								<person-icon :data="cand" :size="3" :color="color(cand)"></person-icon>
-								<div class="dimm small center limit">{{ cand.name[1].charAt(0) }}. {{ cand.name[2] }}</div>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="(town, it) in resultsByTown">
-							<td>
-								<outbound-link :href="'https://www.polist.cz/obec/' + town.num + '-' + betterURL(town.name)" :title="town.name">
-									{{ town.name }}
-								</outbound-link>
-
-							</td>
-							<td v-for="(cand, ic) in town.round1">
-								<div class="value">
-									<div class="value-graph" :style="{background: color(senate20_3.list[ic]), width: cand.pct + '%'}"></div>
-									<div class="value-number small">
-										{{ cand.pct }} %
-									</div>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</collapsible-element>
-		</div>
-		<div class="part">
-			<h2>Kandidáti</h2>
-		</div>
-	  <div class="part" v-if="senate20_3 && senate20_3.list">
-	    <list-of-candidates :candidates="senate20_3.list" />
-	  </div>
-		<div class="part" v-if="senate20_3">
-			<div class="btns center" v-if="anyAnswers">
-				<router-link class="button" to="otazky-pro-kandidaty">Porovnat odpovědi</router-link>
-				<br><br>
-				<outbound-link class="button button-primary" href="https://volebnikalkulacka.cz/" :addon="false">Volební kalkulačka</outbound-link>
-			</div>
-		</div>
-		<div class="part">
-			<h2>Koho se volby týkají</h2>
-			<p class="center">Volby se týkají všech obcí okresu Teplice, přesněji všech občanů, kteří v nich mají trvalý pobyt. Kompletní seznam obcí najdete níže a také na <outbound-link href="https://www.senat.cz/senat/volby/hledani/o_obvodu.php?kod=32">webu Senátu Parlamentu České republiky</outbound-link>. </p>
-			<h2>Volební průkazy</h2>
-			<p class="center">Ve volbách smíte také hlasovat pomocí volebních průkazů, ty platí ale pouze na území senátního obvodu. Můžete si o ně požádat, podobně jako u ostatních typů voleb. Kompletní informace o voličských průkazech najdete v tomto <outbound-link href="https://www.mvcr.cz/soubor/dopln-volby-do-senatu-pcr-volebni-obvod-c-32-hlasovani-na-volicsky-prukaz-pdf.aspx">dokumentu Ministerstva vnitra</outbound-link>.</p>
-			<h2>Seznam obcí</h2>
-			<div class="columns-2-3">
-				<div class="item" v-for="(item, index) in towns_sorted">
-					<outbound-link :href="'https://www.polist.cz/obec/' + item.num + '-' + betterURL(item.name)">{{ item.name }}</outbound-link>
-				</div>
-			</div>
-		</div>
-	  <div class="info-box center">
-	    <h3>Chybí něco, nebo jste našli chybu?</h3>
-	    <p>Prosím, napište na <b>info@programydovoleb.cz</b> nebo přes některou ze sociálních sítí. Co nejdříve opravíme.</p>
-	  </div>
+	<h1>Programy <br class="hide-40rem">do voleb</h1>
+	<p class="center">Nezávislý projekt, který mapuje volby v České republice. Zaměřuje se na kandidáty, strany, koalice, odkazy na jejich weby, sociální sítě a hlavně volební programy. Cílem je každému, kdo se zajímá o volby, usnadnit hledání potřebných informací a také jejich snadné porovnání.</p>
+	<p class="center"><strong>Příští volby jsou 2. a 3. října 2020, <br class="show-40rem">volí se krajská zastupitelstva a 27 senátorů.</strong></p>
+	<h2>Krajské volby</h2>
+	<div class="goto goto-dimm">
+		<h4>Který kraj vás zajímá?</h4>
+		<div class="stats">
+			<ul class="columns-3">
+				<li>
+					<div>
+						<outbound-link href="https://krajskevolby2020.programydovoleb.cz/stredocesky-kraj">Středočeský kraj</outbound-link></div><label>10 stran</label>
+	</li><li><div><outbound-link href="https://krajskevolby2020.programydovoleb.cz/jihocesky-kraj" class="">Jihočeský kraj</outbound-link></div> <!----> <label>13 stran</label></li><li><div><outbound-link href="https://krajskevolby2020.programydovoleb.cz/plzensky-kraj" class="">Plzeňský kraj</outbound-link></div> <!----> <label>11 stran</label></li><li><div><outbound-link href="https://krajskevolby2020.programydovoleb.cz/karlovarsky-kraj" class="">Karlovarský kraj</outbound-link></div> <!----> <label>13 stran</label></li><li><div><outbound-link href="https://krajskevolby2020.programydovoleb.cz/ustecky-kraj" class="">Ústecký kraj</outbound-link></div> <!----> <label>12 stran</label></li><li><div><outbound-link href="https://krajskevolby2020.programydovoleb.cz/liberecky-kraj" class="">Liberecký kraj</outbound-link></div> <!----> <label>12 stran</label></li><li><div><outbound-link href="https://krajskevolby2020.programydovoleb.cz/kralovehradecky-kraj" class="">Královéhradecký kraj</outbound-link></div> <!----> <label>10 stran</label></li><li><div><outbound-link href="https://krajskevolby2020.programydovoleb.cz/pardubicky-kraj" class="">Pardubický kraj</outbound-link></div> <!----> <label>11 stran</label></li><li><div><outbound-link href="https://krajskevolby2020.programydovoleb.cz/kraj-vysocina" class="">Kraj Vysočina</outbound-link></div> <!----> <label>12 stran</label></li><li><div><outbound-link href="https://krajskevolby2020.programydovoleb.cz/jihomoravsky-kraj" class="">Jihomoravský kraj</outbound-link></div> <!----> <label>13 stran</label></li><li><div><outbound-link href="https://krajskevolby2020.programydovoleb.cz/olomoucky-kraj" class="">Olomoucký kraj</outbound-link></div> <!----> <label>9 stran</label></li><li><div><outbound-link href="https://krajskevolby2020.programydovoleb.cz/zlinsky-kraj" class="">Zlínský kraj</outbound-link></div> <!----> <label>11 stran</label></li><li><div><outbound-link href="https://krajskevolby2020.programydovoleb.cz/moravskoslezsky-kraj" class="">Moravskoslezský kraj</outbound-link></div> <!----> <label>10 stran</label></li></ul></div></div>
+	<div class="goto">
+		<outbound-link href="https://krajskevolby2020.programydovoleb.cz">Vše o krajských volbách 2020</outbound-link> &rarr;
 	</div>
-	<share-block />
+	<br>
+  <div class="part">
+    <outbound-link href="https://forms.gle/g2mZFH7UFK343Uev5" :addon="false" title="Dotazník ke krajským volbám">
+      <img src="/static/banner.png" alt="Dotazník" width="100%">
+    </outbound-link>
+  </div>
+	<h2>Senátní volby</h2>
+	<div class="goto goto-dimm">
+		<h4>Jaký obvod vás zajímá?</h4>
+		<div class="stats"><ul class="columns-2-3"><li><div class="flex"><span class="region-number">3 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/cheb" class="">
+	                Cheb
+	              </outbound-link></span> <small class="dimm">
+	              4
+	            </small></div></li><li><div class="flex"><span class="region-number">6 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/louny" class="">
+	                Louny
+	              </outbound-link></span> <small class="dimm">
+	              6
+	            </small></div></li><li><div class="flex"><span class="region-number">9 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/plzen-mesto" class="">
+	                Plzeň-město
+	              </outbound-link></span> <small class="dimm">
+	              3
+	            </small></div></li><li><div class="flex"><span class="region-number">12 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/strakonice" class="">
+	                Strakonice
+	              </outbound-link></span> <small class="dimm">
+	              6
+	            </small></div></li><li><div class="flex"><span class="region-number">15 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/pelhrimov" class="">
+	                Pelhřimov
+	              </outbound-link></span> <small class="dimm">
+	              3
+	            </small></div></li><li><div class="flex"><span class="region-number">18 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/pribram" class="">
+	                Příbram
+	              </outbound-link></span> <small class="dimm">
+	              5
+	            </small></div></li><li><div class="flex"><span class="region-number">21 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/praha-5" class="">
+	                Praha 5
+	              </outbound-link></span> <small class="dimm">
+	              4
+	            </small></div></li><li><div class="flex"><span class="region-number">24 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/praha-9" class="">
+	                Praha 9
+	              </outbound-link></span> <small class="dimm">
+	              4
+	            </small></div></li><li><div class="flex"><span class="region-number">27 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/praha-1" class="">
+	                Praha 1
+	              </outbound-link></span> <small class="dimm">
+	              4
+	            </small></div></li><li><div class="flex"><span class="region-number">30 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/kladno" class="">
+	                Kladno
+	              </outbound-link></span> <small class="dimm">
+	              6
+	            </small></div></li><li><div class="flex"><span class="region-number">33 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/decin" class="">
+	                Děčín
+	              </outbound-link></span> <small class="dimm">
+	              2
+	            </small></div></li><li><div class="flex"><span class="region-number">36 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/ceska-lipa" class="">
+	                Česká Lípa
+	              </outbound-link></span> <small class="dimm">
+	              6
+	            </small></div></li><li><div class="flex"><span class="region-number">39 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/trutnov" class="">
+	                Trutnov
+	              </outbound-link></span> <small class="dimm">
+	              4
+	            </small></div></li><li><div class="flex"><span class="region-number">42 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/kolin" class="">
+	                Kolín
+	              </outbound-link></span> <small class="dimm">
+	              7
+	            </small></div></li><li><div class="flex"><span class="region-number">45 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/hradec-kralove" class="">
+	                Hradec Králové
+	              </outbound-link></span> <small class="dimm">
+	              8
+	            </small></div></li><li><div class="flex"><span class="region-number">48 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/rychnov-nad-kneznou" class="">
+	                Rychnov nad Kněžnou
+	              </outbound-link></span> <small class="dimm">
+	              5
+	            </small></div></li><li><div class="flex"><span class="region-number">51 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/zdar-nad-sazavou" class="">
+	                Žďár nad Sázavou
+	              </outbound-link></span> <small class="dimm">
+	              2
+	            </small></div></li><li><div class="flex"><span class="region-number">54 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/znojmo" class="">
+	                Znojmo
+	              </outbound-link></span> <small class="dimm">
+	              6
+	            </small></div></li><li><div class="flex"><span class="region-number">57 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/vyskov" class="">
+	                Vyškov
+	              </outbound-link></span> <small class="dimm">
+	              4
+	            </small></div></li><li><div class="flex"><span class="region-number">60 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/brno-mesto" class="">
+	                Brno-město
+	              </outbound-link></span> <small class="dimm">
+	              7
+	            </small></div></li><li><div class="flex"><span class="region-number">63 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/prerov" class="">
+	                Přerov
+	              </outbound-link></span> <small class="dimm">
+	              7
+	            </small></div></li><li><div class="flex"><span class="region-number">66 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/olomouc" class="">
+	                Olomouc
+	              </outbound-link></span> <small class="dimm">
+	              6
+	            </small></div></li><li><div class="flex"><span class="region-number">69 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/frydek-mistek" class="">
+	                Frýdek-Místek
+	              </outbound-link></span> <small class="dimm">
+	              7
+	            </small></div></li><li><div class="flex"><span class="region-number">72 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/ostrava-mesto" class="">
+	                Ostrava-město
+	              </outbound-link></span> <small class="dimm">
+	              8
+	            </small></div></li><li><div class="flex"><span class="region-number">75 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/karvina" class="">
+	                Karviná
+	              </outbound-link></span> <small class="dimm">
+	              5
+	            </small></div></li><li><div class="flex"><span class="region-number">78 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/zlin" class="">
+	                Zlín
+	              </outbound-link></span> <small class="dimm">
+	              4
+	            </small></div></li><li><div class="flex"><span class="region-number">81 ·&nbsp;</span> <span class="fm"><outbound-link href="https://senatnivolby2020.programydovoleb.cz/obvod/uherske-hradiste" class="">
+	                Uherské Hradiště
+	              </outbound-link></span> <small class="dimm">
+	              4
+	            </small></div></li></ul></div>
+	</div>
+	<div class="goto">
+		<outbound-link href="https://senatnivolby2020.programydovoleb.cz">Vše o senátních volbách 2020</outbound-link> &rarr;
+		</div>
+
 	<div class="goto">
 		<router-link to="/tykaji-se-me-volby">Týkají se mě volby?</router-link>
 	</div>
-	<div class="goto">
-		<outbound-link href="https://krajskevolby2020.programydovoleb.cz/">
-			Kdo kandiduje v krajských volbách?
-		</outbound-link>
+		<share-block />
+	<div class="b">
+		<h2>O projektu</h2>
+		<p class="center">Projekt <em>Programy do voleb</em> vznikl v roce 2018, neplánovaně a spontánně, během jednoho víkendu před senátními a komunálními volbami. Bylo asi měsíc do voleb a nedalo se toho moc stihnout. U dalších voleb už bylo víc času na přípravu. Prozatím vrcholem byly evropské volby 2019, příštím budou ty krajské. Prozatím se projekt věnoval těmto volbám:</p>
+		<br><br>
+		<div class="election-timeline"><ol><li><div class="election-item"><div class="election-item-header"><span class="logo-holder"><img src="/static/icon/senatni-volby.svg" alt="Senátní volby doplňovací · 2020/VI" class="logo"></span> <router-link to="/senatni-volby-2020-cerven">Senátní volby doplňovací · Teplice</router-link> <!----> <span class="icon dimm">červen 2020</span> <!----></div> <!----></div></li><li><div class="election-item"><div class="election-item-header"><span class="logo-holder"><img src="/static/icon/evropske-volby.svg" alt="Evropské volby · 2019" class="logo"></span> <outbound-link href="https://eu2019.programydovoleb.cz/">Evropské volby · 2019</outbound-link> <!----> <span class="icon dimm">květen 2019</span> <!----></div> <!----></div></li><li><div class="election-item"><div class="election-item-header"><span class="logo-holder"><img src="/static/icon/senatni-volby.svg" alt="Senátní volby · 2018" class="logo"></span> <outbound-link href="https://senat19.programydovoleb.cz/">Senátní volby doplňovací · Praha 9</outbound-link> <!----> <span class="icon dimm">duben 2019</span> <!----></div> <!----></div></li><li><div class="election-item"><div class="election-item-header"><span class="logo-holder"><img src="/static/icon/komunalni-volby.svg" alt="Komunální volby · 2018" class="logo"></span> <outbound-link href="https://komunal18.programydovoleb.cz/">Komunální volby · 2018</outbound-link> <!----> <span class="icon dimm">říjen 2018</span> <!----></div> <!----></div></li><li><div class="election-item"><div class="election-item-header"><span class="logo-holder"><img src="/static/icon/senatni-volby.svg" alt="Senátní volby · 2018" class="logo"></span> <outbound-link href="https://senat18.programydovoleb.cz/">Senátní volby · 2018</outbound-link> <!----> <span class="icon dimm">říjen 2018</span> <!----></div> <!----></div></li></ol></div>
 	</div>
 	<div class="goto">
-		<outbound-link href="https://senatnivolby2020.programydovoleb.cz/">
-			Kdo kandiduje v podzimních senátních volbách?
-		</outbound-link>
+		<router-link to="/o-projektu">Více o projektu <em>Programy do voleb</em></router-link> &rarr;
 	</div>
-	<!--
-	<div class="block block-promo">
-		<h1>Půjdu letos k volbám?</h1>
-		<div class="btns center">
-			<router-link to="tykaji-se-me-volby" class="button button-primary">Zjistit</router-link>
-		</div>
+	<div class="goto">
+		<outbound-link href="https://polist.cz">Polist.cz &middot; archiv českých voleb od roku 1993</outbound-link> &rarr;
 	</div>
-	<div class="block">
-		<h1>Letos nás také čekají:</h1>
-		<ul class="highlight">
-			<li>
-				<div class="highlighted">
-					<outbound-link href="https://krajskevolby2020.programydovoleb.cz/">
-						<img src="/static/icon/krajske-volby.svg" alt="ikona: volby do krajských zastupitelstev">
-						<span class="is-link">Krajské volby</span>
-					</outbound-link>
-				</div>
-			</li>
-		</ul>
-		<div class="part center">
-			<h2>Krajské volby</h2>
-			<p>Nové krajské zastupitele vybírá všech 13 krajů kromě Prahy.</p>
-			<p>Volby běžně probíhají v říjnu, zřejmě tak bude i v roce 2020.</p>
-			<ul class="links">
-				<li><outbound-link href="https://krajskevolby2020.programydovoleb.cz" class="button">Kdo bude kandidovat?</outbound-link></li>
-				<li><outbound-link href="https://krajskevolby2020.programydovoleb.cz/2016" class="button button-plain">Jak jsme volili v roce 2016</outbound-link></li>
-			</ul>
-		</div>
-	  <div class="part">
-	    <outbound-link href="https://forms.gle/g2mZFH7UFK343Uev5" :addon="false" title="Dotazník ke krajským volbám">
-	      <img src="/static/banner.png" alt="Dotazník" width="100%">
-	    </outbound-link>
-	  </div>
-	</div>
-	<div class="block">
-		<ul class="highlight">
-			<li>
-				<div class="highlighted">
-					<outbound-link href="https://senatnivolby2020.programydovoleb.cz/" :title="'Senátní volby'">
-						<img src="/static/icon/senatni-volby.svg" alt="ikona: volby do Senátu">
-						<span class="is-link">Senátní volby</span>
-					</outbound-link>
-				</div>
-			</li>
-		</ul>
-		<div class="part center">
-			<h2>Senátní volby</h2>
-			<p>Řádné senátní volby, ve kterých vybereme nových 27 senátorů a senátorek.</p>
-			<p>Volby proběhnou souběžně s krajskými volbami.</p>
-			<p>O kterých kandidátech už víme?</p>
-			<ul class="links">
-				<li><outbound-link href="https://senatnivolby2020.programydovoleb.cz" class="button" :title="'Senátní volby'">Kdo bude kandidovat?</outbound-link></li>
-			</ul>
-		</div>
-	</div>
-	<div class="block">
-		<h2>Co jsme již pokrývali</h2>
-		<ul class="flex-icons">
-			<li>
-				<outbound-link href="https://eu2019.programydovoleb.cz/" :addon="false"><img src="/static/icon/evropske-volby.svg" alt=""><br>Evropské volby<br>2019</outbound-link>
-				<br>&middot;<br>
-				<outbound-link href="https://www.polist.cz/vysledky/evropske-volby/2019" :addon="false">Výsledky</outbound-link>
-			</li>
-			<li>
-				<outbound-link href="https://senat19.programydovoleb.cz/"  :addon="false"><img src="/static/icon/senatni-volby.svg" alt=""><br>Doplňovací senátní volby<br>Duben 2019</outbound-link>
-				<br>&middot;<br>
-				<outbound-link href="https://www.polist.cz/vysledky/senatni-volby/20190405" :addon="false">Výsledky</outbound-link>
-			</li>
-			<li>
-				<outbound-link href="https://komunal18.programydovoleb.cz/"  :addon="false"><img src="/static/icon/komunalni-volby.svg" alt=""><br>Komunální volby<br>2018</outbound-link>
-				<br>&middot;<br>
-				<outbound-link href="https://www.polist.cz/vysledky/komunalni-volby/2018" :addon="false">Výsledky</outbound-link>
-			</li>
-			<li>
-				<outbound-link href="https://senat18.programydovoleb.cz/"  :addon="false"><img src="/static/icon/senatni-volby.svg" alt=""><br>Senátní volby<br>2018</outbound-link>
-				<br>&middot;<br>
-				<outbound-link href="https://www.polist.cz/vysledky/senatni-volby/20181005" :addon="false">Výsledky</outbound-link>
-			</li>
-		</ul>
-	</div>
-	<div class="block">
-		<ul class="highlight">
-			<li>
-				<div class="highlighted">
-					<a href="https://www.polist.cz">
-						<img src="/static/icon/logo-polist.svg" alt="ikona: Polist">
-					</a>
-				</div>
-			</li>
-		</ul>
-		<div class="part center">
-			<h1>Politika &middot; statistika</h1>
-			<p>Chcete se podívat volbám víc pod kůži? Zjistit, jak jsme volili před 4 roky nebo před 20? Podívejte se na projekt Polist, který mapuje a analyzuje volby od roku 1993.</p>
-			<ul class="links">
-				<li><a href="https://www.polist.cz" target="_blank">Přejít na stránky Polist.cz</a></li>
-			</ul>
-		</div>
-	</div> -->
 </div>

@@ -5,10 +5,6 @@ h1 big {
 	display: block;
 }
 
-h2 {
-	margin-top: 6rem;
-}
-
 p {
 	max-width: 35rem;
 	margin: auto;
@@ -274,62 +270,4 @@ td, th {
 	.value-graph {
 		opacity: .2;
 	}
-}.region-number {
-  display: inline-block;
-  width: 2rem;
-  text-align: right;
-  color: #aaa;
-}
-
-.flex {
-  display: flex;
-  width: 100%;
-  align-items: baseline;
-
-  .fm {
-    flex: 1;
-    display: block;
-  }
-
-  small {
-    text-align: right;
-    width: 2rem;
-  }
-}
-
-ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.election-item {
-  padding: 1rem 0;
-  border-top: 1px solid #eee;
-
-	.logo-holder {
-	  display: inline-block;
-	  width: 3.25rem;
-	  position: relative;
-	}
-
-	.logo {
-	  position: absolute;
-	  width: 2.5rem;
-	  height: 2.5rem;
-	  top: -1.5rem;
-	  border-radius: 50%;
-	  border: 1px solid #eee;
-	}
-}
-
-.election-item-header {
-  position: relative;
-
-  .icon {
-    position: absolute;
-    right: 1rem;
-    font-size: 1rem;
-    line-height: 1;
-  }
 }
