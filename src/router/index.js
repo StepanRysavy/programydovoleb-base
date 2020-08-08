@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import LayoutAdmin from '@/admin/do';
 import LayoutHomepage from '@/layout/homepage/do';
 import LayoutTykaji from '@/layout/tykaji-se-me-volby/do';
 import LayoutQuestions from '@/layout/questions/do';
@@ -33,7 +34,7 @@ const router = new Router({
     },
     {
       path: '/senatni-volby-2020-cerven/otazky-pro-kandidaty/:id',
-      name: 'Questions',
+      name: 'QuestionsDetail',
       component: LayoutQuestions,
       props: true
     },
@@ -41,6 +42,11 @@ const router = new Router({
       path: '/o-projektu',
       name: 'Impressum',
       component: LayoutStaticImpressum
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: LayoutAdmin
     }
   ]
 });

@@ -501,3 +501,14 @@ iframe {
 		height: 35rem;
 	}
 }
+
+.banner-split {
+	@media (min-width: 40rem) {
+		display: flex;
+		justify-content: space-between;
+
+		> div {
+			width: 49%;
+		}
+	}
+}

@@ -1,0 +1,40 @@
+<div class="process-array">
+	<div class="small">
+		<span class="is-link" @click="show = true" v-if="!show">Zobrazit ({{data.length}})</span>
+		<span class="is-link" @click="show = false" v-if="show">Skrýt</span>
+	</div>
+	<ol v-if="show">
+		<li v-for="(item, index) in data">
+			<label>{{ index + 1 }} <span v-if="index > 0" @click="moveUp(index)">&uarr;</span> </label>
+			<!-- <div class="content" v-if="autoExpand"> -->
+				<div v-if="typeof item === 'object' && !(!!item.push)">
+					<span class="red fr" @click="remove(index)">&times;</span>
+					<process-object :data="data[index]" :closed="true" />
+				</div>
+				<div v-if="typeof item === 'object' && (!!item.push)">
+					<span class="red fr" @click="remove(index)">&times;</span>
+					<process-array :data="data[index]" />
+				</div>
+				<span v-if="typeof item === 'number'">
+					<input type="number" v-model.number="data[index]">&nbsp;<span class="red" @click="remove(index)">&times;</span>
+				</span>
+				<span v-if="typeof item === 'string'">
+					<input type="text" v-model="data[index]">&nbsp;<span class="red" @click="remove(index)">&times;</span>
+				</span>
+			<!-- </div> -->
+		</li>
+		<li>
+			<label class="w">
+				<select v-model="add.selected">
+					<option :value="-1" disabled>Přidat ...</option>
+					<option :value="opt.value" v-for="(opt, ind) in add.list">{{ opt.label }}</option>
+				</select>
+				<input v-if="[0, 4, 7, 8, 9, 10].indexOf(add.selected) > -1" type="text" placeholder="obsah" v-model="add.key">
+				<input v-if="add.selected === 1" type="number" placeholder="obsah" v-model.number="add.key">
+				<button @click="addItem" v-if="add.selected > -1">
+					Přidat
+				</button>
+			</label>
+		</li>
+	</ol>
+</div>

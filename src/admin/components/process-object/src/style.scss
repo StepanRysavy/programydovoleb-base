@@ -1,0 +1,66 @@
+ul {
+  list-style: none;
+  margin: .5em 0;
+  padding: 0;
+  border-left: 1px solid #aaf;
+}
+
+li {
+  padding: .25em 0 .25em 1em;
+}
+
+li + li {
+  border-top: 1px solid #eee;
+}
+
+label {
+  font-size: 9px;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-block;
+  width: 5rem;
+
+  &:not(.red) {
+    color: #888;
+  }
+}
+
+.fr {
+  float: right;
+}
+
+.w {
+  width: 100%;
+  text-align: right;
+
+  input, select {
+    background: #efe;
+  }
+}
+
+select {
+  display: inline-block;
+}
+
+button {
+  padding: .25em .5em;
+  border: none;
+  background: #00C;
+  color: #fff;
+
+  &[disabled] {
+    background: #ccc;
+  }
+}
+
+input, select, textarea {
+  padding: .25em .5em;
+  border: none;
+  background: #eef;
+}
+
+textarea {
+  width: 100%;
+  min-height: 5rem;
+  max-width: 100%;
+}

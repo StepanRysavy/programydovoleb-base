@@ -1,0 +1,48 @@
+<div class="process-object">
+	<div class="small" v-if="closed">
+		<span class="is-link" @click="show = true" v-if="!show">
+			<span v-if="data['nameFull']">{{ data['nameFull'].join(' ') }}</span>
+			<span v-if="data['name'] && data['name'].length === 4">{{ data['name'].join(' ') }}</span>
+			<span v-if="data['name'] && data['name'].length != 4">{{ data['name'] }}</span>
+			<span v-if="!(data['name'] || data['nameFull'])">Zobrazit</span>
+		</span>
+		<span class="is-link" @click="show = false" v-if="show">Skrýt</span>
+	</div>
+	<ul v-if="show">
+		<li v-for="(key, index) in Object.keys(data)">
+			<label :class="{red: data[key] === null}">{{ key }}</label>
+			<template v-if="data[key] != null">
+				<div v-if="typeof data[key] === 'object' && !(!!data[key].push)">
+					<process-object :data="data[key]" />
+				</div>
+				<div v-if="typeof data[key] === 'object' && (!!data[key].push) && key != 'name' && key != 'nameFull'">
+					<process-array :data="data[key]" />
+				</div>
+				<div v-if="(key === 'name' || key === 'nameFull') && data[key].length === 4">
+					<special-name :data="data[key]" />
+				</div>
+				<span v-if="typeof data[key] === 'number'">
+					<input type="number" v-model.number="data[key]">&nbsp;<span class="red" @click="remove(key)">&times;</span>
+				</span>
+				<span v-if="typeof data[key] === 'string'">
+					<input type="text" v-model="data[key]" v-if="['about', 'quote'].indexOf(key) === -1">
+					<span class="red" @click="remove(key)">&times;</span>
+					<textarea v-model="data[key]" v-if="['about', 'quote'].indexOf(key) > -1"></textarea>
+				</span>
+			</template>
+		</li>
+		<li>
+			<label class="w">
+				<select v-model="add.selected">
+					<option :value="opt.value" v-for="(opt, ind) in add.list">Přidat {{ opt.label }}</option>
+				</select>
+				<input type="text" placeholder="klíč" v-model="add.key" v-if="add.selected > -1">
+				<input v-if="add.selected === 0" type="text" placeholder="obsah" v-model="add.val">
+				<input v-if="add.selected === 1" type="number" placeholder="obsah" v-model.number="add.val">
+				<button @click="addItem" :disabled="!canAdd" v-if="add.selected > -1">
+					Přidat
+				</button>
+			</label>
+		</li>
+	</ul>
+</div>

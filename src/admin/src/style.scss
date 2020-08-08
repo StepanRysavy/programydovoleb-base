@@ -1,0 +1,29 @@
+button {
+  padding: .25em .5em;
+  border: none;
+  background: #00C;
+  color: #fff;
+}
+
+input {
+  padding: .25em .5em;
+  border: none;
+  background: #eef;
+}
+
+textarea {
+  padding: .25em .5em;
+  border: none;
+  background: #eef;
+  display: block;
+  width: 100%;
+  min-height: 10rem;
+
+  &.huge {
+    min-height: 80vh;
+  }
+}
+
+.admin-block + .admin-block {
+  margin-top: 2rem;
+}

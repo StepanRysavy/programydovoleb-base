@@ -8,6 +8,7 @@ import App from './layout/app/app';
 import './assets/my-style.scss';
 
 import './common/components';
+import './admin/components';
 
 import ComponentCoalitionItem from '@/components/party/coalition-item/do';
 import ComponentPartyNameWithDot from '@/components/party/party-name-with-dot/do';

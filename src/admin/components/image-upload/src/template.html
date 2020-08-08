@@ -1,0 +1,14 @@
+<div class="image-upload">
+	<div class="alert">
+		<span class="red" v-if="e" v-html="e"></span>
+	</div>
+	<div class="upload">
+		<input type="file" ref="myInput">
+		<input type="checkbox" v-model="person"> člověk
+		<canvas ref="myCanvas"></canvas>
+		<button @click="upload" :disabled="uploading">Nahrát</button>
+	</div>
+	<div class="result">
+		<span class="is-link upload_result_src" @click="copy">{{ src }}</span>
+	</div>
+</div>

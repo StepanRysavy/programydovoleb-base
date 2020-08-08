@@ -1,0 +1,35 @@
+<div class="admin">
+	<div class="alert">
+		<span class="red" v-if="a.e" v-html="a.e"></span>
+	</div>
+	<div class="admin-block" v-if="!d">
+		<div>
+			<select v-model="a.f">
+				<option :value="k" v-for="(k, i) in f">{{ k }}</option>
+			</select>
+		</div>
+		<div>
+			<!-- <input type="text" name="file" v-model="a.f" placeholder="soubor"> -->
+			<input type="text" name="ps" v-model="a.p" placeholder="přístupové heslo">
+			<button @click="fileLoad">Otevřít soubor</button>
+		</div>
+	</div>
+	<div class="admin-block" v-if="d">
+		<button @click="showJSON" v-if="!a.v">Přímá editace</button>
+		<button @click="showApp" v-if="a.v">Zpět do appky</button>
+		<button @click="fileClose" class="red">Zavřít bez uložení</button>
+		<image-upload />
+	</div>
+	<div class="admin-block" v-if="d && a.v">
+		<textarea v-model="json" class="huge"></textarea>
+	</div>
+	<div class="admin-block" v-if="d && !a.v">
+		<process-object :data="d" />
+	</div>
+	<div class="admin-block" v-if="d">
+		<button @click="fileSave">Uložit</button>
+	</div>
+	<div class="admin-block" v-if="d">
+		<button @click="fileClose" class="red">Zavřít bez uložení</button>
+	</div>
+</div>

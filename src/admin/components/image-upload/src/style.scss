@@ -1,0 +1,32 @@
+button {
+  padding: .25em .5em;
+  border: none;
+  background: #00C;
+  color: #fff;
+}
+
+input {
+  padding: .25em .5em;
+  border: none;
+  background: #eef;
+}
+
+.image-upload {
+  position: relative;
+  padding: 1rem;
+  background: #eef;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+canvas {
+  position: absolute;
+  left: 100vw;
+}
+
+.result {
+  margin-top: .5em;
+  padding-top: .5em;
+  border-top: 1px dotted #ddf;
+  font-size: .7em;
+}
