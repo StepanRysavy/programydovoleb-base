@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import LayoutAdmin from '@/admin/do';
+import LayoutForm from '@/form/do';
 import LayoutHomepage from '@/layout/homepage/do';
 import LayoutTykaji from '@/layout/tykaji-se-me-volby/do';
 import LayoutQuestions from '@/layout/questions/do';
@@ -47,6 +48,12 @@ const router = new Router({
       path: '/admin',
       name: 'Admin',
       component: LayoutAdmin
+    },
+    {
+      path: '/formular/:id',
+      name: 'Form',
+      props: true,
+      component: LayoutForm
     }
   ]
 });

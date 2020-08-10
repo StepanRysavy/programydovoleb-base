@@ -2,7 +2,7 @@ import SpecialName from "@/admin/components/special-name/do"
 
 export default {
 	name: 'process-object',
-	props: ['data', 'closed'],
+	props: ['data', 'closed', 'adjustable'],
 	data: function () {
 		return {
 			show: true,
@@ -26,6 +26,9 @@ export default {
 		SpecialName
 	},
 	computed: {
+		modifiable: function () {
+			return this.adjustable || true;
+		},
 		canAdd: function () {
 			return !(this.data[this.add.key] && this.data[this.add.key] != null) && this.add.key != "";
 		}

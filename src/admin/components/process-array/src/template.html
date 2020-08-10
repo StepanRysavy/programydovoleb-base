@@ -5,25 +5,25 @@
 	</div>
 	<ol v-if="show">
 		<li v-for="(item, index) in data">
-			<label>{{ index + 1 }} <span v-if="index > 0" @click="moveUp(index)">&uarr;</span> </label>
+			<label>{{ index + 1 }} <span v-if="index > 0 && modifiable" @click="moveUp(index)">&uarr;</span> </label>
 			<!-- <div class="content" v-if="autoExpand"> -->
 				<div v-if="typeof item === 'object' && !(!!item.push)">
 					<span class="red fr" @click="remove(index)">&times;</span>
-					<process-object :data="data[index]" :closed="true" />
+					<process-object :data="data[index]" :closed="true" :adjustable="modifiable" />
 				</div>
 				<div v-if="typeof item === 'object' && (!!item.push)">
 					<span class="red fr" @click="remove(index)">&times;</span>
-					<process-array :data="data[index]" />
+					<process-array :data="data[index]" :adjustable="modifiable" />
 				</div>
 				<span v-if="typeof item === 'number'">
-					<input type="number" v-model.number="data[index]">&nbsp;<span class="red" @click="remove(index)">&times;</span>
+					<input type="number" v-model.number="data[index]">&nbsp;<span class="red" @click="remove(index)" v-if="modifiable">&times;</span>
 				</span>
 				<span v-if="typeof item === 'string'">
-					<input type="text" v-model="data[index]">&nbsp;<span class="red" @click="remove(index)">&times;</span>
+					<input type="text" v-model="data[index]">&nbsp;<span class="red" @click="remove(index)" v-if="modifiable">&times;</span>
 				</span>
 			<!-- </div> -->
 		</li>
-		<li>
+		<li v-if="modifiable">
 			<label class="w">
 				<select v-model="add.selected">
 					<option :value="-1" disabled>Přidat ...</option>

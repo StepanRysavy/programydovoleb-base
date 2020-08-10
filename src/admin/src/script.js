@@ -2,6 +2,7 @@ import axios from "axios";
 import ImageUpload from "@/admin/components/image-upload/do"
 import ProcessObject from "@/admin/components/process-object/do"
 import ProcessArray from "@/admin/components/process-array/do"
+import {betterURL} from "@/common/helpers";
 
 export default {
 	name: 'admin',
@@ -24,6 +25,9 @@ export default {
 			pl: function () {
 				return this.$store.getters.getSource('volby/kv/2020/list2');
 			},
+			pl2: function () {
+				return this.$store.getters.getSource('volby/senat/20201002/kandidati');
+			},
 			f: function () {
 				var list = [];
 
@@ -32,13 +36,33 @@ export default {
 				if (this.pl) {
 					this.pl.list.forEach(r => {
 						r.parties.forEach(p => {
-							if (p.data) list.push('kv/2020/data/' + p.data);
+							if (p.data) list.push('volby/kv/2020/data/' + p.data);
 						})
 					})
 				}
 
-				list.push('senat/20201002/kandidati');
-				list.push('kv/2020/list2');
+				if (this.pl) {
+					this.pl.list.forEach(r => {
+						r.parties.forEach(p => {
+							if (p.data) list.push('volby/kv/2020/odpovedi/' + p.data);
+						})
+					})
+				}
+
+				list.push('volby/senat/20201002/kandidati');
+
+				if (this.pl2) {
+					this.pl2.list.forEach(c => {
+						list.push('volby/senat/20201002/odpovedi/' + betterURL(c.name[1] + ' ' + c.name[2]));
+					})
+				}
+
+				list.sort((a, b) => a.localeCompare(b, 'cs'));
+
+				list.push('api/list');
+				list.push('volby/kv/2020/list2');
+				list.push('volby/kv/2020/odpovedi/otazky');
+				list.push('volby/senat/20201002/odpovedi/otazky');
 
 				return list;
 			}

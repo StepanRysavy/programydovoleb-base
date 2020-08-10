@@ -1,0 +1,55 @@
+button {
+  padding: .25em .5em;
+  border: none;
+  background: #00C;
+  color: #fff;
+  font-size: 1.2em;
+}
+
+input {
+  padding: .5em 1em;
+  border: none;
+  background: #eef;
+  display: block;
+  width: 100%;
+
+  &.c {
+    width: auto;
+    display: inline;
+  }
+}
+
+textarea {
+  padding: .5em 1em;
+  border: none;
+  background: #eef;
+  display: block;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 6rem;
+
+  &.huge {
+    min-height: 80vh;
+  }
+}
+
+.admin-block + .admin-block {
+  margin-top: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  margin-bottom: .25em;
+}
+
+big {
+  font-size: 1.5rem;
+  position: relative;
+  top: -.75em;
+  margin-top: -2em;
+  display: inline-block;
+}

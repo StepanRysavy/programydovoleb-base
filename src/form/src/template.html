@@ -1,0 +1,103 @@
+<div class="admin">
+	<div class="admin-block" v-if="json">
+		<div class="parta">
+			<h1>Vaše odpovědi a údaje</h1>
+			<p class="center">Údaje můžete doplňovat či opravovat kdykoli až do pátku 2. října do 12:00, opakovaně.<br>Tento formulář projektu <strong><em>Programy do voleb</em></strong> je určen pro:</p>
+			<h2><strong>{{ json.name }}</strong></h2>
+			<p class="center">
+				<big>
+					<strong class="small dimm" v-if="json.type === 'senat'">
+						Obvod {{ json.reg }}
+					</strong>
+					<strong class="small dimm" v-if="json.type === 'kv'">
+						{{ r(json.id.split('/')[0]) }}
+					</strong>
+				</big>
+			</p>
+		</div>
+		<div class="part">
+			<h2>Otázky</h2>
+			<div class="input" v-for="(q, i) in questions">
+				<h4>{{ q }}</h4>
+				<div class="input-field">
+					<textarea v-model="json.answers[i]"></textarea>
+					<small class="dimm">{{ json.answers[i].length }} / 1000 <span class="red" v-if="json.answers[i].length > 1000">&middot; delší texty mohou odradit</span></small>
+				</div>
+			</div>
+		</div>
+		<div class="part">
+			<h2>Doplňující informace</h2>
+			<div class="input" v-if="json.type === 'senat'">
+				<h4>Představení kandidáta</h4>
+				<div class="input-field">
+					<textarea v-model="json.about"></textarea>
+					<small class="dimm">{{ json.about.length }} / 1000 <span class="red" v-if="json.about.length > 1000">&middot; delší texty mohou odradit</span></small>
+				</div>
+			</div>
+			<div class="input" v-if="json.type != 'senat'">
+				<h4>Představení lídra</h4>
+				<div class="input-field">
+					<textarea v-model="json.leader.about"></textarea>
+					<small class="dimm">{{ json.leader.about.length }} / 1000 <span class="red" v-if="json.leader.about.length > 1000">&middot; delší texty mohou odradit</span></small>
+				</div>
+			</div>
+			<div class="input" v-if="json.type != 'senat'">
+				<h4>Citace lídra: s čím jde do voleb, čeho by chtěl dosáhnout, jak vidí kraj, osobní motto, apod</h4>
+				<div class="input-field">
+					<textarea v-model="json.leader.quote"></textarea>
+					<small class="dimm">{{ json.leader.quote.length }} / 280 <span class="red" v-if="json.leader.quote.length > 280">&middot; delší texty mohou odradit</span></small>
+				</div>
+			</div>
+			<div class="input">
+				<h4>Odkaz na volební program</h4>
+				<div class="input-field">
+					<input type="url" v-model="json.program">
+				</div>
+			</div>
+			<div class="input">
+				<h4>Volební motto</h4>
+				<div class="input-field">
+					<input type="url" v-model="json.motto">
+				</div>
+			</div>
+			<div class="input">
+				<h4>Užití fotografie <em>{{ json.type === 'senat' ? json.name : (json.leader.name != null ? json.leader.name : 'lídra') }}</em></h4>
+				<div class="input-field">
+					<input type="checkbox" class="c" v-model="json.type === 'senat' ? json.photo : json.leader.photo"> Souhlasím s použitím fotografie, například z profilu na FB nebo z volebních webových stránek, na stránkách projektu <em>Programy do voleb</em>.
+				</div>
+				<br>
+				<div class="small">Pokud potřebujete fotografii nahradit nebo doplnit, prosím, pošlete ji na email: <a href="mailto:stepan.rysavy@programydovoleb.cz">stepan.rysavy@programydovoleb.cz</a></div>
+			</div>
+		</div>
+		<div class="part center">
+			<button @click="fileSave">Odeslat</button>
+			<p class="small">Vaše odpovědi se okamžitě zobrazí na webu, ostatní údaje je nutné ještě dodatečně zpracovat.</p>
+			<div class="alert">
+				<span class="red" v-if="em" v-html="em"></span>
+			</div>
+		</div>
+	</div>
+	<div class="admin-block center" v-if="json">
+		<hr>
+	</div>
+	<div class="goto" v-if="json && json.type === 'kv'">
+		<outbound-link href="https://krajskevolby2020.programydovoleb.cz">
+			Vše o krajských volbách 2020 &rarr;
+		</outbound-link>
+	</div>
+	<div class="goto" v-if="json && json.type === 'senat'">
+		<outbound-link href="https://senatnivolby2020.programydovoleb.cz">
+			Vše o senátních volbách 2020 &rarr;
+		</outbound-link>
+	</div>
+	<div class="goto">
+		<router-link to="/" target="_blank">
+			Přejít na úvodní stránku projektu &rarr;
+		</router-link>
+	</div>
+	<div class="goto">
+		<router-link to="/o-projektu" target="_blank">
+			O projektu &rarr;
+		</router-link>
+	</div>
+</div>

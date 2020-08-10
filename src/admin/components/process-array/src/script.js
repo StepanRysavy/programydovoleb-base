@@ -1,6 +1,6 @@
 export default {
 	name: 'process-array',
-	props: ['data', 'expand'],
+	props: ['data', 'expand', 'adjustable'],
 	data: function () {
 		return {
 			show: false,
@@ -17,11 +17,16 @@ export default {
 					{value: 7, label: 'část programu: nadpis a text'},
 					{value: 8, label: 'část programu: nadpis, text a seznam'},
 					{value: 9, label: 'neregistrovanou stranu'},
-					{value: 10, label: 'osobu'},
+					{value: 10, label: 'osobu'}
 				],
 				selected: -1,
 				key: undefined
 			}
+		}
+	},
+	computed: {
+		modifiable: function () {
+			return this.adjustable || true
 		}
 	},
 	methods: {

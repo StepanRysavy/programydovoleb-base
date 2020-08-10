@@ -13,25 +13,25 @@
 			<label :class="{red: data[key] === null}">{{ key }}</label>
 			<template v-if="data[key] != null">
 				<div v-if="typeof data[key] === 'object' && !(!!data[key].push)">
-					<process-object :data="data[key]" />
+					<process-object :data="data[key]" :adjustable="modifiable" />
 				</div>
 				<div v-if="typeof data[key] === 'object' && (!!data[key].push) && key != 'name' && key != 'nameFull'">
-					<process-array :data="data[key]" />
+					<process-array :data="data[key]" :adjustable="modifiable" />
 				</div>
 				<div v-if="(key === 'name' || key === 'nameFull') && data[key].length === 4">
 					<special-name :data="data[key]" />
 				</div>
 				<span v-if="typeof data[key] === 'number'">
-					<input type="number" v-model.number="data[key]">&nbsp;<span class="red" @click="remove(key)">&times;</span>
+					<input type="number" v-model.number="data[key]">&nbsp;<span class="red" @click="remove(key)" v-if="modifiable">&times;</span>
 				</span>
 				<span v-if="typeof data[key] === 'string'">
 					<input type="text" v-model="data[key]" v-if="['about', 'quote'].indexOf(key) === -1">
-					<span class="red" @click="remove(key)">&times;</span>
+					<span class="red" @click="remove(key)" v-if="modifiable">&times;</span>
 					<textarea v-model="data[key]" v-if="['about', 'quote'].indexOf(key) > -1"></textarea>
 				</span>
 			</template>
 		</li>
-		<li>
+		<li v-if="modifiable">
 			<label class="w">
 				<select v-model="add.selected">
 					<option :value="opt.value" v-for="(opt, ind) in add.list">Přidat {{ opt.label }}</option>
