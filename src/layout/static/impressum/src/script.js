@@ -3,7 +3,11 @@ export default {
 	data: function () {
 		return {}
 	},
-	computed: {},
+	computed: {
+		enhanced: function () {
+			return this.$store.getters.getSource('volby/settings');
+		}
+	},
 	components: {},
 	methods: {},
 	mounted: function () {

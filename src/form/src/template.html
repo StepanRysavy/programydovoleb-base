@@ -1,8 +1,8 @@
 <div class="admin">
 	<div class="admin-block" v-if="json">
 		<div class="parta">
-			<h1>Vaše odpovědi a údaje</h1>
-			<p class="center">Údaje můžete doplňovat či opravovat kdykoli až do pátku 2. října do 12:00, opakovaně.<br>Tento formulář projektu <strong><em>Programy do voleb</em></strong> je určen pro:</p>
+			<h1>Dotazník k volbám</h1>
+			<p class="center">Odpovědi můžete doplňovat či opravovat kdykoli až do pátku 2. října do 12:00, opakovaně.<br>Tento formulář projektu <strong><em>Programy do voleb</em></strong> je určen pro:</p>
 			<h2><strong>{{ json.name }}</strong></h2>
 			<p class="center">
 				<big>
@@ -16,7 +16,7 @@
 			</p>
 		</div>
 		<div class="part">
-			<h2>Otázky</h2>
+			<h2>Čtyři otázky</h2>
 			<div class="input" v-for="(q, i) in questions">
 				<h4>{{ q }}</h4>
 				<div class="input-field">
@@ -70,10 +70,42 @@
 			</div>
 		</div>
 		<div class="part center">
-			<button @click="fileSave">Odeslat</button>
-			<p class="small">Vaše odpovědi se okamžitě zobrazí na webu, ostatní údaje je nutné ještě dodatečně zpracovat.</p>
 			<div class="alert">
 				<span class="red" v-if="em" v-html="em"></span>
+			</div>
+			<button @click="fileSave">Odeslat</button>
+			<p class="small">Vaše odpovědi se okamžitě zobrazí na webu, ostatní údaje je nutné ještě dodatečně zpracovat.</p>
+		</div>
+		<div class="part">
+			<h2>Kde najdete vaše odpovědi?</h2>
+			<div v-if="json.type === 'senat'">
+				<outbound-link :href="json.link">{{ json.link }}</outbound-link>
+			</div>
+			<div v-if="json.type === 'kv'">
+				<outbound-link :href="json.link + '/ctyri-otazky'">{{ json.link + '/ctyri-otazky' }}</outbound-link>
+			</div>
+			<div class="stats" v-if="json.type === 'kv'">
+				<h2>Další odkazy</h2>
+				<ul>
+					<li>
+						<label>Hlavní strana</label>
+						<div class="small">
+							<outbound-link :href="json.link">{{ json.link }}</outbound-link>
+						</div>
+					</li>
+					<li>
+						<label>Program</label>
+						<div class="small">
+							<outbound-link :href="json.link + '/volebni-program'">{{ json.link + '/volebni-program' }}</outbound-link>
+						</div>
+					</li>
+					<li>
+						<label>Kandidátka</label>
+						<div class="small">
+							<outbound-link :href="json.link + '/kandidatni-listina'">{{ json.link + '/kandidatni-listina' }}</outbound-link>
+						</div>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
